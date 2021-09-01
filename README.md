@@ -1,54 +1,92 @@
-
-
-* HTML
-* SVG
-
-* json
-* sketch
-* web canvas
-* three.js
-* webgl
-
-
-矩形（rect）
-
-```json
-{
-    x: 300,
-    y: 300,
-    width: 300,
-    height: 300,
-}
-```
+# JSON UI
 
 
 ## 简介
 
 JSON UI 是一套用 JSON 描述 UI 的解决方案。设计这套解决方案的目的是：
 
-* 提供一个静态 UI 描述标准。
-* 一套代码，多端渲染（目前仅支持前端，NodeJs，近期会支持小程序和 SVG），可以根据业务选择不同的渲染方式。
+* 提供一个平台无关、框架无关的静态 UI 描述标准。
+* 一套代码，多端渲染。
 * 支持多种布局方式，告别绝对布局，轻松设计界面。
 * 为不同的 UI 设计语言和工具提供一个中间层转换工具，便于相互转换。
 
-目前版本是 v0.0.1。
-
-## 安装
-
-<p>install。</p>
+目前版本是 v0.0.2。
 
 
+## 快速开始
 
+比如在一个 300 x 300 的白色画布中间，绘制一个 100 x 100 的红色矩形：
 
+```json
+{
+    "_type": "root",
+    "width": 300,
+    "height": 300,
+    "color": "#fff",
+    "_children": [
+        {
+            "_type": "rect",
+            "x": 100,
+            "y": 100,
+            "width": 100,
+            "height": 100,
+            "color": "#f00"
+        }
+    ]
+}
+```
 
-xml2json.js
-XML 格式转换成 JSON 格式
-没解决：属性数据类型（number）
-XML 无类型，不太好用
+## 规范
 
-json2svg.js
-JSON 格式转换成 SVG 格式
+坐标系：
 
+![](./images/coord.svg)
 
+采用绝对坐标。
 
-"type": "module",
+矩形（rect）
+
+```json
+{
+    "_type": "rect",
+    "x": 300,
+    "y": 300,
+    "width": 300,
+    "height": 300   
+}
+```
+
+圆形（circle）
+
+```json
+{
+    "_type": "circle",
+    "cx": 300,
+    "cy": 300,
+    "radius": 50
+}
+```
+
+直线（rect）
+
+```json
+{
+    "_type": "line",
+    "x1": 0,
+    "y1": 0,
+    "x2": 100,
+    "y2": 0
+}
+```
+
+文本（text）
+
+```json
+{
+    "_type": "text",
+    "x": 0,
+    "y": 0,
+    "text": "hello",
+    "textSize": 16
+}
+```
