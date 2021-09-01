@@ -1,0 +1,16 @@
+_type: root
+width: 200
+height: 200
+_children:
+    - _type: rect
+      x: 0
+      y: 0
+      width: 100
+      height: 100
+      color: "#f00"
+    - _type: rect
+      x: 100
+      y: 100
+      width: 100
+      height: 100
+      color: "#09c"

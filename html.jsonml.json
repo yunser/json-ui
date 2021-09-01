@@ -1,0 +1,41 @@
+[
+    "html",
+    [
+        [
+            "head",
+            [
+                [
+                    "meta",
+                    {
+                        "charset": "utf-8"
+                    }
+                ],
+                [
+                    "title",
+                    "这是标题"
+                ],
+                [
+                    "link",
+                    {
+                        "rel": "stylesheet",
+                        "href": "./home.css"
+                    }
+                ]
+            ]
+        ],
+        [
+            "body",
+            {
+                "class": "body"
+            },
+            [
+                [
+                    "script",
+                    {
+                        "src": "./home.js"
+                    }
+                ]
+            ]
+        ]
+    ]
+]
