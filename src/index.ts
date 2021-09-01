@@ -1,6 +1,6 @@
 import { XmlObject } from './types'
 const uiUtil = require('./util')
-import * as fs from 'fs'
+// import * as fs from 'fs'
 
 function objectSomeAttr(obj: object, attrs: string[]) {
     let result: any = {}
@@ -13,10 +13,10 @@ function objectSomeAttr(obj: object, attrs: string[]) {
 }
 
 // assert()
-console.log('objectSomeAttr', objectSomeAttr({ a: 'a', b: 'b' }, ['a']))
+// console.log('objectSomeAttr', objectSomeAttr({ a: 'a', b: 'b' }, ['a']))
 
 // TODO 膨胀？
-interface StdUi {
+export interface StdUiRoot {
     _type: string
     x?: number
     y?: number
@@ -31,12 +31,12 @@ interface StdUi {
     y2?: number
     color?: string
     text?: string
-    _children?: StdUi[]
+    _children?: StdUiRoot[]
     border?: any // TODO
     textSize?: number 
 }
 
-const uiObj: StdUi = {
+const uiObj: StdUiRoot = {
     "_type": "root",
     "width": 1000,
     "height": 1000,
@@ -122,10 +122,10 @@ const uiObj: StdUi = {
     ]
 }
 
-function convertUiObj2XmlObject(obj: StdUi): XmlObject {
+function convertUiObj2XmlObject(obj: StdUiRoot): XmlObject {
     let out = uiUtil.treeMap(obj, {
         childrenKey: '_children',
-        nodeHandler(node: StdUi) {
+        nodeHandler(node: StdUiRoot) {
             // let type
             let attrs: any = {}
             for (let key in node) {
@@ -161,10 +161,10 @@ function convertUiObj2XmlObject(obj: StdUi): XmlObject {
     return out
 }
 
-function convertUiObj2SvgObject(obj: StdUi): XmlObject {
-    let out = uiUtil.treeMap(obj, {
+function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
+    let out = uiUtil.treeMap(rootObj, {
         childrenKey: '_children',
-        nodeHandler(node: StdUi) {
+        nodeHandler(node: StdUiRoot) {
             // let type
             let attrs: any = {}
             for (let key in node) {
@@ -281,16 +281,36 @@ function convertUiObj2SvgObject(obj: StdUi): XmlObject {
             return result
         }
     })
+    out.children.unshift({
+        type: 'rect',
+        attr: {
+            x: 0,
+            y: 0,
+            width: rootObj.width,
+            height: rootObj.height,
+            fill: rootObj.color
+        },
+    })
+    // console.debug(out)
     return out
 }
 
-console.log('json', JSON.stringify(uiObj, null, 4))
-console.log('xmlObj', JSON.stringify(convertUiObj2XmlObject(uiObj), null, 4))
-console.log('svgObj', JSON.stringify(convertUiObj2SvgObject(uiObj), null, 4))
+// console.log('json', JSON.stringify(uiObj, null, 4))
+// console.log('xmlObj', JSON.stringify(convertUiObj2XmlObject(uiObj), null, 4))
+// console.log('svgObj', JSON.stringify(convertUiObj2SvgObject(uiObj), null, 4))
 
-fs.writeFileSync('out.svg', uiUtil.svgObj2Xml(convertUiObj2SvgObject(uiObj)), 'utf8')
+// fs.writeFileSync('out.svg', uiUtil.svgObj2Xml(convertUiObj2SvgObject(uiObj)), 'utf8')
 
-console.log('json', {
-    a: '1',
-    a: '2',
-})
+// console.log('json', {
+//     a: '1',
+//     a: '2',
+// })
+
+export const StdUI = {
+    toSvg({ root }: { root: StdUiRoot }): string {
+        // console.log('svgObj', JSON.stringify(convertUiObj2SvgObject(uiObj), null, 4))
+
+        // fs.writeFileSync('out.svg', , 'utf8')
+        return uiUtil.svgObj2Xml(convertUiObj2SvgObject(root))
+    }
+}

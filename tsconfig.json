@@ -1,31 +1,43 @@
 {
-  "compileOnSave": true,
-  "compilerOptions": {
-    "target": "es2017",
-    "module": "commonjs",
-    "strict": true,
-    "noImplicitAny": false,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "charset": "utf8",
-    "allowJs": true,
-    "pretty": true,
-    "noEmitOnError": false,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "allowUnreachableCode": false,
-    "allowUnusedLabels": true,
-    "strictPropertyInitialization": false,
-    "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "inlineSourceMap": true,
-    "importHelpers": true
-  },
-  "exclude": [
-    "app/**/*.js",
-    "app/public",
-    "app/views",
-    "node_modules*"
-  ]
+    "compileOnSave": true,
+    "compilerOptions": {
+        "target": "es2017",
+        "module": "commonjs",
+        "strict": true,
+        "noImplicitAny": false,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "charset": "utf8",
+        "allowJs": true,
+        "pretty": true,
+        "noEmitOnError": false,
+        "noUnusedLocals": false,
+        "noUnusedParameters": false,
+        "allowUnreachableCode": false,
+        "allowUnusedLabels": true,
+        "strictPropertyInitialization": false,
+        "noFallthroughCasesInSwitch": true,
+        "skipLibCheck": true,
+        "skipDefaultLibCheck": true,
+        "importHelpers": true,
+        "outDir": "./dist",
+        "declaration": true,
+        "sourceMap": true,
+        "declarationDir": "./dist",
+        "baseUrl": ".",
+        "paths": {
+            "tslib": [
+                "node_modules/tslib/tslib.d.ts"
+            ]
+        },
+    },
+    "include": [
+        "src/**/*.ts"
+    ],
+    "exclude": [
+        "app/**/*.js",
+        "app/public",
+        "app/views",
+        "node_modules*"
+    ]
 }

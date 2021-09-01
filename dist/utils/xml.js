@@ -1,13 +1,12 @@
-import { XmlObject } from '../types'
-// import fs from 'fs'
-import * as fs from 'fs'
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.XmlText2XmlObj = void 0;
 // import * as path from 'path'
 // const htmlparser = require("htmlparser2")
-import * as htmlparser from 'htmlparser2'
+const htmlparser = require("htmlparser2");
 // const { treeMap, treeFilter } = require('./util')
-
 // const xmlContent = fs.readFileSync('ui.xml', 'utf8')
-const uiUtil = require('../util')
+const uiUtil = require('../util');
 // import { add } from './core'
 // const htmlString = `<svg xmlns="http://www.w3.org/2000/svg" 
 // version="1.1" width="400" height="200" style="background-color: #09c">
@@ -16,40 +15,37 @@ const uiUtil = require('../util')
 //   <rect x="100" y="100" width="100" height="100" fill="#09c" stroke="none"></rect>
 //   <circle cx="150" cy="50" r="50" stroke="none" stroke-width="2" fill="#f00"></circle>    
 // </svg>`
-
-
-export function XmlText2XmlObj(xmlText: string): XmlObject {
-    let elements = htmlparser.parseDocument(xmlText)
-    
+function XmlText2XmlObj(xmlText) {
+    let elements = htmlparser.parseDocument(xmlText);
     let out = uiUtil.treeMap(elements, {
         nodeHandler(node) {
-            let type
-            let attrs = {}
+            let type;
+            let attrs = {};
             if (node.type == 'root') {
-                type = 'root'
-            } else if (node.type == 'tag') {
-                type = node.name
-                attrs = node.attribs
-            } else {
+                type = 'root';
+            }
+            else if (node.type == 'tag') {
+                type = node.name;
+                attrs = node.attribs;
+            }
+            else {
                 if (node.type == 'text') {
-                    console.log('node', node)
-                    const { data } = node
+                    // console.log('node', node)
+                    const { data } = node;
                     if (data.match(/^\s+$/)) {
-                        return null
+                        return null;
                     }
-                } 
-                type = 'other:' + node.type
+                }
+                type = 'other:' + node.type;
             }
-            let result = {
-                _type: type,
-                ...attrs,
-            }
-            return result
+            let result = Object.assign({ _type: type }, attrs);
+            return result;
         }
-    })
+    });
     out = uiUtil.treeFilter(out.children[0], {
         nodeHandler: item => item
-    })
-
-    return out
+    });
+    return out;
 }
+exports.XmlText2XmlObj = XmlText2XmlObj;
+//# sourceMappingURL=xml.js.map

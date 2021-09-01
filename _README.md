@@ -33,3 +33,35 @@ JSON 格式转换成 SVG 格式
 
 
 "type": "module",
+
+
+
+## 使用
+
+```html
+<canvas id="canvas"></canvas>
+```
+
+```
+import { StdCanvas } from 'std-ui/web'
+
+const canvas = document.getElementById('canvas')
+new StdCanvas(canvas, {
+    root: {
+        "_type": "root",
+        "width": 300,
+        "height": 300,
+        "color": "#fff",
+        "_children": [
+            {
+                "_type": "rect",
+                "x": 100,
+                "y": 100,
+                "width": 100,
+                "height": 100,
+                "color": "#f00"
+            }
+        ]
+    }
+})
+```
