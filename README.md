@@ -68,3 +68,114 @@ console.log(StdUI.toSvg({
     }
 }))
 ```
+
+
+## 脑图
+
+脑图模块是基于 JSON-UI 的脑图拓展，致力于提供统一的脑图规范。
+
+```json
+{
+    "_type": "mind",
+    "root": {
+        "_text": "root",
+        "_children": [
+            {
+                "_type": "node",
+                "_text": "1",
+                "_children": [
+                    {
+                        "_type": "node",
+                        "_text": "11"
+                    },
+                    {
+                        "_type": "node",
+                        "_text": "12"
+                    }   
+                ]
+            },
+            {
+                "_type": "node",
+                "_text": "2",
+                "_children": [
+                    {
+                        "_type": "node",
+                        "_text": "21"
+                    }   
+                ]
+            },
+            {
+                "_type": "node",
+                "_text": "3"
+            }
+        ]
+    }
+}
+```
+
+渲染效果如下：
+
+![](docs/images/mind-json@2x.png)
+
+使用代码转换格式：
+
+```js
+import { MindMap } from '@yunser/ui-std/mindMap'
+import * as fs from 'fs'
+
+const root = {
+    "_type": "node",
+    "_text": "root",
+    "_children": [
+        {
+            "_type": "node",
+            "_text": "1",
+            "_children": [
+                {
+                    "_type": "node",
+                    "_text": "11"
+                },
+                {
+                    "_type": "node",
+                    "_text": "12"
+                }
+            ]
+        },
+        {
+            "_type": "node",
+            "_text": "2",
+            "_children": [
+                {
+                    "_type": "node",
+                    "_text": "21"
+                }
+            ]
+        },
+        {
+            "_type": "node",
+            "_text": "3"
+        }
+    ]
+}
+
+// 转成百度脑图格式
+const kmContent = MindMap.toKityMinder({
+    root,
+})
+console.log('content', kmContent)
+fs.writeFileSync('out.km', kmContent, 'utf8')
+
+// 转成 FreeMind 格式
+const mmContent = MindMap.toFreeMind({
+    root,
+})
+console.log('content', mmContent)
+fs.writeFileSync('out.mm', mmContent, 'utf8')
+
+// 转成 ProcessOn 格式
+const posContent = MindMap.toProcessOn({
+    root,
+})
+console.log('content', posContent)
+fs.writeFileSync('out.pos', posContent, 'utf8')
+```

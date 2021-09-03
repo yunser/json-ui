@@ -1,0 +1,90 @@
+{
+    "diagram": {
+        "image": {
+            "x": 0,
+            "width": 200,
+            "y": 0,
+            "pngdata": "iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAsUlEQVR4nO3BAQEAAACCIP+vbkhAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB8GXHmAAFMgHIEAAAAAElFTkSuQmCC",
+            "height": 200
+        },
+        "elements": {
+            "leftChildren": [],
+            "note": "",
+            "watermark": "",
+            "children": [
+                {
+                    "parent": "root",
+                    "lineStyle": {
+                        "randomLineColor": "#0D7C82"
+                    },
+                    "children": [
+                        {
+                            "parent": "a2d858c28d81",
+                            "children": [],
+                            "id": "ed01b0cd6fd0",
+                            "title": "11"
+                        },
+                        {
+                            "parent": "a2d858c28d81",
+                            "children": [],
+                            "id": "e37612d2d583",
+                            "title": "12"
+                        }
+                    ],
+                    "id": "a2d858c28d81",
+                    "title": "1"
+                },
+                {
+                    "parent": "root",
+                    "lineStyle": {
+                        "randomLineColor": "#3D5EC2"
+                    },
+                    "children": [
+                        {
+                            "parent": "874b0eb09884",
+                            "children": [],
+                            "id": "5253a61edf03",
+                            "title": "21"
+                        },
+                        {
+                            "parent": "874b0eb09884",
+                            "children": [],
+                            "id": "3689ec17571f",
+                            "title": "22"
+                        }
+                    ],
+                    "id": "874b0eb09884",
+                    "title": "2"
+                },
+                {
+                    "parent": "root",
+                    "lineStyle": {
+                        "randomLineColor": "#0FBAB0"
+                    },
+                    "children": [],
+                    "id": "c2eae3d905d9",
+                    "title": "3"
+                }
+            ],
+            "root": true,
+            "theme": "delicate_caihong",
+            "id": "root",
+            "title": "root",
+            "structure": "mind_free"
+        }
+    },
+    "meta": {
+        "exportTime": "2021-09-02 13:39:38",
+        "member": "57f33ba3e4b0300f4fdc6b5d",
+        "diagramInfo": {
+            "creator": "57f33ba3e4b0300f4fdc6b5d",
+            "created": "2021-09-02 13:38:42",
+            "modified": "2021-09-02 13:39:10",
+            "title": "root",
+            "category": "mind_free"
+        },
+        "id": "613063625653bb2d6d21a54b",
+        "type": "ProcessOn Schema File",
+        "version": "1.0"
+    }
+}

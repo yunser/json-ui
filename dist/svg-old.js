@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.StdUI = void 0;
 const fs = require('fs');
 const htmlparser = require("htmlparser2");
 const uiUtil = require('./util');
@@ -70,10 +69,6 @@ console.log('svgObj', _svgObj);
 // const svgContent = 
 // console.log('xml', svgContent)
 fs.writeFileSync('out.svg', uiUtil.svgObj2Xml(_svgObj), 'utf8');
-exports.StdUI = {
-    toSvg({ root }) {
-    }
-};
 // let out = uiUtil.treeMap(elements, {
 //     nodeHandler(node) {
 //         let type

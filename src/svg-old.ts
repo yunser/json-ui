@@ -79,11 +79,7 @@ console.log('svgObj', _svgObj)
 // console.log('xml', svgContent)
 fs.writeFileSync('out.svg', uiUtil.svgObj2Xml(_svgObj), 'utf8')
 
-export const StdUI = {
-    toSvg({ root }) {
 
-    }
-}
 
 // let out = uiUtil.treeMap(elements, {
 //     nodeHandler(node) {

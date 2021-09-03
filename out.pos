@@ -1,0 +1,62 @@
+{
+    "diagram": {
+        "elements": {
+            "root": true,
+            "theme": "delicate_caihong",
+            "id": "root",
+            "title": "root",
+            "structure": "mind_free",
+            "leftChildren": [],
+            "note": "",
+            "watermark": "",
+            "children": [
+                {
+                    "id": "4ef58006af0e",
+                    "title": "1",
+                    "children": [
+                        {
+                            "id": "3e4ef58006af",
+                            "title": "11",
+                            "parent": "4ef58006af0e",
+                            "children": []
+                        },
+                        {
+                            "id": "e4ef58006af0",
+                            "title": "12",
+                            "parent": "4ef58006af0e",
+                            "children": []
+                        }
+                    ],
+                    "parent": "root"
+                },
+                {
+                    "id": "f58006af0e8e",
+                    "title": "2",
+                    "children": [
+                        {
+                            "id": "ef58006af0e8",
+                            "title": "21",
+                            "parent": "f58006af0e8e",
+                            "children": []
+                        }
+                    ],
+                    "parent": "root"
+                },
+                {
+                    "id": "58006af0e8e2",
+                    "title": "3",
+                    "parent": "root",
+                    "children": []
+                }
+            ]
+        }
+    },
+    "meta": {
+        "diagramInfo": {
+            "title": "root",
+            "category": "mind_free"
+        },
+        "type": "ProcessOn Schema File",
+        "version": "1.0"
+    }
+}

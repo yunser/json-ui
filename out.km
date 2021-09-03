@@ -1,0 +1,60 @@
+{
+    "root": {
+        "data": {
+            "id": "dc3e9aadb6cd",
+            "created": 1630603999,
+            "text": "root"
+        },
+        "children": [
+            {
+                "data": {
+                    "id": "12c5dc3e9aad",
+                    "created": 1630603999,
+                    "text": "1"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "8812c5dc3e9a",
+                            "created": 1630603999,
+                            "text": "11"
+                        }
+                    },
+                    {
+                        "data": {
+                            "id": "812c5dc3e9aa",
+                            "created": 1630603999,
+                            "text": "12"
+                        }
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "c5dc3e9aadb6",
+                    "created": 1630603999,
+                    "text": "2"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "2c5dc3e9aadb",
+                            "created": 1630603999,
+                            "text": "21"
+                        }
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "5dc3e9aadb6c",
+                    "created": 1630603999,
+                    "text": "3"
+                }
+            }
+        ]
+    },
+    "template": "right",
+    "theme": "fresh-blue",
+    "version": "1.4.43"
+}

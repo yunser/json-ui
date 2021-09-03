@@ -19,5 +19,6 @@ const svg = StdUI.toSvg({
         ]
     }
 })
-console.log(svg)
+console.log('svg', svg)
 fs.writeFileSync('out.svg', svg, 'utf8')
+

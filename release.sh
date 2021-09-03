@@ -1,2 +1,2 @@
-npx tsc
+npm run build
 npm publish --access public

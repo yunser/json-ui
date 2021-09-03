@@ -1,0 +1,37 @@
+{
+    "diagram": {
+        "elements": {
+            "leftChildren": [],
+            "note": "",
+            "watermark": "",
+            "children": [
+                {
+                    "parent": "root",
+                    "children": [
+                        {
+                            "parent": "16ba6fe01925",
+                            "children": [],
+                            "id": "5216ba6fe019",
+                            "title": "11"
+                        }
+                    ],
+                    "id": "16ba6fe01925",
+                    "title": "1"
+                }
+            ],
+            "root": true,
+            "theme": "delicate_caihong",
+            "id": "root",
+            "title": "root",
+            "structure": "mind_free"
+        }
+    },
+    "meta": {
+        "diagramInfo": {
+            "title": "root",
+            "category": "mind_free"
+        },
+        "type": "ProcessOn Schema File",
+        "version": "1.0"
+    }
+}

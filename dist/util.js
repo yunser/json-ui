@@ -1,23 +1,23 @@
 "use strict";
 function treeMap(treeObj, options = {}) {
-    const { nodeHandler, childrenKey = 'children', } = options;
-    function dealList(children, level) {
+    const { nodeHandler, childrenKey = 'children', childrenSetKey = 'children' } = options;
+    function dealList(children, level, p) {
         let results = [];
         for (let child of children) {
-            results.push(dealObj(child, level));
+            results.push(dealObj(child, level, p));
             // content += (indent ? ('\n' + textLoop(indent, level)) : '') + 
         }
         // content += (indent ? (textLoop(indent, level) + '\n') : '')
         return results;
     }
-    function dealObj(obj, level = 0) {
+    function dealObj(obj, level = 0, parent) {
         let children = [];
         if (obj[childrenKey] && obj[childrenKey].length) {
-            children = dealList(obj[childrenKey], level + 1);
+            children = dealList(obj[childrenKey], level + 1, obj);
         }
-        let result = nodeHandler(obj);
+        let result = nodeHandler(obj, { level, parent });
         if (children.length) {
-            result.children = children;
+            result[childrenSetKey] = children;
         }
         return result;
         // let attrContent = ''
@@ -28,7 +28,7 @@ function treeMap(treeObj, options = {}) {
         // }
         // return result
     }
-    return dealObj(treeObj, 0);
+    return dealObj(treeObj, 0, null);
 }
 function treeFilter(treeObj, options = {}) {
     const { nodeHandler } = options;
