@@ -1,6 +1,7 @@
 import { MindMap } from './src/mindMap'
 import * as fs from 'fs'
 
+
 // const content = MindMap.toKityMinder({
 //     root: {
 //         "_text": "root",

@@ -4,7 +4,7 @@ import { uid } from 'uid'
 import { convertTypedJson2XmlObject, TypedJson } from './helper'
 import * as moment from 'moment'
 
-export const MindMap = {
+const mindMapUtil = {
     toKityMinder({ root }): string {
         let kmObj = {
             root: uiUtil.treeMap(root, {
@@ -143,3 +143,23 @@ export const MindMap = {
 }
 
 // console.log('1630560256056', new Date().getTime())
+export class MindMap {
+
+    root: any
+
+    constructor({ root }) {
+        this.root = root
+    }
+
+    toKityMinder(): string {
+        return mindMapUtil.toKityMinder({ root: this.root })
+    }
+
+    toFreeMind(): string {
+        return mindMapUtil.toFreeMind({ root: this.root })
+    }
+
+    toProcessOn(): string {
+        return mindMapUtil.toProcessOn({ root: this.root })
+    }
+}

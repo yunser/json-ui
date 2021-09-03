@@ -1,9 +1,9 @@
-# JSON UI
+# Std UI（Standard UI）
 
 
 ## 简介
 
-JSON UI 是一套用 JSON 描述 UI 的解决方案。设计这套解决方案的目的是：
+Std UI 是一套用 JSON 描述 UI 的解决方案。设计这套解决方案的目的是：
 
 * 提供一个平台无关、框架无关的静态 UI 描述标准。
 * 一套代码，多端渲染。
@@ -70,9 +70,9 @@ console.log(StdUI.toSvg({
 ```
 
 
-## 脑图
+## Std Mind Map（Standard Mind Map）
 
-脑图模块是基于 JSON-UI 的脑图拓展，致力于提供统一的脑图规范。
+脑图模块是基于 Std UI 的脑图拓展，致力于提供统一的脑图规范。
 
 ```json
 {
@@ -157,25 +157,22 @@ const root = {
         }
     ]
 }
+const mindMap = new MindMap({
+    root
+})
 
 // 转成百度脑图格式
-const kmContent = MindMap.toKityMinder({
-    root,
-})
+const kmContent = mindMap.toKityMinder()
 console.log('content', kmContent)
 fs.writeFileSync('out.km', kmContent, 'utf8')
 
 // 转成 FreeMind 格式
-const mmContent = MindMap.toFreeMind({
-    root,
-})
+const mmContent = mindMap.toFreeMind()
 console.log('content', mmContent)
 fs.writeFileSync('out.mm', mmContent, 'utf8')
 
 // 转成 ProcessOn 格式
-const posContent = MindMap.toProcessOn({
-    root,
-})
+const posContent = mindMap.toProcessOn()
 console.log('content', posContent)
 fs.writeFileSync('out.pos', posContent, 'utf8')
 ```
