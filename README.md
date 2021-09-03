@@ -176,3 +176,12 @@ const posContent = mindMap.toProcessOn()
 console.log('content', posContent)
 fs.writeFileSync('out.pos', posContent, 'utf8')
 ```
+
+导入思维导图
+
+```js
+// 导入百度脑图
+const mindMap = new MindMap()
+const kmData = fs.readFileSync('res/root.km', 'utf8')
+mindMap.fromKityMinder(kmData)
+```

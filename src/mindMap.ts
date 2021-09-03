@@ -4,6 +4,17 @@ import { uid } from 'uid'
 import { convertTypedJson2XmlObject, TypedJson } from './helper'
 import * as moment from 'moment'
 
+export interface StdMindMapNode {
+    _type: string
+    _text: string
+    _children?: StdMindMapNode[]
+}
+
+export interface StdMindMap {
+    version?: string
+    root: StdMindMapNode
+}
+
 const mindMapUtil = {
     toKityMinder({ root }): string {
         let kmObj = {
@@ -145,21 +156,134 @@ const mindMapUtil = {
 // console.log('1630560256056', new Date().getTime())
 export class MindMap {
 
-    root: any
+    root: StdMindMapNode = {
+        "_type": "node",
+        "_text": "",
+        "_children": [
+        ]
+    }
 
-    constructor({ root }) {
+    constructor(obj?: StdMindMap) {
+        if (obj) {
+            this.root = obj.root
+        }
+    }
+
+    /**
+     * import from KityMinder
+     * @param content KityMinder file JSON content
+     */
+    fromKityMinder(content: string) {
+        let a = {
+            "root": {
+                "data": {
+                    "id": "7905907e5583",
+                        "created": 1630560479,
+                            "text": "root"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "cdzikk5kj3s0",
+                            "created": 1630597495445,
+                            "text": "1"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "cdziklqo8rk0",
+                                    "created": 1630597498898,
+                                    "text": "11"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "cdzikmsye2w0",
+                                    "created": 1630597501213,
+                                    "text": "12"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "cdziko7gzts0",
+                            "created": 1630597504267,
+                            "text": "2"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "cdzikt2nux40",
+                                    "created": 1630597514860,
+                                    "text": "21"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "cdzikpypppc0",
+                            "created": 1630597508091,
+                            "text": "3"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            "template": "right",
+            "theme": "fresh-blue",
+            "version": "1.4.43"
+        }
+        const km = JSON.parse(content)
+
+        let root = uiUtil.treeMap(km.root, {
+            // childrenKey: '_children',
+            childrenSetKey: '_children',
+            nodeHandler(node) {
+                return {
+                    _type: 'node',
+                    _text: node.data.text,
+                }
+            }
+        })
+
+        console.log('root', root)
         this.root = root
     }
 
+    /**
+     * convert to KityMinder file content
+     * @returns KityMinder file（ .km） content
+     */
     toKityMinder(): string {
         return mindMapUtil.toKityMinder({ root: this.root })
     }
 
+    /**
+     * convert to FreeMind file content
+     * @returns FreeMind file（ .mm） content
+     */
     toFreeMind(): string {
         return mindMapUtil.toFreeMind({ root: this.root })
     }
 
+    /**
+     * convert to ProcessOn MindMap file content
+     * @returns ProcessOn MindMap file（ .pos） content
+     */
     toProcessOn(): string {
         return mindMapUtil.toProcessOn({ root: this.root })
+    }
+
+    /**
+     * convert to STd Mind Map object
+     * @returns ProcessOn MindMap file（ .pos） content
+     */
+    toStdMindMapObject(): StdMindMap {
+        return JSON.parse(JSON.stringify(this.root))
     }
 }
