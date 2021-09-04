@@ -536,6 +536,149 @@ export class StdUI {
             })
         }
 
+        function createLine(node) {
+            return {
+                "linkerType": "normal",
+                "lineStyle": {
+                    "endArrowStyle": "none"
+                },
+                "name": "linker",
+                "from": {
+                    "x": node.x1,
+                    "y": node.y1
+                },
+                "to": {
+                    "x": node.x2,
+                    "y": node.y2
+                },
+                "id": uid(14),
+                "text": "",
+                "locked": false,
+                "props": {
+                    "zindex": 1
+                },
+                "dataAttributes": [],
+                "group": "",
+                "points": []
+            }
+        }
+
+        function createText(node) {
+            return {
+                "parent": "",
+                "link": "",
+                "shapeStyle": {
+                    "alpha": 1
+                },
+                "textBlock": [
+                    {
+                        "position": {
+                            "w": "w",
+                            "x": 0,
+                            "h": "h",
+                            "y": 0
+                        },
+                        "text": node.text
+                    }
+                ],
+                "anchors": [
+                    {
+                        "x": "w/2",
+                        "y": "0"
+                    },
+                    {
+                        "x": "w/2",
+                        "y": "h"
+                    },
+                    {
+                        "x": "0",
+                        "y": "h/2"
+                    },
+                    {
+                        "x": "w",
+                        "y": "h/2"
+                    }
+                ],
+                "title": "文本",
+                "fontStyle": {
+                    "color": "244,67,54",
+                    size: node.textSize || 14
+                },
+                "props": {
+                    "zindex": 1,
+                    "x": node.x,
+                    "w": (node.textSize || 14) * node.text.length,
+                    "h": node.textSize || 14,
+                    "y": node.y,
+                    "angle": 0
+                },
+                "path": [
+                    {
+                        "lineStyle": {
+                            "lineWidth": 0
+                        },
+                        "fillStyle": {
+                            "type": "none"
+                        },
+                        "actions": [
+                            {
+                                "x": "0",
+                                "action": "move",
+                                "y": "0"
+                            },
+                            {
+                                "x": "w",
+                                "action": "line",
+                                "y": "0"
+                            },
+                            {
+                                "x": "w",
+                                "action": "line",
+                                "y": "h"
+                            },
+                            {
+                                "x": "0",
+                                "action": "line",
+                                "y": "h"
+                            },
+                            {
+                                "action": "close"
+                            }
+                        ]
+                    }
+                ],
+                "lineStyle": {
+                    "lineColor": "229,115,115"
+                },
+                "children": [],
+                "resizeDir": [
+                    "tl",
+                    "tr",
+                    "br",
+                    "bl"
+                ],
+                "name": "text",
+                "fillStyle": {
+                    "color": "244,67,54",
+                    "type": "solid"
+                },
+                "theme": {},
+                "id": "17baf251a352ae",
+                "attribute": {
+                    "container": false,
+                    "rotatable": true,
+                    "visible": true,
+                    "collapsable": false,
+                    "collapsed": false,
+                    "linkable": true,
+                    "markerOffset": 5
+                },
+                "category": "basic",
+                "locked": false,
+                "group": ""
+            }
+        }
+
         let elementMap = {}
         uiUtil.treeMap(this.root, {
             childrenKey: '_children',
@@ -546,6 +689,14 @@ export class StdUI {
                 }
                 if (node._type == 'circle') {
                     let rect = createCircle(node)
+                    elementMap[rect.id] = rect
+                }
+                if (node._type == 'line') {
+                    let rect = createLine(node)
+                    elementMap[rect.id] = rect
+                }
+                if (node._type == 'text') {
+                    let rect = createText(node)
                     elementMap[rect.id] = rect
                 }
                 return {}

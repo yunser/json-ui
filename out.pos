@@ -2,7 +2,7 @@
     "diagram": {
         "elements": {
             "elements": {
-                "dfca403ad992d": {
+                "e96aad002bfb2": {
                     "parent": "",
                     "link": "",
                     "shapeStyle": {
@@ -89,7 +89,7 @@
                     "name": "rectangle",
                     "fillStyle": {},
                     "theme": {},
-                    "id": "dfca403ad992d",
+                    "id": "e96aad002bfb2",
                     "attribute": {
                         "container": false,
                         "rotatable": true,
@@ -100,7 +100,7 @@
                         "markerOffset": 5
                     }
                 },
-                "fca403ad992df": {
+                "96aad002bfb25": {
                     "parent": "",
                     "link": "",
                     "shapeStyle": {
@@ -192,7 +192,7 @@
                     "name": "round",
                     "fillStyle": {},
                     "theme": {},
-                    "id": "fca403ad992df",
+                    "id": "96aad002bfb25",
                     "attribute": {
                         "container": false,
                         "rotatable": true,
@@ -202,6 +202,142 @@
                         "linkable": true,
                         "markerOffset": 5
                     }
+                },
+                "6aad002bfb2541": {
+                    "linkerType": "normal",
+                    "lineStyle": {
+                        "endArrowStyle": "none"
+                    },
+                    "name": "linker",
+                    "from": {
+                        "x": 0,
+                        "y": 0
+                    },
+                    "to": {
+                        "x": 100,
+                        "y": 100
+                    },
+                    "id": "6aad002bfb2541",
+                    "text": "",
+                    "locked": false,
+                    "props": {
+                        "zindex": 1
+                    },
+                    "dataAttributes": [],
+                    "group": "",
+                    "points": []
+                },
+                "17baf251a352ae": {
+                    "parent": "",
+                    "link": "",
+                    "shapeStyle": {
+                        "alpha": 1
+                    },
+                    "textBlock": [
+                        {
+                            "position": {
+                                "w": "w",
+                                "x": 0,
+                                "h": "h",
+                                "y": 0
+                            },
+                            "text": "你好"
+                        }
+                    ],
+                    "anchors": [
+                        {
+                            "x": "w/2",
+                            "y": "0"
+                        },
+                        {
+                            "x": "w/2",
+                            "y": "h"
+                        },
+                        {
+                            "x": "0",
+                            "y": "h/2"
+                        },
+                        {
+                            "x": "w",
+                            "y": "h/2"
+                        }
+                    ],
+                    "title": "文本",
+                    "fontStyle": {
+                        "size": 100
+                    },
+                    "props": {
+                        "zindex": 1,
+                        "x": 100,
+                        "w": 200,
+                        "h": 100,
+                        "y": 0,
+                        "angle": 0
+                    },
+                    "path": [
+                        {
+                            "lineStyle": {
+                                "lineWidth": 0
+                            },
+                            "fillStyle": {
+                                "type": "none"
+                            },
+                            "actions": [
+                                {
+                                    "x": "0",
+                                    "action": "move",
+                                    "y": "0"
+                                },
+                                {
+                                    "x": "w",
+                                    "action": "line",
+                                    "y": "0"
+                                },
+                                {
+                                    "x": "w",
+                                    "action": "line",
+                                    "y": "h"
+                                },
+                                {
+                                    "x": "0",
+                                    "action": "line",
+                                    "y": "h"
+                                },
+                                {
+                                    "action": "close"
+                                }
+                            ]
+                        }
+                    ],
+                    "lineStyle": {
+                        "lineColor": "229,115,115"
+                    },
+                    "children": [],
+                    "resizeDir": [
+                        "tl",
+                        "tr",
+                        "br",
+                        "bl"
+                    ],
+                    "name": "text",
+                    "fillStyle": {
+                        "color": "244,67,54",
+                        "type": "solid"
+                    },
+                    "theme": {},
+                    "id": "17baf251a352ae",
+                    "attribute": {
+                        "container": false,
+                        "rotatable": true,
+                        "visible": true,
+                        "collapsable": false,
+                        "collapsed": false,
+                        "linkable": true,
+                        "markerOffset": 5
+                    },
+                    "category": "basic",
+                    "locked": false,
+                    "group": ""
                 }
             },
             "page": {
