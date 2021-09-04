@@ -2,18 +2,19 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MindMap = void 0;
 // import { XmlObject } from './types'
-const uiUtil = require('./util');
-const uid_1 = require("uid");
+// const uiUtil = require('./util')
+// import { uid } from 'uid'
 const helper_1 = require("./helper");
+const helper_2 = require("./helper");
 const mindMapUtil = {
     toKityMinder({ root }) {
         let kmObj = {
-            root: uiUtil.treeMap(root, {
+            root: helper_1.uiUtil.treeMap(root, {
                 childrenKey: '_children',
                 nodeHandler(node) {
                     return {
                         data: {
-                            id: (0, uid_1.uid)(12),
+                            id: (0, helper_1.uid)(12),
                             created: Math.floor(new Date().getTime() / 1000),
                             text: node._text
                         },
@@ -27,14 +28,14 @@ const mindMapUtil = {
         return JSON.stringify(kmObj, null, 4);
     },
     toFreeMind({ root }) {
-        let rootNode = uiUtil.treeMap(root, {
+        let rootNode = helper_1.uiUtil.treeMap(root, {
             childrenKey: '_children',
             childrenSetKey: '_children',
             nodeHandler(node, { level }) {
                 return {
                     _type: 'node',
                     CREATED: '' + new Date().getTime(),
-                    ID: 'ID_' + (0, uid_1.uid)(32),
+                    ID: 'ID_' + (0, helper_1.uid)(32),
                     MODIFIED: '' + new Date().getTime(),
                     TEXT: node._text,
                 };
@@ -48,10 +49,10 @@ const mindMapUtil = {
                 rootNode,
             ]
         };
-        return uiUtil.svgObj2Xml((0, helper_1.convertTypedJson2XmlObject)(xmlObj));
+        return helper_1.uiUtil.svgObj2Xml((0, helper_2.convertTypedJson2XmlObject)(xmlObj));
     },
     toProcessOn({ root }) {
-        let rootNode = uiUtil.treeMap(root, {
+        let rootNode = helper_1.uiUtil.treeMap(root, {
             childrenKey: '_children',
             // childrenSetKey: '_children',
             nodeHandler(node, { level }) {
@@ -68,7 +69,7 @@ const mindMapUtil = {
                     };
                 }
                 return {
-                    "id": (0, uid_1.uid)(12),
+                    "id": (0, helper_1.uid)(12),
                     "title": node._text,
                     // "parent": "root",
                     // "lineStyle": {
@@ -77,7 +78,7 @@ const mindMapUtil = {
                 };
             }
         });
-        rootNode = uiUtil.treeMap(rootNode, {
+        rootNode = helper_1.uiUtil.treeMap(rootNode, {
             childrenKey: 'children',
             // childrenSetKey: '_children',
             nodeHandler(node, { level, parent }) {
@@ -219,7 +220,7 @@ class MindMap {
             "version": "1.4.43"
         };
         const km = JSON.parse(content);
-        let root = uiUtil.treeMap(km.root, {
+        let root = helper_1.uiUtil.treeMap(km.root, {
             // childrenKey: '_children',
             childrenSetKey: '_children',
             nodeHandler(node) {

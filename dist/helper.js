@@ -1,7 +1,156 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.convertTypedJson2XmlObject = void 0;
-const uiUtil = require('./util');
+exports.convertTypedJson2XmlObject = exports.uiUtil = exports.svgObj2Xml = exports.xmlObj2Xml = exports.uid = void 0;
+const uid_1 = require("uid");
+Object.defineProperty(exports, "uid", { enumerable: true, get: function () { return uid_1.uid; } });
+// const uiUtil = require('./util')
+// import * as fs from 'fs'
+function treeMap(treeObj, options = {}) {
+    const { nodeHandler, childrenKey = 'children', childrenSetKey = 'children' } = options;
+    function dealList(children, level, p) {
+        let results = [];
+        for (let child of children) {
+            results.push(dealObj(child, level, p));
+            // content += (indent ? ('\n' + textLoop(indent, level)) : '') + 
+        }
+        // content += (indent ? (textLoop(indent, level) + '\n') : '')
+        return results;
+    }
+    function dealObj(obj, level = 0, parent) {
+        let children = [];
+        if (obj[childrenKey] && obj[childrenKey].length) {
+            children = dealList(obj[childrenKey], level + 1, obj);
+        }
+        let result = nodeHandler(obj, { level, parent });
+        if (children.length) {
+            result[childrenSetKey] = children;
+        }
+        return result;
+        // let attrContent = ''
+        // if (obj.attr) {
+        //     for (let key in obj.attr) {
+        //         attrContent += ` ${key}="${obj.attr[key]}"`
+        //     }
+        // }
+        // return result
+    }
+    return dealObj(treeObj, 0, null);
+}
+function treeFilter(treeObj, options = {}) {
+    const { nodeHandler } = options;
+    function dealList(children, level) {
+        let results = [];
+        for (let child of children) {
+            let ret = dealObj(child, level);
+            if (ret) {
+                results.push(ret);
+            }
+            // content += (indent ? ('\n' + textLoop(indent, level)) : '') + 
+        }
+        // content += (indent ? (textLoop(indent, level) + '\n') : '')
+        return results;
+    }
+    function dealObj(obj, level = 0) {
+        let children = [];
+        if (obj && obj.children && obj.children.length) {
+            children = dealList(obj.children, level + 1);
+        }
+        let result = nodeHandler(obj);
+        // if (result)
+        if (result && children.length) {
+            result.children = children;
+        }
+        return result;
+        // let attrContent = ''
+        // if (obj.attr) {
+        //     for (let key in obj.attr) {
+        //         attrContent += ` ${key}="${obj.attr[key]}"`
+        //     }
+        // }
+        // return result
+    }
+    return dealObj(treeObj, 0);
+}
+function treeForEach(treeObj, nodeHandler) {
+    function dealList(children, level) {
+        let results = [];
+        for (let child of children) {
+            let ret = dealObj(child, level);
+            if (ret) {
+                results.push(ret);
+            }
+            // content += (indent ? ('\n' + textLoop(indent, level)) : '') + 
+        }
+        // content += (indent ? (textLoop(indent, level) + '\n') : '')
+        return results;
+    }
+    function dealObj(obj, level = 0) {
+        let children = [];
+        if (obj && obj.children && obj.children.length) {
+            children = dealList(obj.children, level + 1);
+        }
+        let result = nodeHandler(obj);
+        // if (result)
+        if (result && children.length) {
+            result.children = children;
+        }
+        return result;
+        // let attrContent = ''
+        // if (obj.attr) {
+        //     for (let key in obj.attr) {
+        //         attrContent += ` ${key}="${obj.attr[key]}"`
+        //     }
+        // }
+        // return result
+    }
+    return dealObj(treeObj, 0);
+}
+function textLoop(indent, num) {
+    let result = '';
+    for (let i = 0; i < num; i++) {
+        result += indent;
+    }
+    return result;
+}
+// TODO 注意属性的各种类型 undefined null
+function xmlObj2Xml(svgObj, options = {}) {
+    console.log('svgObj', JSON.stringify(svgObj, null, 4));
+    const { indent = '    ', closeTags = [] } = options;
+    function dealList(children, level) {
+        let content = '';
+        for (let child of children) {
+            content += (indent ? ('\n' + textLoop(indent, level)) : '') + dealObj(child, level);
+        }
+        content += (indent ? (textLoop(indent, level) + '\n') : '');
+        return content;
+    }
+    function dealObj(obj, level = 0) {
+        let childrenContent = '';
+        if (obj.children && obj.children.length) {
+            childrenContent = dealList(obj.children, level + 1);
+        }
+        let attrContent = '';
+        if (obj.attr) {
+            for (let key in obj.attr) {
+                if (obj.attr[key] != undefined) {
+                    attrContent += ` ${key}="${obj.attr[key]}"`;
+                }
+            }
+        }
+        const hasClose = closeTags.includes(obj.type);
+        let closeHtml = hasClose ? ' />' : `</${obj.type}>`;
+        let contentHtml = hasClose ? '' : `${obj._data || ''}${childrenContent}`;
+        return `<${obj.type}${attrContent}${hasClose ? '' : '>'}${contentHtml}${closeHtml}`;
+    }
+    return dealObj(svgObj, 0);
+}
+exports.xmlObj2Xml = xmlObj2Xml;
+exports.svgObj2Xml = xmlObj2Xml;
+exports.uiUtil = {
+    treeMap,
+    treeFilter,
+    svgObj2Xml: exports.svgObj2Xml,
+};
 function objectSomeAttr(obj, attrs) {
     let result = {};
     for (let attr of attrs) {
@@ -12,7 +161,7 @@ function objectSomeAttr(obj, attrs) {
     return result;
 }
 function convertTypedJson2XmlObject(rootObj) {
-    let out = uiUtil.treeMap(rootObj, {
+    let out = exports.uiUtil.treeMap(rootObj, {
         childrenKey: '_children',
         nodeHandler(node) {
             // let type
@@ -124,6 +273,7 @@ function convertTypedJson2XmlObject(rootObj) {
                 type: node._type,
                 children: node._children,
                 attr: attrs,
+                _data: node._text, // TODO 重构
                 // _attrs: attrs,
                 // _type: type,
                 // ...attrs,

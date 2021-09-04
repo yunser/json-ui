@@ -1,8 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StdUI = void 0;
-const uiUtil = require('./util');
+// const uiUtil = require('./util')
+const helper_1 = require("./helper");
 // import * as fs from 'fs'
+const Color = require("color");
+// console.log('a', a)
+// console.log('uiUtil', uiUtil, uiUtil.treeMap)
 function objectSomeAttr(obj, attrs) {
     let result = {};
     for (let attr of attrs) {
@@ -98,7 +102,7 @@ const uiObj = {
     ]
 };
 function convertUiObj2XmlObject(obj) {
-    let out = uiUtil.treeMap(obj, {
+    let out = helper_1.uiUtil.treeMap(obj, {
         childrenKey: '_children',
         nodeHandler(node) {
             // let type
@@ -136,7 +140,7 @@ function convertUiObj2XmlObject(obj) {
     return out;
 }
 function convertUiObj2SvgObject(rootObj) {
-    let out = uiUtil.treeMap(rootObj, {
+    let out = helper_1.uiUtil.treeMap(rootObj, {
         childrenKey: '_children',
         nodeHandler(node) {
             // let type
@@ -257,32 +261,426 @@ function convertUiObj2SvgObject(rootObj) {
             return result;
         }
     });
-    out.children.unshift({
-        type: 'rect',
-        attr: {
-            x: 0,
-            y: 0,
-            width: rootObj.width,
-            height: rootObj.height,
-            fill: rootObj.color
+    // bg
+    out.children = [
+        {
+            type: 'rect',
+            attr: {
+                x: 0,
+                y: 0,
+                width: rootObj.width,
+                height: rootObj.height,
+                fill: rootObj.color || '#fff'
+            },
         },
-    });
+        {
+            type: 'g',
+            attr: {},
+            children: out.children,
+        },
+    ];
+    // out.children.unshift()
     // console.debug(out)
     return out;
 }
-// console.log('json', JSON.stringify(uiObj, null, 4))
-// console.log('xmlObj', JSON.stringify(convertUiObj2XmlObject(uiObj), null, 4))
-// console.log('svgObj', JSON.stringify(convertUiObj2SvgObject(uiObj), null, 4))
-// fs.writeFileSync('out.svg', uiUtil.svgObj2Xml(convertUiObj2SvgObject(uiObj)), 'utf8')
-// console.log('json', {
-//     a: '1',
-//     a: '2',
-// })
-exports.StdUI = {
-    toSvg({ root }) {
+class StdUI {
+    constructor(doc) {
+        this.root = doc.root;
+    }
+    toSvg() {
         // console.log('svgObj', JSON.stringify(convertUiObj2SvgObject(uiObj), null, 4))
         // fs.writeFileSync('out.svg', , 'utf8')
-        return uiUtil.svgObj2Xml(convertUiObj2SvgObject(root));
+        return helper_1.uiUtil.svgObj2Xml(convertUiObj2SvgObject(this.root));
     }
-};
+    toProcessOn() {
+        function createNode(node, otherAttr) {
+            let fillStyle = {};
+            if (node.color) {
+                const color = Color(node.color);
+                // console.log('color', )
+                fillStyle = {
+                    color: color.rgb().array().join(','),
+                    "type": "solid"
+                };
+            }
+            return Object.assign({ "parent": "", "link": "", "shapeStyle": {
+                    "alpha": 1
+                }, "textBlock": [
+                    {
+                        "position": {
+                            "w": "w-20",
+                            "x": 10,
+                            "h": "h",
+                            "y": 0
+                        },
+                        "text": ""
+                    }
+                ], "lineStyle": {}, "children": [], "resizeDir": [
+                    "tl",
+                    "tr",
+                    "br",
+                    "bl"
+                ], fillStyle, "theme": {}, "category": "basic", "locked": false, "group": "" }, otherAttr);
+        }
+        function createRect(node) {
+            return createNode(node, {
+                "name": "rectangle",
+                "anchors": [
+                    {
+                        "x": "w/2",
+                        "y": "0"
+                    },
+                    {
+                        "x": "w/2",
+                        "y": "h"
+                    },
+                    {
+                        "x": "0",
+                        "y": "h/2"
+                    },
+                    {
+                        "x": "w",
+                        "y": "h/2"
+                    }
+                ],
+                "title": "矩形",
+                "props": {
+                    "zindex": 1,
+                    "w": node.width,
+                    "x": node.x,
+                    "h": node.height,
+                    "y": node.y,
+                    "angle": 0
+                },
+                "path": [
+                    {
+                        "actions": [
+                            {
+                                "x": "0",
+                                "action": "move",
+                                "y": "0"
+                            },
+                            {
+                                "x": "w",
+                                "action": "line",
+                                "y": "0"
+                            },
+                            {
+                                "x": "w",
+                                "action": "line",
+                                "y": "h"
+                            },
+                            {
+                                "x": "0",
+                                "action": "line",
+                                "y": "h"
+                            },
+                            {
+                                "action": "close"
+                            }
+                        ]
+                    }
+                ],
+                "id": (0, helper_1.uid)(13),
+                "attribute": {
+                    "container": false,
+                    "rotatable": true,
+                    "visible": true,
+                    "collapsable": false,
+                    "collapsed": false,
+                    "linkable": true,
+                    "markerOffset": 5
+                },
+            });
+        }
+        function createCircle(node) {
+            return createNode(node, {
+                "textBlock": [
+                    {
+                        "position": {
+                            "w": "w-20",
+                            "x": 10,
+                            "h": "h",
+                            "y": 0
+                        },
+                        "text": ""
+                    }
+                ],
+                "anchors": [
+                    {
+                        "x": "w/2",
+                        "y": "0"
+                    },
+                    {
+                        "x": "w/2",
+                        "y": "h"
+                    },
+                    {
+                        "x": "0",
+                        "y": "h/2"
+                    },
+                    {
+                        "x": "w",
+                        "y": "h/2"
+                    }
+                ],
+                "title": "圆形",
+                "fontStyle": {},
+                "dataAttributes": [],
+                "props": {
+                    "zindex": 1,
+                    "x": node.cx - node.radius,
+                    "y": node.cy - node.radius,
+                    "w": node.radius * 2,
+                    "h": node.radius * 2,
+                    "angle": 0
+                },
+                "path": [
+                    {
+                        "actions": [
+                            {
+                                "x": "0",
+                                "action": "move",
+                                "y": "h/2"
+                            },
+                            {
+                                "y1": "-h/6",
+                                "x": "w",
+                                "action": "curve",
+                                "x1": "0",
+                                "y2": "-h/6",
+                                "y": "h/2",
+                                "x2": "w"
+                            },
+                            {
+                                "y1": "h+h/6",
+                                "x": "0",
+                                "action": "curve",
+                                "x1": "w",
+                                "y2": "h+h/6",
+                                "y": "h/2",
+                                "x2": "0"
+                            },
+                            {
+                                "action": "close"
+                            }
+                        ]
+                    }
+                ],
+                "lineStyle": {},
+                "children": [],
+                "resizeDir": [
+                    "tl",
+                    "tr",
+                    "br",
+                    "bl"
+                ],
+                "name": "round",
+                "theme": {},
+                "id": (0, helper_1.uid)(13),
+                "attribute": {
+                    "container": false,
+                    "rotatable": true,
+                    "visible": true,
+                    "collapsable": false,
+                    "collapsed": false,
+                    "linkable": true,
+                    "markerOffset": 5
+                },
+            });
+        }
+        function createLine(node) {
+            return {
+                "linkerType": "normal",
+                "lineStyle": {
+                    "endArrowStyle": "none"
+                },
+                "name": "linker",
+                "from": {
+                    "x": node.x1,
+                    "y": node.y1
+                },
+                "to": {
+                    "x": node.x2,
+                    "y": node.y2
+                },
+                "id": (0, helper_1.uid)(14),
+                "text": "",
+                "locked": false,
+                "props": {
+                    "zindex": 1
+                },
+                "dataAttributes": [],
+                "group": "",
+                "points": []
+            };
+        }
+        function createText(node) {
+            let fontStyle = {
+                size: node.textSize || 14
+            };
+            const color = Color(node.color);
+            // console.log('color', )
+            if (node.color) {
+                fontStyle.color = color.rgb().array().join(',');
+            }
+            return createNode(node, {
+                "name": "text",
+                "parent": "",
+                "link": "",
+                "shapeStyle": {
+                    "alpha": 1
+                },
+                "textBlock": [
+                    {
+                        "position": {
+                            "w": "w",
+                            "x": 0,
+                            "h": "h",
+                            "y": 0
+                        },
+                        "text": node.text
+                    }
+                ],
+                "anchors": [
+                    {
+                        "x": "w/2",
+                        "y": "0"
+                    },
+                    {
+                        "x": "w/2",
+                        "y": "h"
+                    },
+                    {
+                        "x": "0",
+                        "y": "h/2"
+                    },
+                    {
+                        "x": "w",
+                        "y": "h/2"
+                    }
+                ],
+                "title": "文本",
+                fontStyle,
+                "props": {
+                    "zindex": 1,
+                    "x": node.x,
+                    "w": (node.textSize || 14) * node.text.length,
+                    "h": node.textSize || 14,
+                    "y": node.y,
+                    "angle": 0
+                },
+                "path": [
+                    {
+                        "lineStyle": {
+                            "lineWidth": 0
+                        },
+                        "fillStyle": {
+                            "type": "none"
+                        },
+                        "actions": [
+                            {
+                                "x": "0",
+                                "action": "move",
+                                "y": "0"
+                            },
+                            {
+                                "x": "w",
+                                "action": "line",
+                                "y": "0"
+                            },
+                            {
+                                "x": "w",
+                                "action": "line",
+                                "y": "h"
+                            },
+                            {
+                                "x": "0",
+                                "action": "line",
+                                "y": "h"
+                            },
+                            {
+                                "action": "close"
+                            }
+                        ]
+                    }
+                ],
+                "lineStyle": {
+                    "lineColor": "229,115,115"
+                },
+                "children": [],
+                "resizeDir": [
+                    "tl",
+                    "tr",
+                    "br",
+                    "bl"
+                ],
+                "theme": {},
+                "attribute": {
+                    "container": false,
+                    "rotatable": true,
+                    "visible": true,
+                    "collapsable": false,
+                    "collapsed": false,
+                    "linkable": true,
+                    "markerOffset": 5
+                },
+                "category": "basic",
+                "locked": false,
+                "group": ""
+            });
+        }
+        let elementMap = {};
+        helper_1.uiUtil.treeMap(this.root, {
+            childrenKey: '_children',
+            nodeHandler(node) {
+                if (node._type == 'rect') {
+                    let rect = createRect(node);
+                    elementMap[rect.id] = rect;
+                }
+                if (node._type == 'circle') {
+                    let rect = createCircle(node);
+                    elementMap[rect.id] = rect;
+                }
+                if (node._type == 'line') {
+                    let rect = createLine(node);
+                    elementMap[rect.id] = rect;
+                }
+                if (node._type == 'text') {
+                    let rect = createText(node);
+                    elementMap[rect.id] = rect;
+                }
+                return {};
+            }
+        });
+        const obj = {
+            "diagram": {
+                "elements": {
+                    "elements": elementMap,
+                    "page": {
+                        "padding": 0,
+                        "backgroundColor": "transparent",
+                        "orientation": "portrait",
+                        "gridSize": 25,
+                        "width": this.root.width,
+                        "showGrid": true,
+                        "lineJumps": false,
+                        "height": this.root.height,
+                    }
+                }
+            },
+            "meta": {
+                "diagramInfo": {
+                    "title": "未命名文件",
+                    "category": "flow"
+                },
+                "id": "6132cea2e0b34d35500338d3",
+                "type": "ProcessOn Schema File",
+                "version": "1.0"
+            }
+        };
+        return JSON.stringify(obj, null, 4);
+    }
+}
+exports.StdUI = StdUI;
 //# sourceMappingURL=index.js.map

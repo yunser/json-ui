@@ -6,6 +6,11 @@ import * as Color from 'color'
 
 // console.log('a', a)
 
+const NodeType = {
+    Root: 'root',
+    // if (node.type == 'root') {
+}
+
 
 // console.log('uiUtil', uiUtil, uiUtil.treeMap)
 
@@ -261,14 +266,47 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 if (attrs.textSize) {
                     style += `font-size: ${attrs.textSize}px`
                 }
+                if (attrs.color) {
+                    _attr.fill = attrs.color
+                } else {
+                    _attr.fill = 'none'
+                }
                 _attr.style = style
-                _attr['dominant-baseline'] = 'text-before-edge'
+                // _attr['dominant-baseline'] = 'text-before-edge'
+                // refer https://www.zhihu.com/question/58620241
+                _attr['alignment-baseline'] = 'hanging'
+                // Attribute("alignment-baseline", "hanging");
                 let node: any = {
                     type: 'text',
                     attr: _attr,
                     _data: attrs.text
                     // _attrs: attrs,
                 }
+                    // < tspan xmlns = "http://www.w3.org/2000/svg" x = "100" y = "106" > 你好 < /tspan>
+                return node
+            }
+            if (_type === 'line') {
+                let _attr = objectSomeAttr(attrs, ['x1', 'y1', 'x2', 'y2'])
+                // if (attrs.radius) {
+                //     _attr.r = attrs.radius
+                // }
+                // if (attrs.color) {
+                //     _attr.fill = attrs.color
+                // }
+                // let style = ''
+                // if (attrs.textSize) {
+                //     style += `font-size: ${attrs.textSize}px`
+                // }
+                // _attr.style = style
+                _attr['stroke'] = '#000'
+                _attr['stroke-width'] = 1
+                let node: any = {
+                    type: 'line',
+                    attr: _attr,
+                    // _data: attrs.text
+                    // _attrs: attrs,
+                }
+                // < tspan xmlns = "http://www.w3.org/2000/svg" x = "100" y = "106" > 你好 < /tspan>
                 return node
             }
             if (attrs.border) {
@@ -288,16 +326,26 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
             return result
         }
     })
-    out.children.unshift({
-        type: 'rect',
-        attr: {
-            x: 0,
-            y: 0,
-            width: rootObj.width,
-            height: rootObj.height,
-            fill: rootObj.color
+    // bg
+    out.children = [
+        {
+            type: 'rect',
+            attr: {
+                x: 0,
+                y: 0,
+                width: rootObj.width,
+                height: rootObj.height,
+                fill: rootObj.color || '#fff'
+            },
         },
-    })
+        {
+            type: 'g',
+            attr: {
+            },
+            children: out.children,
+        },
+    ]
+    // out.children.unshift()
     // console.debug(out)
     return out
 }
@@ -329,7 +377,7 @@ export class StdUI {
         // console.log('svgObj', JSON.stringify(convertUiObj2SvgObject(uiObj), null, 4))
     
         // fs.writeFileSync('out.svg', , 'utf8')
-        return uiUtil.svgObj2Xml(convertUiObj2SvgObject(this.root))
+        return uiUtil.xmlObj2Xml(convertUiObj2SvgObject(this.root))
     }
 
     toProcessOn() {

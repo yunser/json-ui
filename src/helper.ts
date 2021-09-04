@@ -6,7 +6,9 @@ export { uid }
 // const uiUtil = require('./util')
 // import * as fs from 'fs'
 
-
+// TODO childrenSetKey: 'layers',
+// TODO handleNode 不返回处理
+// nodeHandler 参数提示
 function treeMap(treeObj, options: any = {}) {
 
     const { nodeHandler, childrenKey = 'children', childrenSetKey = 'children' } = options
@@ -178,12 +180,16 @@ export function xmlObj2Xml(svgObj: XmlObject, options: any = {}) {
     return dealObj(svgObj, 0)
 }
 
+/**
+ * @deprecated
+ */
 export const svgObj2Xml = xmlObj2Xml
 
 export const uiUtil = {
     treeMap,
     treeFilter,
     svgObj2Xml,
+    xmlObj2Xml,
 }
 
 

@@ -17,8 +17,13 @@ export interface StdUiRoot {
     border?: any;
     textSize?: number;
 }
-export declare const StdUI: {
-    toSvg({ root }: {
-        root: StdUiRoot;
-    }): string;
-};
+interface StdUiDoc {
+    root: StdUiRoot;
+}
+export declare class StdUI {
+    root: StdUiRoot;
+    constructor(doc: StdUiDoc);
+    toSvg(): string;
+    toProcessOn(): string;
+}
+export {};

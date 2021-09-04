@@ -5,7 +5,7 @@ let root = {
     "_type": "root",
     "width": 300,
     "height": 300,
-    "color": "#000",
+    "color": "#E6E6FB",
     "_children": [
         {
             "_type": "rect",
@@ -24,10 +24,10 @@ let root = {
         },
         {
             "_type": "line",
-            "x1": 0,
-            "y1": 0,
-            "x2": 100,
-            "y2": 100
+            "x1": 100,
+            "y1": 200,
+            "x2": 200,
+            "y2": 300
         },
         {
             "_type": "text",
@@ -35,7 +35,7 @@ let root = {
             "y": 0,
             "text": "你好",
             "textSize": 100,
-            color: '#f90',
+            color: '#E56D6D',
         }
     ]
 }
@@ -43,9 +43,11 @@ let stdUi = new StdUI({
     root,
 })
 
-const svg = stdUi.toSvg()
-console.log('svg', svg)
-fs.writeFileSync('out.svg', svg, 'utf8')
+// const svg = 
+// console.log('svg', svg)
 
+fs.writeFileSync('out/ui.svg', stdUi.toSvg(), 'utf8')
+fs.writeFileSync('out/ui.pos', stdUi.toProcessOn(), 'utf8')
 
-fs.writeFileSync('out.pos', stdUi.toProcessOn(), 'utf8')
+// for sketch project
+fs.writeFileSync('/Users/yunser/app/sketch-test/root.json', JSON.stringify(root, null, 4), 'utf8')
