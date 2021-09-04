@@ -26,25 +26,31 @@ export class Doc {
                                 _type: 'h2',
                                 _text: node._text,
                             }
-                            // return `## ${node._text}`
                         }
                         if (node._type == 'h3') {
                             return {
                                 _type: 'h3',
                                 _text: node._text,
                             }
-                            // return `### ${node._text}`
                         }
                         if (node._type == 'p') {
                             return {
                                 _type: 'p',
                                 _text: node._text,
                             }
-                            // return `${node._text}`
+                        }
+                        if (node._type == 'image') {
+                            return {
+                                _type: 'img',
+                                src: node.url,
+                                width: node.width,
+                                height: node.height,
+                                // _text: node._text,
+                            }
                         }
                         return {
-                            _type: '?',
-                            _text: node._text,
+                            _type: node._type,
+                            // _text: node._text,
                         }
                     })
                 }
@@ -74,6 +80,9 @@ export class Doc {
             }
             if (node._type == 'p') {
                 return `${node._text}`
+            }
+            if (node._type == 'image') {
+                return `![](${node.url})`
             }
             return '?'
         }).join('\n\n') + '\n'

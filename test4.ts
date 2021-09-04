@@ -26,6 +26,12 @@ const content = [
         "_type": "p",
         "_text": "这是第三段"
     },
+    {
+        "_type": "image",
+        "url": "https://icons.yunser.com/icons/app.png",
+        // "width": 100,
+        // "height": 100
+    },
 ]
 let doc = new Doc({
     content,

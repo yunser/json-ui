@@ -140,6 +140,7 @@ function textLoop(indent, num) {
     return result
 }
 
+// TODO 注意属性的各种类型 undefined null
 export function xmlObj2Xml(svgObj: XmlObject, options: any = {}) {
 
     console.log('svgObj', JSON.stringify(svgObj, null, 4))
@@ -163,7 +164,9 @@ export function xmlObj2Xml(svgObj: XmlObject, options: any = {}) {
         let attrContent = ''
         if (obj.attr) {
             for (let key in obj.attr) {
-                attrContent += ` ${key}="${obj.attr[key]}"`
+                if (obj.attr[key] != undefined) {
+                    attrContent += ` ${key}="${obj.attr[key]}"`
+                }
             }
         }
 
