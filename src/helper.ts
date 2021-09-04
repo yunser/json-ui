@@ -144,7 +144,7 @@ function textLoop(indent, num) {
 export function xmlObj2Xml(svgObj: XmlObject, options: any = {}) {
 
     console.log('svgObj', JSON.stringify(svgObj, null, 4))
-    const { indent = '    ' } = options
+    const { indent = '    ', closeTags = [] } = options
 
     function dealList(children: XmlObject[], level) {
         let content = ''
@@ -169,8 +169,10 @@ export function xmlObj2Xml(svgObj: XmlObject, options: any = {}) {
                 }
             }
         }
-
-        return `<${obj.type}${attrContent}>${obj._data || ''}${childrenContent}</${obj.type}>`
+        const hasClose = closeTags.includes(obj.type)
+        let closeHtml = hasClose ? ' />' : `</${obj.type}>`
+        let contentHtml = hasClose ? '' : `${obj._data || ''}${childrenContent}`
+        return `<${obj.type}${attrContent}${hasClose ? '' : '>'}${contentHtml}${closeHtml}`
     }
 
     return dealObj(svgObj, 0)

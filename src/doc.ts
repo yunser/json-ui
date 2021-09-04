@@ -56,7 +56,9 @@ export class Doc {
                 }
             ]
         }
-        return xmlObj2Xml(convertTypedJson2XmlObject(html))
+        return xmlObj2Xml(convertTypedJson2XmlObject(html), {
+            closeTags: ['img'],
+        })
     }
 
     toJson() {
