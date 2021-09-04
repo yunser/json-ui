@@ -298,7 +298,12 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 //     style += `font-size: ${attrs.textSize}px`
                 // }
                 // _attr.style = style
-                _attr['stroke'] = '#000'
+                // _attr['stroke'] = '#000'
+                if (attrs.color) {
+                    _attr.stroke = attrs.color
+                } else {
+                    _attr.stroke = '#000'
+                }
                 _attr['stroke-width'] = 1
                 let node: any = {
                     type: 'line',
