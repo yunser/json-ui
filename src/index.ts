@@ -1,6 +1,9 @@
 import { XmlObject } from './types'
-const uiUtil = require('./util')
+// const uiUtil = require('./util')
+import { uid, uiUtil } from './helper'
 // import * as fs from 'fs'
+
+console.log('uiUtil', uiUtil, uiUtil.treeMap)
 
 function objectSomeAttr(obj: object, attrs: string[]) {
     let result: any = {}
@@ -306,11 +309,279 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
 //     a: '2',
 // })
 
-export const StdUI = {
-    toSvg({ root }: { root: StdUiRoot }): string {
-        // console.log('svgObj', JSON.stringify(convertUiObj2SvgObject(uiObj), null, 4))
+interface StdUiDoc {
+    root: StdUiRoot
+}
 
+export class StdUI {
+
+    root: StdUiRoot
+
+    constructor(doc: StdUiDoc) {
+        this.root = doc.root
+    }
+
+    toSvg(): string {
+        // console.log('svgObj', JSON.stringify(convertUiObj2SvgObject(uiObj), null, 4))
+    
         // fs.writeFileSync('out.svg', , 'utf8')
-        return uiUtil.svgObj2Xml(convertUiObj2SvgObject(root))
+        return uiUtil.svgObj2Xml(convertUiObj2SvgObject(this.root))
+    }
+
+    toProcessOn() {
+
+        function createNode(node, otherAttr) {
+            return {
+                "parent": "",
+                "link": "",
+                "shapeStyle": {
+                    "alpha": 1
+                },
+                "textBlock": [
+                    {
+                        "position": {
+                            "w": "w-20",
+                            "x": 10,
+                            "h": "h",
+                            "y": 0
+                        },
+                        "text": ""
+                    }
+                ],
+                "category": "basic",
+                "locked": false,
+                "group": "",
+                ...otherAttr,
+            }
+        }
+        function createRect(node) {
+            return createNode(node, {
+                "anchors": [
+                    {
+                        "x": "w/2",
+                        "y": "0"
+                    },
+                    {
+                        "x": "w/2",
+                        "y": "h"
+                    },
+                    {
+                        "x": "0",
+                        "y": "h/2"
+                    },
+                    {
+                        "x": "w",
+                        "y": "h/2"
+                    }
+                ],
+                "title": "矩形",
+                "props": {
+                    "zindex": 1,
+                    "w": node.width,
+                    "x": node.x,
+                    "h": node.height,
+                    "y": node.y,
+                    "angle": 0
+                },
+                "path": [
+                    {
+                        "actions": [
+                            {
+                                "x": "0",
+                                "action": "move",
+                                "y": "0"
+                            },
+                            {
+                                "x": "w",
+                                "action": "line",
+                                "y": "0"
+                            },
+                            {
+                                "x": "w",
+                                "action": "line",
+                                "y": "h"
+                            },
+                            {
+                                "x": "0",
+                                "action": "line",
+                                "y": "h"
+                            },
+                            {
+                                "action": "close"
+                            }
+                        ]
+                    }
+                ],
+                "lineStyle": {},
+                "children": [],
+                "resizeDir": [
+                    "tl",
+                    "tr",
+                    "br",
+                    "bl"
+                ],
+                "name": "rectangle",
+                "fillStyle": {},
+                "theme": {},
+                "id": uid(13),
+                "attribute": {
+                    "container": false,
+                    "rotatable": true,
+                    "visible": true,
+                    "collapsable": false,
+                    "collapsed": false,
+                    "linkable": true,
+                    "markerOffset": 5
+                },
+            })
+        }
+
+        function createCircle(node) {
+            return createNode(node, {
+                "textBlock": [
+                    {
+                        "position": {
+                            "w": "w-20",
+                            "x": 10,
+                            "h": "h",
+                            "y": 0
+                        },
+                        "text": ""
+                    }
+                ],
+                "anchors": [
+                    {
+                        "x": "w/2",
+                        "y": "0"
+                    },
+                    {
+                        "x": "w/2",
+                        "y": "h"
+                    },
+                    {
+                        "x": "0",
+                        "y": "h/2"
+                    },
+                    {
+                        "x": "w",
+                        "y": "h/2"
+                    }
+                ],
+                "title": "圆形",
+                "fontStyle": {},
+                "dataAttributes": [
+                ],
+                "props": {
+                    "zindex": 1,
+                    "x": node.cx - node.radius,
+                    "y": node.cy - node.radius,
+                    "w": node.radius * 2,
+                    "h": node.radius * 2,
+                    "angle": 0
+                },
+                "path": [
+                    {
+                        "actions": [
+                            {
+                                "x": "0",
+                                "action": "move",
+                                "y": "h/2"
+                            },
+                            {
+                                "y1": "-h/6",
+                                "x": "w",
+                                "action": "curve",
+                                "x1": "0",
+                                "y2": "-h/6",
+                                "y": "h/2",
+                                "x2": "w"
+                            },
+                            {
+                                "y1": "h+h/6",
+                                "x": "0",
+                                "action": "curve",
+                                "x1": "w",
+                                "y2": "h+h/6",
+                                "y": "h/2",
+                                "x2": "0"
+                            },
+                            {
+                                "action": "close"
+                            }
+                        ]
+                    }
+                ],
+                "lineStyle": {},
+                "children": [],
+                "resizeDir": [
+                    "tl",
+                    "tr",
+                    "br",
+                    "bl"
+                ],
+                "name": "round",
+                "fillStyle": {},
+                "theme": {},
+                "id": uid(13),
+                "attribute": {
+                    "container": false,
+                    "rotatable": true,
+                    "visible": true,
+                    "collapsable": false,
+                    "collapsed": false,
+                    "linkable": true,
+                    "markerOffset": 5
+                },
+                
+            })
+        }
+
+        let elementMap = {}
+        uiUtil.treeMap(this.root, {
+            childrenKey: '_children',
+            nodeHandler(node) {
+                if (node._type == 'rect') {
+                    let rect = createRect(node)
+                    elementMap[rect.id] = rect
+                }
+                if (node._type == 'circle') {
+                    let rect = createCircle(node)
+                    elementMap[rect.id] = rect
+                }
+                return {}
+            }
+        })
+
+        
+
+        const obj = {
+
+            "diagram": {
+                "elements": {
+                    "elements": elementMap,
+                    "page": {
+                        "padding": 0,
+                        "backgroundColor": "transparent",
+                        "orientation": "portrait",
+                        "gridSize": 25,
+                        "width": this.root.width,
+                        "showGrid": true,
+                        "lineJumps": false,
+                        "height": this.root.height,
+                    }
+                }
+            },
+            "meta": {
+                "diagramInfo": {
+                    "title": "未命名文件",
+                    "category": "flow"
+                },
+                "id": "6132cea2e0b34d35500338d3",
+                "type": "ProcessOn Schema File",
+                "version": "1.0"
+            }
+        }
+        return JSON.stringify(obj, null, 4)
     }
 }
+

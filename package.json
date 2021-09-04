@@ -16,6 +16,7 @@
     "test": "ts-node test.ts"
   },
   "dependencies": {
+    "color": "^4.0.1",
     "htmlparser2": "^7.1.1",
     "moment": "^2.29.1",
     "uid": "^2.0.0",

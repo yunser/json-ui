@@ -1,61 +1,227 @@
 {
     "diagram": {
         "elements": {
-            "root": true,
-            "theme": "delicate_caihong",
-            "id": "root",
-            "title": "root",
-            "structure": "mind_free",
-            "leftChildren": [],
-            "note": "",
-            "watermark": "",
-            "children": [
-                {
-                    "id": "11827f7103b6",
-                    "title": "1",
-                    "children": [
+            "elements": {
+                "dfca403ad992d": {
+                    "parent": "",
+                    "link": "",
+                    "shapeStyle": {
+                        "alpha": 1
+                    },
+                    "textBlock": [
                         {
-                            "id": "6111827f7103",
-                            "title": "11",
-                            "parent": "11827f7103b6",
-                            "children": []
+                            "position": {
+                                "w": "w-20",
+                                "x": 10,
+                                "h": "h",
+                                "y": 0
+                            },
+                            "text": ""
+                        }
+                    ],
+                    "category": "basic",
+                    "locked": false,
+                    "group": "",
+                    "anchors": [
+                        {
+                            "x": "w/2",
+                            "y": "0"
                         },
                         {
-                            "id": "111827f7103b",
-                            "title": "12",
-                            "parent": "11827f7103b6",
-                            "children": []
-                        }
-                    ],
-                    "parent": "root"
-                },
-                {
-                    "id": "827f7103b6fa",
-                    "title": "2",
-                    "children": [
+                            "x": "w/2",
+                            "y": "h"
+                        },
                         {
-                            "id": "1827f7103b6f",
-                            "title": "21",
-                            "parent": "827f7103b6fa",
-                            "children": []
+                            "x": "0",
+                            "y": "h/2"
+                        },
+                        {
+                            "x": "w",
+                            "y": "h/2"
                         }
                     ],
-                    "parent": "root"
+                    "title": "矩形",
+                    "props": {
+                        "zindex": 1,
+                        "w": 100,
+                        "x": 100,
+                        "h": 100,
+                        "y": 100,
+                        "angle": 0
+                    },
+                    "path": [
+                        {
+                            "actions": [
+                                {
+                                    "x": "0",
+                                    "action": "move",
+                                    "y": "0"
+                                },
+                                {
+                                    "x": "w",
+                                    "action": "line",
+                                    "y": "0"
+                                },
+                                {
+                                    "x": "w",
+                                    "action": "line",
+                                    "y": "h"
+                                },
+                                {
+                                    "x": "0",
+                                    "action": "line",
+                                    "y": "h"
+                                },
+                                {
+                                    "action": "close"
+                                }
+                            ]
+                        }
+                    ],
+                    "lineStyle": {},
+                    "children": [],
+                    "resizeDir": [
+                        "tl",
+                        "tr",
+                        "br",
+                        "bl"
+                    ],
+                    "name": "rectangle",
+                    "fillStyle": {},
+                    "theme": {},
+                    "id": "dfca403ad992d",
+                    "attribute": {
+                        "container": false,
+                        "rotatable": true,
+                        "visible": true,
+                        "collapsable": false,
+                        "collapsed": false,
+                        "linkable": true,
+                        "markerOffset": 5
+                    }
                 },
-                {
-                    "id": "27f7103b6fa8",
-                    "title": "3",
-                    "parent": "root",
-                    "children": []
+                "fca403ad992df": {
+                    "parent": "",
+                    "link": "",
+                    "shapeStyle": {
+                        "alpha": 1
+                    },
+                    "textBlock": [
+                        {
+                            "position": {
+                                "w": "w-20",
+                                "x": 10,
+                                "h": "h",
+                                "y": 0
+                            },
+                            "text": ""
+                        }
+                    ],
+                    "category": "basic",
+                    "locked": false,
+                    "group": "",
+                    "anchors": [
+                        {
+                            "x": "w/2",
+                            "y": "0"
+                        },
+                        {
+                            "x": "w/2",
+                            "y": "h"
+                        },
+                        {
+                            "x": "0",
+                            "y": "h/2"
+                        },
+                        {
+                            "x": "w",
+                            "y": "h/2"
+                        }
+                    ],
+                    "title": "圆形",
+                    "fontStyle": {},
+                    "dataAttributes": [],
+                    "props": {
+                        "zindex": 1,
+                        "x": 200,
+                        "y": 100,
+                        "w": 100,
+                        "h": 100,
+                        "angle": 0
+                    },
+                    "path": [
+                        {
+                            "actions": [
+                                {
+                                    "x": "0",
+                                    "action": "move",
+                                    "y": "h/2"
+                                },
+                                {
+                                    "y1": "-h/6",
+                                    "x": "w",
+                                    "action": "curve",
+                                    "x1": "0",
+                                    "y2": "-h/6",
+                                    "y": "h/2",
+                                    "x2": "w"
+                                },
+                                {
+                                    "y1": "h+h/6",
+                                    "x": "0",
+                                    "action": "curve",
+                                    "x1": "w",
+                                    "y2": "h+h/6",
+                                    "y": "h/2",
+                                    "x2": "0"
+                                },
+                                {
+                                    "action": "close"
+                                }
+                            ]
+                        }
+                    ],
+                    "lineStyle": {},
+                    "children": [],
+                    "resizeDir": [
+                        "tl",
+                        "tr",
+                        "br",
+                        "bl"
+                    ],
+                    "name": "round",
+                    "fillStyle": {},
+                    "theme": {},
+                    "id": "fca403ad992df",
+                    "attribute": {
+                        "container": false,
+                        "rotatable": true,
+                        "visible": true,
+                        "collapsable": false,
+                        "collapsed": false,
+                        "linkable": true,
+                        "markerOffset": 5
+                    }
                 }
-            ]
+            },
+            "page": {
+                "padding": 0,
+                "backgroundColor": "transparent",
+                "orientation": "portrait",
+                "gridSize": 25,
+                "width": 300,
+                "showGrid": true,
+                "lineJumps": false,
+                "height": 300
+            }
         }
     },
     "meta": {
         "diagramInfo": {
-            "title": "root",
-            "category": "mind_free"
+            "title": "未命名文件",
+            "category": "flow"
         },
+        "id": "6132cea2e0b34d35500338d3",
         "type": "ProcessOn Schema File",
         "version": "1.0"
     }

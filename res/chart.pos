@@ -1,0 +1,450 @@
+{
+    "diagram": {
+        "image": {
+            "x": 67,
+            "width": 528,
+            "y": 68,
+            "pngdata": "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",
+            "height": 326
+        },
+        "elements": {
+            "elements": {
+                "17bae79e3375fb": {
+                    "parent": "",
+                    "link": "",
+                    "shapeStyle": {
+                        "alpha": 1
+                    },
+                    "textBlock": [
+                        {
+                            "position": {
+                                "w": "w-20",
+                                "x": 10,
+                                "h": "h",
+                                "y": 0
+                            },
+                            "text": "圆角矩形"
+                        }
+                    ],
+                    "anchors": [
+                        {
+                            "x": "w/2",
+                            "y": "0"
+                        },
+                        {
+                            "x": "w/2",
+                            "y": "h"
+                        },
+                        {
+                            "x": "0",
+                            "y": "h/2"
+                        },
+                        {
+                            "x": "w",
+                            "y": "h/2"
+                        }
+                    ],
+                    "title": "矩形",
+                    "fontStyle": {},
+                    "dataAttributes": [
+                        {
+                            "name": "序号",
+                            "id": "17bae79e4347a4",
+                            "type": "number",
+                            "category": "default",
+                            "value": ""
+                        },
+                        {
+                            "name": "名称",
+                            "id": "17bae79e434aa",
+                            "type": "string",
+                            "category": "default",
+                            "value": ""
+                        },
+                        {
+                            "name": "所有者",
+                            "id": "17bae79e434e2d",
+                            "type": "string",
+                            "category": "default",
+                            "value": ""
+                        },
+                        {
+                            "name": "连接",
+                            "id": "17bae79e434bc2",
+                            "type": "link",
+                            "category": "default",
+                            "value": ""
+                        },
+                        {
+                            "name": "便笺",
+                            "id": "17bae79e434f33",
+                            "type": "string",
+                            "category": "default",
+                            "value": ""
+                        }
+                    ],
+                    "props": {
+                        "zindex": 3,
+                        "w": 169,
+                        "x": 356,
+                        "h": 68,
+                        "y": 203,
+                        "angle": 0
+                    },
+                    "path": [
+                        {
+                            "actions": [
+                                {
+                                    "x": "0",
+                                    "action": "move",
+                                    "y": "0"
+                                },
+                                {
+                                    "x": "w",
+                                    "action": "line",
+                                    "y": "0"
+                                },
+                                {
+                                    "x": "w",
+                                    "action": "line",
+                                    "y": "h"
+                                },
+                                {
+                                    "x": "0",
+                                    "action": "line",
+                                    "y": "h"
+                                },
+                                {
+                                    "action": "close"
+                                }
+                            ]
+                        }
+                    ],
+                    "lineStyle": {},
+                    "children": [],
+                    "resizeDir": [
+                        "tl",
+                        "tr",
+                        "br",
+                        "bl"
+                    ],
+                    "name": "rectangle",
+                    "fillStyle": {},
+                    "theme": {},
+                    "id": "17bae79e3375fb",
+                    "attribute": {
+                        "container": false,
+                        "rotatable": true,
+                        "visible": true,
+                        "collapsable": false,
+                        "collapsed": false,
+                        "linkable": true,
+                        "markerOffset": 5
+                    },
+                    "category": "basic",
+                    "locked": false,
+                    "group": ""
+                },
+                "17bae79ae97c7f": {
+                    "parent": "",
+                    "link": "",
+                    "shapeStyle": {
+                        "alpha": 1
+                    },
+                    "textBlock": [
+                        {
+                            "position": {
+                                "w": "w-20",
+                                "x": 10,
+                                "h": "h",
+                                "y": 0
+                            },
+                            "text": "圆形"
+                        }
+                    ],
+                    "anchors": [
+                        {
+                            "x": "w/2",
+                            "y": "0"
+                        },
+                        {
+                            "x": "w/2",
+                            "y": "h"
+                        },
+                        {
+                            "x": "0",
+                            "y": "h/2"
+                        },
+                        {
+                            "x": "w",
+                            "y": "h/2"
+                        }
+                    ],
+                    "title": "圆形",
+                    "fontStyle": {},
+                    "dataAttributes": [
+                        {
+                            "name": "序号",
+                            "id": "17bae79ae975a2",
+                            "type": "number",
+                            "category": "default",
+                            "value": ""
+                        },
+                        {
+                            "name": "名称",
+                            "id": "17bae79ae979bd",
+                            "type": "string",
+                            "category": "default",
+                            "value": ""
+                        },
+                        {
+                            "name": "所有者",
+                            "id": "17bae79ae97cf7",
+                            "type": "string",
+                            "category": "default",
+                            "value": ""
+                        },
+                        {
+                            "name": "连接",
+                            "id": "17bae79ae97c33",
+                            "type": "link",
+                            "category": "default",
+                            "value": ""
+                        },
+                        {
+                            "name": "便笺",
+                            "id": "17bae79ae9794c",
+                            "type": "string",
+                            "category": "default",
+                            "value": ""
+                        }
+                    ],
+                    "props": {
+                        "zindex": 2,
+                        "w": 70,
+                        "x": 241,
+                        "h": 70,
+                        "y": 254,
+                        "angle": 0
+                    },
+                    "path": [
+                        {
+                            "actions": [
+                                {
+                                    "x": "0",
+                                    "action": "move",
+                                    "y": "h/2"
+                                },
+                                {
+                                    "y1": "-h/6",
+                                    "x": "w",
+                                    "action": "curve",
+                                    "x1": "0",
+                                    "y2": "-h/6",
+                                    "y": "h/2",
+                                    "x2": "w"
+                                },
+                                {
+                                    "y1": "h+h/6",
+                                    "x": "0",
+                                    "action": "curve",
+                                    "x1": "w",
+                                    "y2": "h+h/6",
+                                    "y": "h/2",
+                                    "x2": "0"
+                                },
+                                {
+                                    "action": "close"
+                                }
+                            ]
+                        }
+                    ],
+                    "lineStyle": {},
+                    "children": [],
+                    "resizeDir": [
+                        "tl",
+                        "tr",
+                        "br",
+                        "bl"
+                    ],
+                    "name": "round",
+                    "fillStyle": {},
+                    "theme": {},
+                    "id": "17bae79ae97c7f",
+                    "attribute": {
+                        "container": false,
+                        "rotatable": true,
+                        "visible": true,
+                        "collapsable": false,
+                        "collapsed": false,
+                        "linkable": true,
+                        "markerOffset": 5
+                    },
+                    "category": "basic",
+                    "locked": false,
+                    "group": ""
+                },
+                "17bae78cefe76": {
+                    "parent": "",
+                    "link": "",
+                    "shapeStyle": {
+                        "alpha": 1
+                    },
+                    "textBlock": [
+                        {
+                            "position": {
+                                "w": "w-20",
+                                "x": 10,
+                                "h": "h",
+                                "y": 0
+                            },
+                            "text": "矩形"
+                        }
+                    ],
+                    "anchors": [
+                        {
+                            "x": "w/2",
+                            "y": "0"
+                        },
+                        {
+                            "x": "w/2",
+                            "y": "h"
+                        },
+                        {
+                            "x": "0",
+                            "y": "h/2"
+                        },
+                        {
+                            "x": "w",
+                            "y": "h/2"
+                        }
+                    ],
+                    "title": "矩形",
+                    "fontStyle": {},
+                    "dataAttributes": [
+                        {
+                            "name": "序号",
+                            "id": "17bae78cefe443",
+                            "type": "number",
+                            "category": "default",
+                            "value": ""
+                        },
+                        {
+                            "name": "名称",
+                            "id": "17bae78cefe36d",
+                            "type": "string",
+                            "category": "default",
+                            "value": ""
+                        },
+                        {
+                            "name": "所有者",
+                            "id": "17bae78cefec7d",
+                            "type": "string",
+                            "category": "default",
+                            "value": ""
+                        },
+                        {
+                            "name": "连接",
+                            "id": "17bae78cefeeaf",
+                            "type": "link",
+                            "category": "default",
+                            "value": ""
+                        },
+                        {
+                            "name": "便笺",
+                            "id": "17bae78cefe22",
+                            "type": "string",
+                            "category": "default",
+                            "value": ""
+                        }
+                    ],
+                    "props": {
+                        "zindex": 1,
+                        "w": 169,
+                        "x": 107,
+                        "h": 68,
+                        "y": 108,
+                        "angle": 0
+                    },
+                    "path": [
+                        {
+                            "actions": [
+                                {
+                                    "x": "0",
+                                    "action": "move",
+                                    "y": "0"
+                                },
+                                {
+                                    "x": "w",
+                                    "action": "line",
+                                    "y": "0"
+                                },
+                                {
+                                    "x": "w",
+                                    "action": "line",
+                                    "y": "h"
+                                },
+                                {
+                                    "x": "0",
+                                    "action": "line",
+                                    "y": "h"
+                                },
+                                {
+                                    "action": "close"
+                                }
+                            ]
+                        }
+                    ],
+                    "lineStyle": {},
+                    "children": [],
+                    "resizeDir": [
+                        "tl",
+                        "tr",
+                        "br",
+                        "bl"
+                    ],
+                    "name": "rectangle",
+                    "fillStyle": {},
+                    "theme": {},
+                    "id": "17bae78cefe76",
+                    "attribute": {
+                        "container": false,
+                        "rotatable": true,
+                        "visible": true,
+                        "collapsable": false,
+                        "collapsed": false,
+                        "linkable": true,
+                        "markerOffset": 5
+                    },
+                    "category": "basic",
+                    "locked": false,
+                    "group": ""
+                }
+            },
+            "page": {
+                "padding": 20,
+                "backgroundColor": "transparent",
+                "orientation": "portrait",
+                "gridSize": 15,
+                "width": 1487,
+                "showGrid": true,
+                "lineJumps": false,
+                "height": 684
+            }
+        }
+    },
+    "meta": {
+        "exportTime": "2021-09-04 09:45:00",
+        "member": "57f33ba3e4b0300f4fdc6b5d",
+        "diagramInfo": {
+            "creator": "57f33ba3e4b0300f4fdc6b5d",
+            "created": "2021-09-04 09:40:50",
+            "modified": "2021-09-04 09:44:01",
+            "title": "未命名文件",
+            "category": "flow"
+        },
+        "id": "6132cea2e0b34d35500338d3",
+        "type": "ProcessOn Schema File",
+        "version": "1.0"
+    }
+}
