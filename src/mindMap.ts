@@ -1,6 +1,7 @@
 // import { XmlObject } from './types'
-const uiUtil = require('./util')
-import { uid } from 'uid'
+// const uiUtil = require('./util')
+// import { uid } from 'uid'
+import { uid, uiUtil } from './helper'
 import { convertTypedJson2XmlObject, TypedJson } from './helper'
 import * as moment from 'moment'
 

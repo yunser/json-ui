@@ -2,8 +2,12 @@ import { XmlObject } from './types'
 // const uiUtil = require('./util')
 import { uid, uiUtil } from './helper'
 // import * as fs from 'fs'
+import * as Color from 'color'
 
-console.log('uiUtil', uiUtil, uiUtil.treeMap)
+// console.log('a', a)
+
+
+// console.log('uiUtil', uiUtil, uiUtil.treeMap)
 
 function objectSomeAttr(obj: object, attrs: string[]) {
     let result: any = {}
@@ -331,6 +335,18 @@ export class StdUI {
     toProcessOn() {
 
         function createNode(node, otherAttr) {
+
+            
+            let fillStyle = {}
+            if (node.color) {
+                const color = Color(node.color)
+                // console.log('color', )
+                fillStyle = {
+                    color: color.rgb().array().join(','),
+                    "type": "solid"
+                }
+            }
+
             return {
                 "parent": "",
                 "link": "",
@@ -348,6 +364,16 @@ export class StdUI {
                         "text": ""
                     }
                 ],
+                "lineStyle": {},
+                "children": [],
+                "resizeDir": [
+                    "tl",
+                    "tr",
+                    "br",
+                    "bl"
+                ],
+                fillStyle,
+                "theme": {},
                 "category": "basic",
                 "locked": false,
                 "group": "",
@@ -356,6 +382,7 @@ export class StdUI {
         }
         function createRect(node) {
             return createNode(node, {
+                "name": "rectangle",
                 "anchors": [
                     {
                         "x": "w/2",
@@ -412,17 +439,6 @@ export class StdUI {
                         ]
                     }
                 ],
-                "lineStyle": {},
-                "children": [],
-                "resizeDir": [
-                    "tl",
-                    "tr",
-                    "br",
-                    "bl"
-                ],
-                "name": "rectangle",
-                "fillStyle": {},
-                "theme": {},
                 "id": uid(13),
                 "attribute": {
                     "container": false,
@@ -437,6 +453,7 @@ export class StdUI {
         }
 
         function createCircle(node) {
+
             return createNode(node, {
                 "textBlock": [
                     {
@@ -520,7 +537,6 @@ export class StdUI {
                     "bl"
                 ],
                 "name": "round",
-                "fillStyle": {},
                 "theme": {},
                 "id": uid(13),
                 "attribute": {
@@ -564,12 +580,23 @@ export class StdUI {
         }
 
         function createText(node) {
-            return {
+            let fontStyle: any = {
+                size: node.textSize || 14
+            }
+            const color = Color(node.color)
+            // console.log('color', )
+            if (node.color) {
+                fontStyle.color = color.rgb().array().join(',')
+            }
+
+            return createNode(node, {
+                "name": "text",
                 "parent": "",
                 "link": "",
                 "shapeStyle": {
                     "alpha": 1
                 },
+
                 "textBlock": [
                     {
                         "position": {
@@ -600,10 +627,7 @@ export class StdUI {
                     }
                 ],
                 "title": "文本",
-                "fontStyle": {
-                    "color": "244,67,54",
-                    size: node.textSize || 14
-                },
+                fontStyle,
                 "props": {
                     "zindex": 1,
                     "x": node.x,
@@ -657,13 +681,8 @@ export class StdUI {
                     "br",
                     "bl"
                 ],
-                "name": "text",
-                "fillStyle": {
-                    "color": "244,67,54",
-                    "type": "solid"
-                },
+                
                 "theme": {},
-                "id": "17baf251a352ae",
                 "attribute": {
                     "container": false,
                     "rotatable": true,
@@ -676,7 +695,7 @@ export class StdUI {
                 "category": "basic",
                 "locked": false,
                 "group": ""
-            }
+            })
         }
 
         let elementMap = {}
@@ -735,4 +754,6 @@ export class StdUI {
         return JSON.stringify(obj, null, 4)
     }
 }
+
+
 

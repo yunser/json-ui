@@ -1,363 +1,61 @@
 {
     "diagram": {
         "elements": {
-            "elements": {
-                "e96aad002bfb2": {
-                    "parent": "",
-                    "link": "",
-                    "shapeStyle": {
-                        "alpha": 1
-                    },
-                    "textBlock": [
+            "root": true,
+            "theme": "delicate_caihong",
+            "id": "root",
+            "title": "root",
+            "structure": "mind_free",
+            "leftChildren": [],
+            "note": "",
+            "watermark": "",
+            "children": [
+                {
+                    "id": "b686d0fe2c41",
+                    "title": "1",
+                    "children": [
                         {
-                            "position": {
-                                "w": "w-20",
-                                "x": 10,
-                                "h": "h",
-                                "y": 0
-                            },
-                            "text": ""
-                        }
-                    ],
-                    "category": "basic",
-                    "locked": false,
-                    "group": "",
-                    "anchors": [
-                        {
-                            "x": "w/2",
-                            "y": "0"
+                            "id": "83b686d0fe2c",
+                            "title": "11",
+                            "parent": "b686d0fe2c41",
+                            "children": []
                         },
                         {
-                            "x": "w/2",
-                            "y": "h"
-                        },
-                        {
-                            "x": "0",
-                            "y": "h/2"
-                        },
-                        {
-                            "x": "w",
-                            "y": "h/2"
+                            "id": "3b686d0fe2c4",
+                            "title": "12",
+                            "parent": "b686d0fe2c41",
+                            "children": []
                         }
                     ],
-                    "title": "矩形",
-                    "props": {
-                        "zindex": 1,
-                        "w": 100,
-                        "x": 100,
-                        "h": 100,
-                        "y": 100,
-                        "angle": 0
-                    },
-                    "path": [
-                        {
-                            "actions": [
-                                {
-                                    "x": "0",
-                                    "action": "move",
-                                    "y": "0"
-                                },
-                                {
-                                    "x": "w",
-                                    "action": "line",
-                                    "y": "0"
-                                },
-                                {
-                                    "x": "w",
-                                    "action": "line",
-                                    "y": "h"
-                                },
-                                {
-                                    "x": "0",
-                                    "action": "line",
-                                    "y": "h"
-                                },
-                                {
-                                    "action": "close"
-                                }
-                            ]
-                        }
-                    ],
-                    "lineStyle": {},
-                    "children": [],
-                    "resizeDir": [
-                        "tl",
-                        "tr",
-                        "br",
-                        "bl"
-                    ],
-                    "name": "rectangle",
-                    "fillStyle": {},
-                    "theme": {},
-                    "id": "e96aad002bfb2",
-                    "attribute": {
-                        "container": false,
-                        "rotatable": true,
-                        "visible": true,
-                        "collapsable": false,
-                        "collapsed": false,
-                        "linkable": true,
-                        "markerOffset": 5
-                    }
+                    "parent": "root"
                 },
-                "96aad002bfb25": {
-                    "parent": "",
-                    "link": "",
-                    "shapeStyle": {
-                        "alpha": 1
-                    },
-                    "textBlock": [
+                {
+                    "id": "86d0fe2c4100",
+                    "title": "2",
+                    "children": [
                         {
-                            "position": {
-                                "w": "w-20",
-                                "x": 10,
-                                "h": "h",
-                                "y": 0
-                            },
-                            "text": ""
+                            "id": "686d0fe2c410",
+                            "title": "21",
+                            "parent": "86d0fe2c4100",
+                            "children": []
                         }
                     ],
-                    "category": "basic",
-                    "locked": false,
-                    "group": "",
-                    "anchors": [
-                        {
-                            "x": "w/2",
-                            "y": "0"
-                        },
-                        {
-                            "x": "w/2",
-                            "y": "h"
-                        },
-                        {
-                            "x": "0",
-                            "y": "h/2"
-                        },
-                        {
-                            "x": "w",
-                            "y": "h/2"
-                        }
-                    ],
-                    "title": "圆形",
-                    "fontStyle": {},
-                    "dataAttributes": [],
-                    "props": {
-                        "zindex": 1,
-                        "x": 200,
-                        "y": 100,
-                        "w": 100,
-                        "h": 100,
-                        "angle": 0
-                    },
-                    "path": [
-                        {
-                            "actions": [
-                                {
-                                    "x": "0",
-                                    "action": "move",
-                                    "y": "h/2"
-                                },
-                                {
-                                    "y1": "-h/6",
-                                    "x": "w",
-                                    "action": "curve",
-                                    "x1": "0",
-                                    "y2": "-h/6",
-                                    "y": "h/2",
-                                    "x2": "w"
-                                },
-                                {
-                                    "y1": "h+h/6",
-                                    "x": "0",
-                                    "action": "curve",
-                                    "x1": "w",
-                                    "y2": "h+h/6",
-                                    "y": "h/2",
-                                    "x2": "0"
-                                },
-                                {
-                                    "action": "close"
-                                }
-                            ]
-                        }
-                    ],
-                    "lineStyle": {},
-                    "children": [],
-                    "resizeDir": [
-                        "tl",
-                        "tr",
-                        "br",
-                        "bl"
-                    ],
-                    "name": "round",
-                    "fillStyle": {},
-                    "theme": {},
-                    "id": "96aad002bfb25",
-                    "attribute": {
-                        "container": false,
-                        "rotatable": true,
-                        "visible": true,
-                        "collapsable": false,
-                        "collapsed": false,
-                        "linkable": true,
-                        "markerOffset": 5
-                    }
+                    "parent": "root"
                 },
-                "6aad002bfb2541": {
-                    "linkerType": "normal",
-                    "lineStyle": {
-                        "endArrowStyle": "none"
-                    },
-                    "name": "linker",
-                    "from": {
-                        "x": 0,
-                        "y": 0
-                    },
-                    "to": {
-                        "x": 100,
-                        "y": 100
-                    },
-                    "id": "6aad002bfb2541",
-                    "text": "",
-                    "locked": false,
-                    "props": {
-                        "zindex": 1
-                    },
-                    "dataAttributes": [],
-                    "group": "",
-                    "points": []
-                },
-                "17baf251a352ae": {
-                    "parent": "",
-                    "link": "",
-                    "shapeStyle": {
-                        "alpha": 1
-                    },
-                    "textBlock": [
-                        {
-                            "position": {
-                                "w": "w",
-                                "x": 0,
-                                "h": "h",
-                                "y": 0
-                            },
-                            "text": "你好"
-                        }
-                    ],
-                    "anchors": [
-                        {
-                            "x": "w/2",
-                            "y": "0"
-                        },
-                        {
-                            "x": "w/2",
-                            "y": "h"
-                        },
-                        {
-                            "x": "0",
-                            "y": "h/2"
-                        },
-                        {
-                            "x": "w",
-                            "y": "h/2"
-                        }
-                    ],
-                    "title": "文本",
-                    "fontStyle": {
-                        "size": 100
-                    },
-                    "props": {
-                        "zindex": 1,
-                        "x": 100,
-                        "w": 200,
-                        "h": 100,
-                        "y": 0,
-                        "angle": 0
-                    },
-                    "path": [
-                        {
-                            "lineStyle": {
-                                "lineWidth": 0
-                            },
-                            "fillStyle": {
-                                "type": "none"
-                            },
-                            "actions": [
-                                {
-                                    "x": "0",
-                                    "action": "move",
-                                    "y": "0"
-                                },
-                                {
-                                    "x": "w",
-                                    "action": "line",
-                                    "y": "0"
-                                },
-                                {
-                                    "x": "w",
-                                    "action": "line",
-                                    "y": "h"
-                                },
-                                {
-                                    "x": "0",
-                                    "action": "line",
-                                    "y": "h"
-                                },
-                                {
-                                    "action": "close"
-                                }
-                            ]
-                        }
-                    ],
-                    "lineStyle": {
-                        "lineColor": "229,115,115"
-                    },
-                    "children": [],
-                    "resizeDir": [
-                        "tl",
-                        "tr",
-                        "br",
-                        "bl"
-                    ],
-                    "name": "text",
-                    "fillStyle": {
-                        "color": "244,67,54",
-                        "type": "solid"
-                    },
-                    "theme": {},
-                    "id": "17baf251a352ae",
-                    "attribute": {
-                        "container": false,
-                        "rotatable": true,
-                        "visible": true,
-                        "collapsable": false,
-                        "collapsed": false,
-                        "linkable": true,
-                        "markerOffset": 5
-                    },
-                    "category": "basic",
-                    "locked": false,
-                    "group": ""
+                {
+                    "id": "6d0fe2c41001",
+                    "title": "3",
+                    "parent": "root",
+                    "children": []
                 }
-            },
-            "page": {
-                "padding": 0,
-                "backgroundColor": "transparent",
-                "orientation": "portrait",
-                "gridSize": 25,
-                "width": 300,
-                "showGrid": true,
-                "lineJumps": false,
-                "height": 300
-            }
+            ]
         }
     },
     "meta": {
         "diagramInfo": {
-            "title": "未命名文件",
-            "category": "flow"
+            "title": "root",
+            "category": "mind_free"
         },
-        "id": "6132cea2e0b34d35500338d3",
         "type": "ProcessOn Schema File",
         "version": "1.0"
     }

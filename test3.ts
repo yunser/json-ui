@@ -20,7 +20,7 @@ let root = {
             "cx": 250,
             "cy": 150,
             "radius": 50,
-            "color": "#f00"
+            "color": "#09c"
         },
         {
             "_type": "line",
@@ -34,7 +34,8 @@ let root = {
             "x": 100,
             "y": 0,
             "text": "你好",
-            "textSize": 100
+            "textSize": 100,
+            color: '#f90',
         }
     ]
 }
