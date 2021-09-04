@@ -140,17 +140,12 @@ function textLoop(indent, num) {
     return result
 }
 
-export const uiUtil = {
-    treeMap,
-    treeFilter,
-    svgObj2Xml,
-}
+export function xmlObj2Xml(svgObj: XmlObject, options: any = {}) {
 
-function svgObj2Xml(svgObj, options: any = {}) {
-
+    console.log('svgObj', JSON.stringify(svgObj, null, 4))
     const { indent = '    ' } = options
 
-    function dealList(children, level) {
+    function dealList(children: XmlObject[], level) {
         let content = ''
         for (let child of children) {
             content += (indent ? ('\n' + textLoop(indent, level)) : '') + dealObj(child, level)
@@ -159,7 +154,7 @@ function svgObj2Xml(svgObj, options: any = {}) {
         return content
     }
 
-    function dealObj(obj, level = 0) {
+    function dealObj(obj: XmlObject, level = 0) {
         let childrenContent = ''
         if (obj.children && obj.children.length) {
             childrenContent = dealList(obj.children, level + 1)
@@ -177,6 +172,16 @@ function svgObj2Xml(svgObj, options: any = {}) {
 
     return dealObj(svgObj, 0)
 }
+
+export const svgObj2Xml = xmlObj2Xml
+
+export const uiUtil = {
+    treeMap,
+    treeFilter,
+    svgObj2Xml,
+}
+
+
 
 // module.exports = {
 //     treeMap,
@@ -314,6 +319,7 @@ export function convertTypedJson2XmlObject(rootObj: TypedJson): XmlObject {
                 type: node._type,
                 children: node._children as any,
                 attr: attrs,
+                _data: node._text, // TODO 重构
                 // _attrs: attrs,
                 // _type: type,
                 // ...attrs,

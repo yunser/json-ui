@@ -38,4 +38,4 @@ let doc = new Doc({
 
 
 fs.writeFileSync('out/doc.md', doc.toMarkdown(), 'utf8')
-// fs.writeFileSync('out/doc.pos', doc.toHtml(), 'utf8')
+fs.writeFileSync('out/doc.html', doc.toHtml(), 'utf8')
