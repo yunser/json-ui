@@ -425,6 +425,31 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 }
                 return node
             }
+            if (_type === 'group') {
+                let _attr = objectSomeAttr(attrs, ['d'])
+                // if (attrs.color) {
+                //     _attr.fill = attrs.color
+                // } else {
+                //     _attr.fill = 'none'
+                // }
+                // if (attrs.border) {
+                //     _attr.stroke = attrs.border.color
+                //     _attr['stroke-width'] = attrs.border.width || 1
+                // }
+                // if (attrs.points) {
+                //     _attr['points'] = attrs.points.map(pt => `${pt.x},${pt.y}`).join(' ')
+                // }
+                // if (attrs.radius) {
+                //     _attr.rx = attrs.radius
+                //     _attr.ry = attrs.radius
+                // }
+                let node: any = {
+                    type: 'g',
+                    attr: _attr,
+                    // _attrs: attrs,
+                }
+                return node
+            }
             if (attrs.border) {
                 attrs.stroke = attrs.border.color
                 attrs['stroke-width'] = attrs.border.width || 1
