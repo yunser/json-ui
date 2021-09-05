@@ -75,6 +75,36 @@ let root = {
                 width: 2,
             },
         },
+        {
+            _type: 'polyline',
+            points: [
+                {
+                    x: 0,
+                    y: 100,
+                },
+                {
+                    x: 50,
+                    y: 0,
+                },
+                {
+                    x: 100,
+                    y: 100,
+                },
+            ],
+            color: '#526BFF',
+        },
+        {
+            "_type": "ellipse",
+            cx: 50,
+            cy: 250,
+            rx: 50,
+            ry: 25,
+            color: '#E56D6D',
+            border: {
+                color: '#526BFF',
+                width: 2,
+            },
+        },
     ]
 }
 let stdUi = new StdUI({

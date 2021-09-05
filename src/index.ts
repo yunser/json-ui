@@ -343,6 +343,63 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 }
                 return node
             }
+            if (_type === 'polyline') {
+                let _attr = objectSomeAttr(attrs, [])
+                // if (attrs.color) {
+                //     _attr.fill = attrs.color
+                // } else {
+                //     _attr.fill = 'none'
+                // }
+                // if (attrs.border) {
+                //     _attr.stroke = attrs.border.color
+                //     _attr['stroke-width'] = attrs.border.width || 1
+                // }
+                if (attrs.color) {
+                    _attr.stroke = attrs.color
+                } else {
+                    _attr.stroke = '#000'
+                }
+                _attr.fill = 'none'
+                if (attrs.points) {
+                    _attr['points'] = attrs.points.map(pt => `${pt.x},${pt.y}`).join(' ')
+                }
+
+                // if (attrs.radius) {
+                //     _attr.rx = attrs.radius
+                //     _attr.ry = attrs.radius
+                // }
+                let node: any = {
+                    type: 'polyline',
+                    attr: _attr,
+                    // _attrs: attrs,
+                }
+                return node
+            }
+            if (_type === 'ellipse') {
+                let _attr = objectSomeAttr(attrs, ['cx', 'cy', 'rx', 'ry'])
+                if (attrs.color) {
+                    _attr.fill = attrs.color
+                } else {
+                    _attr.fill = 'none'
+                }
+                if (attrs.border) {
+                    _attr.stroke = attrs.border.color
+                    _attr['stroke-width'] = attrs.border.width || 1
+                }
+                // if (attrs.points) {
+                //     _attr['points'] = attrs.points.map(pt => `${pt.x},${pt.y}`).join(' ')
+                // }
+                // if (attrs.radius) {
+                //     _attr.rx = attrs.radius
+                //     _attr.ry = attrs.radius
+                // }
+                let node: any = {
+                    type: 'ellipse',
+                    attr: _attr,
+                    // _attrs: attrs,
+                }
+                return node
+            }
             if (attrs.border) {
                 attrs.stroke = attrs.border.color
                 attrs['stroke-width'] = attrs.border.width || 1
