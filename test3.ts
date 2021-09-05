@@ -105,6 +105,15 @@ let root = {
                 width: 2,
             },
         },
+        {
+            "_type": "path",
+            d: 'M200,200.490196 L199.509804,300 C212.323108,269.060446 229.153174,253.590669 250,253.590669 C270.846826,253.590669 287.513493,268.897047 300,299.509804 L300,200 L200,200.490196 Z',
+            color: '#E56D6D',
+            border: {
+                color: '#526BFF',
+                width: 2,
+            },
+        },
     ]
 }
 let stdUi = new StdUI({
@@ -118,4 +127,4 @@ fs.writeFileSync('out/ui.svg', stdUi.toSvg(), 'utf8')
 // fs.writeFileSync('out/ui.pos', stdUi.toProcessOn(), 'utf8')
 
 // for sketch project
-// fs.writeFileSync('/Users/yunser/app/sketch-test/root.json', JSON.stringify(root, null, 4), 'utf8')
+// fs.writeFileSync('/Users/yunser/app/sketch-test/root.json5', JSON.stringify(root, null, 4), 'utf8')
