@@ -75,6 +75,23 @@
 }
 ```
 
+椭圆（ellipse）
+
+```json
+{
+    "_type": "ellipse",
+    "cx": 50,
+    "cy": 250,
+    "rx": 50,
+    "ry": 25,
+    "color": "#E56D6D",
+    "border": {
+        "color": "#526BFF",
+        "width": 2
+    }
+}
+```
+
 填充（color）
 
 支持 `#ffffff` 或 `#fff` 格式的颜色表示。
