@@ -41,7 +41,7 @@ export interface StdUiRoot {
     y1?: number
     x2?: number
     y2?: number
-    color?: string
+    color?: string | null
     text?: string
     _children?: StdUiRoot[]
     border?: any // TODO
@@ -271,6 +271,10 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 } else {
                     _attr.fill = 'none'
                 }
+                if (attrs.border) {
+                    _attr.stroke = attrs.border.color
+                    _attr['stroke-width'] = attrs.border.width || 1
+                }
                 _attr.style = style
                 // _attr['dominant-baseline'] = 'text-before-edge'
                 // refer https://www.zhihu.com/question/58620241
@@ -312,6 +316,31 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                     // _attrs: attrs,
                 }
                 // < tspan xmlns = "http://www.w3.org/2000/svg" x = "100" y = "106" > 你好 < /tspan>
+                return node
+            }
+            if (_type === 'polygon') {
+                let _attr = objectSomeAttr(attrs, [])
+                if (attrs.color) {
+                    _attr.fill = attrs.color
+                } else {
+                    _attr.fill = 'none'
+                }
+                if (attrs.border) {
+                    _attr.stroke = attrs.border.color
+                    _attr['stroke-width'] = attrs.border.width || 1
+                }
+                if (attrs.points) {
+                    _attr['points'] = attrs.points.map(pt => `${pt.x},${pt.y}`).join(' ')
+                }
+                // if (attrs.radius) {
+                //     _attr.rx = attrs.radius
+                //     _attr.ry = attrs.radius
+                // }
+                let node: any = {
+                    type: 'polygon',
+                    attr: _attr,
+                    // _attrs: attrs,
+                }
                 return node
             }
             if (attrs.border) {
@@ -758,20 +787,30 @@ export class StdUI {
                 if (node._type == 'rect') {
                     let rect = createRect(node)
                     elementMap[rect.id] = rect
+                    return rect
                 }
                 if (node._type == 'circle') {
                     let rect = createCircle(node)
                     elementMap[rect.id] = rect
+                    return rect
                 }
                 if (node._type == 'line') {
                     let rect = createLine(node)
                     elementMap[rect.id] = rect
+                    return rect
                 }
                 if (node._type == 'text') {
                     let rect = createText(node)
                     elementMap[rect.id] = rect
+                    return rect
                 }
+                // if (node._type == 'text') {
+                //     let rect = createText(node)
+                //     elementMap[rect.id] = rect
+                // }
                 return {}
+                // TODO 没有适配 root
+                // throw new Error(`unknow type ${node._type}`)
             }
         })
 

@@ -13,14 +13,24 @@ let root = {
             "y": 100,
             "width": 100,
             "height": 100,
-            "color": "#f00"
+            "color": null,
+            // "color": "#f00",
+            border: {
+                color: '#526BFF',
+                width: 2,
+            }
         },
         {
             "_type": "circle",
             "cx": 250,
             "cy": 150,
             "radius": 50,
-            "color": "#09c"
+            // "color": "#09c",
+            "color": null,
+            border: {
+                color: '#526BFF',
+                width: 2,
+            }
         },
         {
             "_type": "line",
@@ -36,8 +46,35 @@ let root = {
             "y": 0,
             "text": "你好",
             "textSize": 100,
+            // color: '#f00',
+            "color": null,
+            border: {
+                color: '#526BFF',
+                width: 2,
+            }
+        },
+        {
+            "_type": "polygon",
+            points: [
+                {
+                    x: 50,
+                    y: 100,
+                },
+                {
+                    x: 0,
+                    y: 200,
+                },
+                {
+                    x: 100,
+                    y: 200,
+                },
+            ],
             color: '#E56D6D',
-        }
+            border: {
+                color: '#526BFF',
+                width: 2,
+            },
+        },
     ]
 }
 let stdUi = new StdUI({
@@ -48,7 +85,7 @@ let stdUi = new StdUI({
 // console.log('svg', svg)
 
 fs.writeFileSync('out/ui.svg', stdUi.toSvg(), 'utf8')
-fs.writeFileSync('out/ui.pos', stdUi.toProcessOn(), 'utf8')
+// fs.writeFileSync('out/ui.pos', stdUi.toProcessOn(), 'utf8')
 
 // for sketch project
-fs.writeFileSync('/Users/yunser/app/sketch-test/root.json', JSON.stringify(root, null, 4), 'utf8')
+// fs.writeFileSync('/Users/yunser/app/sketch-test/root.json', JSON.stringify(root, null, 4), 'utf8')
