@@ -39,6 +39,9 @@
                 <mxCell id="60" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fillColor=#a20025;strokeColor=#6F0000;dashed=1;" edge="1" parent="1" source="15" target="59">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
+                <mxCell id="62" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;fillColor=#a20025;strokeColor=#6F0000;" edge="1" parent="1" source="15" target="61">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
                 <mxCell id="15" value="StdUI Json" style="whiteSpace=wrap;html=1;fillColor=#60a917;strokeColor=#2D7600;fontColor=#ffffff;" parent="1" vertex="1">
                     <mxGeometry x="360" y="120" width="80" height="40" as="geometry"/>
                 </mxCell>
@@ -140,6 +143,9 @@
                 </mxCell>
                 <mxCell id="59" value="Pdf" style="whiteSpace=wrap;html=1;fillColor=#A8DADC;strokeColor=#457B9D;fontColor=#1D3557;" vertex="1" parent="1">
                     <mxGeometry x="480" y="180" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="61" value="HTML" style="whiteSpace=wrap;html=1;fillColor=#A8DADC;strokeColor=#457B9D;fontColor=#1D3557;" vertex="1" parent="1">
+                    <mxGeometry x="480" y="30" width="80" height="40" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
