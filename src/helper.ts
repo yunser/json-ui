@@ -31,7 +31,7 @@ function treeMap(treeObj, options: any = {}) {
 
 
 
-        let result = nodeHandler(obj, { level, parent })
+        let result = nodeHandler(obj, { level, parent, children })
         if (children.length) {
             result[childrenSetKey] = children
         }

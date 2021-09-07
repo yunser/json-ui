@@ -303,12 +303,17 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 // }
                 // _attr.style = style
                 // _attr['stroke'] = '#000'
-                if (attrs.color) {
-                    _attr.stroke = attrs.color
-                } else {
-                    _attr.stroke = '#000'
-                }
-                _attr['stroke-width'] = 1
+                // if (attrs.color) {
+                //     _attr.stroke = attrs.color
+                // } else {
+                //     _attr.stroke = '#000'
+                // }
+                // _attr['stroke-width'] = 1
+                const { border = {} } = attrs
+                const { color = '#000', width = 1 } = border
+                _attr.stroke = color
+                _attr['stroke-width'] = width
+                
                 let node: any = {
                     type: 'line',
                     attr: _attr,
@@ -350,15 +355,20 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 // } else {
                 //     _attr.fill = 'none'
                 // }
+                const { border = {} } = attrs
+                const { color = '#000', width = 1 } = border
+                _attr.stroke = color
+                _attr['stroke-width'] = width
+                
                 // if (attrs.border) {
-                //     _attr.stroke = attrs.border.color
-                //     _attr['stroke-width'] = attrs.border.width || 1
+                // } else {
+                    
                 // }
-                if (attrs.color) {
-                    _attr.stroke = attrs.color
-                } else {
-                    _attr.stroke = '#000'
-                }
+                // if (attrs.color) {
+                //     _attr.stroke = attrs.color
+                // } else {
+                //     _attr.stroke = '#000'
+                // }
                 _attr.fill = 'none'
                 if (attrs.points) {
                     _attr['points'] = attrs.points.map(pt => `${pt.x},${pt.y}`).join(' ')
