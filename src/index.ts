@@ -173,7 +173,134 @@ function convertUiObj2XmlObject(obj: StdUiRoot): XmlObject {
     return out
 }
 
+export function _if(condition: boolean, obj: object) {
+    return condition ? [obj] : []
+}
+
 function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
+
+    function createShadow(shadow, node) {
+        const id = uid(8)
+        const color = Color(shadow.color || '#000')
+        const rgb = color.object()
+        // console.log('rgb', rgb)
+        // console.log('color', )
+        // fillStyle = {
+        //     color: color.rgb().array().join(','),
+
+        let json = {
+            type: 'filter',
+            attr: {
+                id,
+                // x: node.x,
+                // y: node.x,
+                width: 400, // TODO
+                height: 400, // TODO
+            },
+            children: [
+                {
+                    type: 'feOffset',
+                    attr: {
+                        result: "offOut",
+                        in: "SourceAlpha",
+                        dx: shadow.x || 0,
+                        dy: shadow.y || 0,
+                    },
+                },
+                {
+                    type: 'feGaussianBlur',
+                    attr: {
+                        result: "blurOut",
+                        in: "offOut",
+                        stdDeviation: shadow.blur ? (shadow.blur / 2) : 0,
+                    },
+                },
+                {
+                    type: 'feMorphology',
+                    attr: {
+                        in: "feGaussianBlur",
+                        operator: "dilate",
+                        radius: shadow.spread || 0,
+                        result: "big",
+                    },
+                },
+                // <feMorphology in="feGaussianBlur" > </feMorphology>
+                {
+                    type: 'feBlend',
+                    attr: {
+                        in: "SourceGraphic",
+                        in2: "big",
+                        mode: "normal",
+                    },
+                    children: [
+
+                    ],
+                },
+                {
+                    type: 'feColorMatrix',
+                    attr: {
+                        type: "matrix",
+                        values: `0 0 0 0 ${rgb.r / 255}
+            0 0 0 0 ${rgb.g / 255}
+            0 0 0 0 ${rgb.b / 255}
+            0 0 0 ${shadow.alpha || 1} 0`,
+                        // radius: shadow.spread || 0,
+                        // result: "big",
+                    },
+                },
+                {
+                    type: 'feBlend',
+                    attr: {
+                        in: "SourceGraphic",
+                        // in2: "big",
+                        mode: "normal",
+                    },
+                    children: [
+
+                    ],
+                },
+                // <feBlend mode="normal" in="SourceGraphic" in2 = "effect1_dropShadow" result = "shape" />
+            ],
+        }
+        return {
+            id,
+            json,
+        }
+    }
+
+    const defs: any[] = [
+        
+    ]
+
+    function fillAndStroke(attrs, _attr) {
+        if (attrs.fill) {
+            if (attrs.fill.type == 'linearGradient') {
+                let ret = createLinearGradient(attrs.fill)
+                defs.push(ret.json)
+                _attr.fill = `url(#${ret.id})`
+            }
+        } else {
+            if (attrs.color) {
+                _attr.fill = attrs.color
+            } else {
+                _attr.fill = 'none'
+            }
+        }
+
+        if (attrs.border) {
+            _attr.stroke = attrs.border.color || '#000'
+            _attr['stroke-width'] = attrs.border.width || 1
+        }
+    }
+
+    function handleShadow(attrs, _attr, node) {
+        if (attrs.shadow) {
+            let ret = createShadow(attrs.shadow, node)
+            defs.push(ret.json)
+            _attr.filter = `url(#${ret.id})`
+        } 
+    }
+
     let out = uiUtil.treeMap(rootObj, {
         childrenKey: '_children',
         nodeHandler(node: StdUiRoot) {
@@ -213,81 +340,61 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
             }
             if (_type === 'rect') {
                 let _attr = objectSomeAttr(attrs, ['width', 'height', 'x', 'y'])
-                if (attrs.color) {
-                    _attr.fill = attrs.color
-                } else {
-                    _attr.fill = 'none'
-                }
-                if (attrs.border) {
-                    _attr.stroke = attrs.border.color
-                    _attr['stroke-width'] = attrs.border.width || 1
-                }
+
+                fillAndStroke(attrs, _attr)
+                
                 if (attrs.radius) {
                     _attr.rx = attrs.radius
                     _attr.ry = attrs.radius
                 }
-                let node: any = {
+
+                handleShadow(attrs, _attr, node)
+                
+                let _node: any = {
                     type: 'rect',
                     attr: _attr,
-                    // _attrs: attrs,
                 }
-                return node
+                return _node
             }
             if (_type === 'circle') {
                 let _attr = objectSomeAttr(attrs, ['cx', 'cy'])
+
+                fillAndStroke(attrs, _attr)
+
+                handleShadow(attrs, _attr, node)
+
                 if (attrs.radius) {
                     _attr.r = attrs.radius
                 }
-                if (attrs.color) {
-                    _attr.fill = attrs.color
-                } else {
-                    _attr.fill = 'none'
-                }
-                if (attrs.border) {
-                    _attr.stroke = attrs.border.color
-                    _attr['stroke-width'] = attrs.border.width || 1
-                }
-                let node: any = {
+                let _node: any = {
                     type: 'circle',
                     attr: _attr,
-                    // _attrs: attrs,
                 }
-                return node
+                return _node
             }
             if (_type === 'text') {
                 let _attr = objectSomeAttr(attrs, ['x', 'y'])
-                // if (attrs.radius) {
-                //     _attr.r = attrs.radius
-                // }
-                // if (attrs.color) {
-                //     _attr.fill = attrs.color
-                // }
                 let style = ''
                 if (attrs.textSize) {
                     style += `font-size: ${attrs.textSize}px`
                 }
-                if (attrs.color) {
-                    _attr.fill = attrs.color
-                } else {
-                    _attr.fill = 'none'
-                }
-                if (attrs.border) {
-                    _attr.stroke = attrs.border.color
-                    _attr['stroke-width'] = attrs.border.width || 1
-                }
+
+                fillAndStroke(attrs, _attr)
+                handleShadow(attrs, _attr, node)
+
                 _attr.style = style
                 // _attr['dominant-baseline'] = 'text-before-edge'
                 // refer https://www.zhihu.com/question/58620241
                 _attr['alignment-baseline'] = 'hanging'
                 // Attribute("alignment-baseline", "hanging");
-                let node: any = {
+                let _node: any = {
                     type: 'text',
                     attr: _attr,
                     _data: attrs.text
                     // _attrs: attrs,
                 }
                     // < tspan xmlns = "http://www.w3.org/2000/svg" x = "100" y = "106" > 你好 < /tspan>
-                return node
+                return _node
             }
             if (_type === 'line') {
                 let _attr = objectSomeAttr(attrs, ['x1', 'y1', 'x2', 'y2'])
@@ -325,28 +432,19 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
             }
             if (_type === 'polygon') {
                 let _attr = objectSomeAttr(attrs, [])
-                if (attrs.color) {
-                    _attr.fill = attrs.color
-                } else {
-                    _attr.fill = 'none'
-                }
-                if (attrs.border) {
-                    _attr.stroke = attrs.border.color
-                    _attr['stroke-width'] = attrs.border.width || 1
-                }
+
+                fillAndStroke(attrs, _attr)
+                handleShadow(attrs, _attr, node)
+
                 if (attrs.points) {
                     _attr['points'] = attrs.points.map(pt => `${pt.x},${pt.y}`).join(' ')
                 }
-                // if (attrs.radius) {
-                //     _attr.rx = attrs.radius
-                //     _attr.ry = attrs.radius
-                // }
-                let node: any = {
+                let _node: any = {
                     type: 'polygon',
                     attr: _attr,
                     // _attrs: attrs,
                 }
-                return node
+                return _node
             }
             if (_type === 'polyline') {
                 let _attr = objectSomeAttr(attrs, [])
@@ -387,72 +485,35 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
             }
             if (_type === 'ellipse') {
                 let _attr = objectSomeAttr(attrs, ['cx', 'cy', 'rx', 'ry'])
-                if (attrs.color) {
-                    _attr.fill = attrs.color
-                } else {
-                    _attr.fill = 'none'
-                }
-                if (attrs.border) {
-                    _attr.stroke = attrs.border.color
-                    _attr['stroke-width'] = attrs.border.width || 1
-                }
-                // if (attrs.points) {
-                //     _attr['points'] = attrs.points.map(pt => `${pt.x},${pt.y}`).join(' ')
-                // }
-                // if (attrs.radius) {
-                //     _attr.rx = attrs.radius
-                //     _attr.ry = attrs.radius
-                // }
-                let node: any = {
+
+                fillAndStroke(attrs, _attr)
+                handleShadow(attrs, _attr, node)
+
+                let _node: any = {
                     type: 'ellipse',
                     attr: _attr,
                     // _attrs: attrs,
                 }
-                return node
+                return _node
             }
             if (_type === 'path') {
                 let _attr = objectSomeAttr(attrs, ['d'])
-                if (attrs.color) {
-                    _attr.fill = attrs.color
-                } else {
-                    _attr.fill = 'none'
-                }
-                if (attrs.border) {
-                    _attr.stroke = attrs.border.color
-                    _attr['stroke-width'] = attrs.border.width || 1
-                }
+
+                fillAndStroke(attrs, _attr)
+                handleShadow(attrs, _attr, node)
+
                 if (attrs.points) {
                     _attr['points'] = attrs.points.map(pt => `${pt.x},${pt.y}`).join(' ')
                 }
-                // if (attrs.radius) {
-                //     _attr.rx = attrs.radius
-                //     _attr.ry = attrs.radius
-                // }
-                let node: any = {
+                let _node: any = {
                     type: 'path',
                     attr: _attr,
-                    // _attrs: attrs,
                 }
-                return node
+                return _node
             }
             if (_type === 'group') {
                 let _attr = objectSomeAttr(attrs, ['d'])
-                // if (attrs.color) {
-                //     _attr.fill = attrs.color
-                // } else {
-                //     _attr.fill = 'none'
-                // }
-                // if (attrs.border) {
-                //     _attr.stroke = attrs.border.color
-                //     _attr['stroke-width'] = attrs.border.width || 1
-                // }
-                // if (attrs.points) {
-                //     _attr['points'] = attrs.points.map(pt => `${pt.x},${pt.y}`).join(' ')
-                // }
-                // if (attrs.radius) {
-                //     _attr.rx = attrs.radius
-                //     _attr.ry = attrs.radius
-                // }
+                
                 let node: any = {
                     type: 'g',
                     attr: _attr,
@@ -477,8 +538,83 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
             return result
         }
     })
+
+    function createLinearGradient(fill) {
+        const { direction, colors = [] } = fill
+            // colors: ['#09c', '#c90'],
+        const [color1, color2] = colors
+
+        const id = uid(8)
+        let dradientAttrs = {
+            right: {
+                x1: "0%",
+                y1: "0%",
+                x2: "100%",
+                y2: "0%",
+            },
+            left: {
+                x1: "100%",
+                y1: "0%",
+                x2: "0%",
+                y2: "0%",
+            },
+            top: {
+                x1: "0%",
+                y1: "100%",
+                x2: "0%",
+                y2: "0%",
+            },
+            bottom: {
+                x1: "0%",
+                y1: "0%",
+                x2: "0%",
+                y2: "100%",
+            },
+        }
+        let dradientAttr = dradientAttrs[direction]
+        // if (direction == 'right') {
+        //     dradientAttr = 
+        // }
+        return {
+            id,
+            json: {
+                type: 'linearGradient',
+                attr: {
+                    id,
+                    ...dradientAttr,
+                    // x1: "0%",
+                    // y1: "0%",
+                    // x2: "100%",
+                    // y2: "0%",
+                },
+                children: [
+                    {
+                        type: 'stop',
+                        attr: {
+                            offset: "0%",
+                            style: `stop-color:${color1};stop-opacity:1`,
+                        },
+                    },
+                    {
+                        type: 'stop',
+                        attr: {
+                            offset: "100%",
+                            style: `stop-color:${color2};stop-opacity:1`,
+                        },
+                    },
+                ],
+            }
+        }
+    }
+
     // bg
     out.children = [
+        {
+            type: 'defs',
+            attr: {
+            },
+            children: defs,
+        },
         {
             type: 'rect',
             attr: {

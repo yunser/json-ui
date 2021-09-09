@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="800">
+    <defs>
+        <filter id="f1"  x="100" y="100" width="170" height="170" filterUnits="userSpaceOnUse"
+            color-interpolation-filters="sRGB"
+        >
+            <feOffset result="offOut" in="SourceAlpha" dx="50" dy="50" />
+            <feGaussianBlur result="feGaussianBlur" in="offOut" stdDeviation="5" />
+            <feMorphology in="feGaussianBlur" operator="dilate" radius="10" result="big"></feMorphology>
+
+            <!-- <feMorphology in="offOut" operator="dilate" radius="10" result="big"></feMorphology>
+            <feGaussianBlur result="feGaussianBlur" in="big" stdDeviation="5" /> -->
+
+            <feBlend in="SourceGraphic" in2="big" mode="normal" />
+
+            <!-- <feGaussianBlur stdDeviation="5" /> -->
+            <!-- <feBlend in="SourceAlpha" in2="big" mode="normal" /> -->
+            <feColorMatrix type="matrix" values="
+            0 0 0 0 0 
+            0 0 0 0 0.5976
+            0 0 0 0 0.7968
+            0 0 0 1 0
+            " />
+
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape" />
+
+            <!-- SourceGraphic -->
+            <!-- <feMorphology radius="50" operator="dilate" in="SourceAlpha" result="effect1_dropShadow"/> -->
+            <!-- <feMorphology operator="dilate" radius="10" ></feMorphology>
+            
+             -->
+            <!-- <feComposite in="COLOR" in2="DROP" operator="in" result="SHADOW"></feComposite> -->
+            
+            <!-- <feFlood flood-color="#9f0" result="COLOR"></feFlood> -->
+            
+        </filter>
+        <filter id="f2" width="100" height="100">
+                <!-- <feOffset result="offOut" in="SourceAlpha" dx="50" dy="50"/>
+                <feGaussianBlur result="blurOut" in="offOut" stdDeviation="5"/>
+                <feBlend in="SourceGraphic" in2="blurOut" mode="normal"/>             -->
+        </filter>
+    </defs>99
+    <rect x="100" y="100"  width="100" height="100" stroke="#000" stroke-width="1" fill="#f00" filter="url(#f1)" />
+</svg>

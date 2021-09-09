@@ -11,7 +11,7 @@ export interface StdUiRoot {
     y1?: number;
     x2?: number;
     y2?: number;
-    color?: string;
+    color?: string | null;
     text?: string;
     _children?: StdUiRoot[];
     border?: any;

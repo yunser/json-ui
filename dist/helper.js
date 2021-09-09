@@ -5,6 +5,9 @@ const uid_1 = require("uid");
 Object.defineProperty(exports, "uid", { enumerable: true, get: function () { return uid_1.uid; } });
 // const uiUtil = require('./util')
 // import * as fs from 'fs'
+// TODO childrenSetKey: 'layers',
+// TODO handleNode 不返回处理
+// nodeHandler 参数提示
 function treeMap(treeObj, options = {}) {
     const { nodeHandler, childrenKey = 'children', childrenSetKey = 'children' } = options;
     function dealList(children, level, p) {
@@ -21,7 +24,7 @@ function treeMap(treeObj, options = {}) {
         if (obj[childrenKey] && obj[childrenKey].length) {
             children = dealList(obj[childrenKey], level + 1, obj);
         }
-        let result = nodeHandler(obj, { level, parent });
+        let result = nodeHandler(obj, { level, parent, children });
         if (children.length) {
             result[childrenSetKey] = children;
         }
@@ -145,11 +148,15 @@ function xmlObj2Xml(svgObj, options = {}) {
     return dealObj(svgObj, 0);
 }
 exports.xmlObj2Xml = xmlObj2Xml;
+/**
+ * @deprecated
+ */
 exports.svgObj2Xml = xmlObj2Xml;
 exports.uiUtil = {
     treeMap,
     treeFilter,
     svgObj2Xml: exports.svgObj2Xml,
+    xmlObj2Xml,
 };
 function objectSomeAttr(obj, attrs) {
     let result = {};

@@ -6,6 +6,10 @@ const helper_1 = require("./helper");
 // import * as fs from 'fs'
 const Color = require("color");
 // console.log('a', a)
+const NodeType = {
+    Root: 'root',
+    // if (node.type == 'root') {
+};
 // console.log('uiUtil', uiUtil, uiUtil.treeMap)
 function objectSomeAttr(obj, attrs) {
     let result = {};
@@ -234,12 +238,191 @@ function convertUiObj2SvgObject(rootObj) {
                 if (attrs.textSize) {
                     style += `font-size: ${attrs.textSize}px`;
                 }
+                if (attrs.color) {
+                    _attr.fill = attrs.color;
+                }
+                else {
+                    _attr.fill = 'none';
+                }
+                if (attrs.border) {
+                    _attr.stroke = attrs.border.color;
+                    _attr['stroke-width'] = attrs.border.width || 1;
+                }
                 _attr.style = style;
-                _attr['dominant-baseline'] = 'text-before-edge';
+                // _attr['dominant-baseline'] = 'text-before-edge'
+                // refer https://www.zhihu.com/question/58620241
+                _attr['alignment-baseline'] = 'hanging';
+                // Attribute("alignment-baseline", "hanging");
                 let node = {
                     type: 'text',
                     attr: _attr,
                     _data: attrs.text
+                    // _attrs: attrs,
+                };
+                // < tspan xmlns = "http://www.w3.org/2000/svg" x = "100" y = "106" > 你好 < /tspan>
+                return node;
+            }
+            if (_type === 'line') {
+                let _attr = objectSomeAttr(attrs, ['x1', 'y1', 'x2', 'y2']);
+                // if (attrs.radius) {
+                //     _attr.r = attrs.radius
+                // }
+                // if (attrs.color) {
+                //     _attr.fill = attrs.color
+                // }
+                // let style = ''
+                // if (attrs.textSize) {
+                //     style += `font-size: ${attrs.textSize}px`
+                // }
+                // _attr.style = style
+                // _attr['stroke'] = '#000'
+                if (attrs.color) {
+                    _attr.stroke = attrs.color;
+                }
+                else {
+                    _attr.stroke = '#000';
+                }
+                _attr['stroke-width'] = 1;
+                let node = {
+                    type: 'line',
+                    attr: _attr,
+                    // _data: attrs.text
+                    // _attrs: attrs,
+                };
+                // < tspan xmlns = "http://www.w3.org/2000/svg" x = "100" y = "106" > 你好 < /tspan>
+                return node;
+            }
+            if (_type === 'polygon') {
+                let _attr = objectSomeAttr(attrs, []);
+                if (attrs.color) {
+                    _attr.fill = attrs.color;
+                }
+                else {
+                    _attr.fill = 'none';
+                }
+                if (attrs.border) {
+                    _attr.stroke = attrs.border.color;
+                    _attr['stroke-width'] = attrs.border.width || 1;
+                }
+                if (attrs.points) {
+                    _attr['points'] = attrs.points.map(pt => `${pt.x},${pt.y}`).join(' ');
+                }
+                // if (attrs.radius) {
+                //     _attr.rx = attrs.radius
+                //     _attr.ry = attrs.radius
+                // }
+                let node = {
+                    type: 'polygon',
+                    attr: _attr,
+                    // _attrs: attrs,
+                };
+                return node;
+            }
+            if (_type === 'polyline') {
+                let _attr = objectSomeAttr(attrs, []);
+                // if (attrs.color) {
+                //     _attr.fill = attrs.color
+                // } else {
+                //     _attr.fill = 'none'
+                // }
+                // if (attrs.border) {
+                //     _attr.stroke = attrs.border.color
+                //     _attr['stroke-width'] = attrs.border.width || 1
+                // }
+                if (attrs.color) {
+                    _attr.stroke = attrs.color;
+                }
+                else {
+                    _attr.stroke = '#000';
+                }
+                _attr.fill = 'none';
+                if (attrs.points) {
+                    _attr['points'] = attrs.points.map(pt => `${pt.x},${pt.y}`).join(' ');
+                }
+                // if (attrs.radius) {
+                //     _attr.rx = attrs.radius
+                //     _attr.ry = attrs.radius
+                // }
+                let node = {
+                    type: 'polyline',
+                    attr: _attr,
+                    // _attrs: attrs,
+                };
+                return node;
+            }
+            if (_type === 'ellipse') {
+                let _attr = objectSomeAttr(attrs, ['cx', 'cy', 'rx', 'ry']);
+                if (attrs.color) {
+                    _attr.fill = attrs.color;
+                }
+                else {
+                    _attr.fill = 'none';
+                }
+                if (attrs.border) {
+                    _attr.stroke = attrs.border.color;
+                    _attr['stroke-width'] = attrs.border.width || 1;
+                }
+                // if (attrs.points) {
+                //     _attr['points'] = attrs.points.map(pt => `${pt.x},${pt.y}`).join(' ')
+                // }
+                // if (attrs.radius) {
+                //     _attr.rx = attrs.radius
+                //     _attr.ry = attrs.radius
+                // }
+                let node = {
+                    type: 'ellipse',
+                    attr: _attr,
+                    // _attrs: attrs,
+                };
+                return node;
+            }
+            if (_type === 'path') {
+                let _attr = objectSomeAttr(attrs, ['d']);
+                if (attrs.color) {
+                    _attr.fill = attrs.color;
+                }
+                else {
+                    _attr.fill = 'none';
+                }
+                if (attrs.border) {
+                    _attr.stroke = attrs.border.color;
+                    _attr['stroke-width'] = attrs.border.width || 1;
+                }
+                if (attrs.points) {
+                    _attr['points'] = attrs.points.map(pt => `${pt.x},${pt.y}`).join(' ');
+                }
+                // if (attrs.radius) {
+                //     _attr.rx = attrs.radius
+                //     _attr.ry = attrs.radius
+                // }
+                let node = {
+                    type: 'path',
+                    attr: _attr,
+                    // _attrs: attrs,
+                };
+                return node;
+            }
+            if (_type === 'group') {
+                let _attr = objectSomeAttr(attrs, ['d']);
+                // if (attrs.color) {
+                //     _attr.fill = attrs.color
+                // } else {
+                //     _attr.fill = 'none'
+                // }
+                // if (attrs.border) {
+                //     _attr.stroke = attrs.border.color
+                //     _attr['stroke-width'] = attrs.border.width || 1
+                // }
+                // if (attrs.points) {
+                //     _attr['points'] = attrs.points.map(pt => `${pt.x},${pt.y}`).join(' ')
+                // }
+                // if (attrs.radius) {
+                //     _attr.rx = attrs.radius
+                //     _attr.ry = attrs.radius
+                // }
+                let node = {
+                    type: 'g',
+                    attr: _attr,
                     // _attrs: attrs,
                 };
                 return node;
@@ -290,7 +473,7 @@ class StdUI {
     toSvg() {
         // console.log('svgObj', JSON.stringify(convertUiObj2SvgObject(uiObj), null, 4))
         // fs.writeFileSync('out.svg', , 'utf8')
-        return helper_1.uiUtil.svgObj2Xml(convertUiObj2SvgObject(this.root));
+        return helper_1.uiUtil.xmlObj2Xml(convertUiObj2SvgObject(this.root));
     }
     toProcessOn() {
         function createNode(node, otherAttr) {
@@ -637,20 +820,30 @@ class StdUI {
                 if (node._type == 'rect') {
                     let rect = createRect(node);
                     elementMap[rect.id] = rect;
+                    return rect;
                 }
                 if (node._type == 'circle') {
                     let rect = createCircle(node);
                     elementMap[rect.id] = rect;
+                    return rect;
                 }
                 if (node._type == 'line') {
                     let rect = createLine(node);
                     elementMap[rect.id] = rect;
+                    return rect;
                 }
                 if (node._type == 'text') {
                     let rect = createText(node);
                     elementMap[rect.id] = rect;
+                    return rect;
                 }
+                // if (node._type == 'text') {
+                //     let rect = createText(node)
+                //     elementMap[rect.id] = rect
+                // }
                 return {};
+                // TODO 没有适配 root
+                // throw new Error(`unknow type ${node._type}`)
             }
         });
         const obj = {
