@@ -301,6 +301,12 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
         } 
     }
 
+    function handleOpacity(attrs, _attr) {
+        if (attrs.opacity) {
+            _attr.opacity = attrs.opacity
+        }
+    }
+
     let out = uiUtil.treeMap(rootObj, {
         childrenKey: '_children',
         nodeHandler(node: StdUiRoot) {
@@ -349,6 +355,7 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 }
 
                 handleShadow(attrs, _attr, node)
+                handleOpacity(attrs, _attr)
                 
                 let _node: any = {
                     type: 'rect',
@@ -362,6 +369,7 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 fillAndStroke(attrs, _attr)
 
                 handleShadow(attrs, _attr, node)
+                handleOpacity(attrs, _attr)
 
                 if (attrs.radius) {
                     _attr.r = attrs.radius
@@ -381,6 +389,7 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
 
                 fillAndStroke(attrs, _attr)
                 handleShadow(attrs, _attr, node)
+                handleOpacity(attrs, _attr)
 
                 _attr.style = style
                 // _attr['dominant-baseline'] = 'text-before-edge'
@@ -398,6 +407,9 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
             }
             if (_type === 'line') {
                 let _attr = objectSomeAttr(attrs, ['x1', 'y1', 'x2', 'y2'])
+
+                handleOpacity(attrs, _attr)
+                
                 // if (attrs.radius) {
                 //     _attr.r = attrs.radius
                 // }
@@ -435,6 +447,7 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
 
                 fillAndStroke(attrs, _attr)
                 handleShadow(attrs, _attr, node)
+                handleOpacity(attrs, _attr)
 
                 if (attrs.points) {
                     _attr['points'] = attrs.points.map(pt => `${pt.x},${pt.y}`).join(' ')
@@ -458,6 +471,7 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 _attr.stroke = color
                 _attr['stroke-width'] = width
                 
+                handleOpacity(attrs, _attr)
                 // if (attrs.border) {
                 // } else {
                     
@@ -488,6 +502,7 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
 
                 fillAndStroke(attrs, _attr)
                 handleShadow(attrs, _attr, node)
+                handleOpacity(attrs, _attr)
 
                 let _node: any = {
                     type: 'ellipse',
@@ -501,6 +516,7 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
 
                 fillAndStroke(attrs, _attr)
                 handleShadow(attrs, _attr, node)
+                handleOpacity(attrs, _attr)
 
                 if (attrs.points) {
                     _attr['points'] = attrs.points.map(pt => `${pt.x},${pt.y}`).join(' ')
@@ -513,6 +529,8 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
             }
             if (_type === 'group') {
                 let _attr = objectSomeAttr(attrs, ['d'])
+                
+                handleOpacity(attrs, _attr)
                 
                 let node: any = {
                     type: 'g',

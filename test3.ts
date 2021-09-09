@@ -134,6 +134,7 @@ let root = {
                         direction: 'bottom',
                         colors: ['#09c', '#c90'],
                     },
+                    opacity: 0.5,
                     shadow: {
                         x: 5,
                         y: 5,
@@ -200,6 +201,7 @@ let root = {
                 alpha: 0.2,
                 // offset- x offset- y blur spread color inset;
             },
+            opacity: 0.5,
             // border: {
             //     color: '#526BFF',
             //     width: 4,
