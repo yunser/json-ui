@@ -199,7 +199,6 @@ let root = {
                 // spread: 10,
                 // color: '#09c',
                 alpha: 0.2,
-                // offset- x offset- y blur spread color inset;
             },
             opacity: 0.5,
             // border: {
