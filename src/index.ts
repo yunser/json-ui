@@ -272,6 +272,14 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
         
     ]
 
+    function setStroke(attrs, _attr) {
+
+        if (attrs.border) {
+            _attr.stroke = attrs.border.color || '#000'
+            _attr['stroke-width'] = attrs.border.width || 1
+        }
+    }
+
     function fillAndStroke(attrs, _attr) {
         if (attrs.fill) {
             if (attrs.fill.type == 'linearGradient') {
@@ -287,10 +295,7 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
             }
         }
 
-        if (attrs.border) {
-            _attr.stroke = attrs.border.color || '#000'
-            _attr['stroke-width'] = attrs.border.width || 1
-        }
+        setStroke(attrs, _attr)
     }
 
     function handleShadow(attrs, _attr, node) {
@@ -357,6 +362,32 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 handleShadow(attrs, _attr, node)
                 handleOpacity(attrs, _attr)
                 
+                let _node: any = {
+                    type: 'rect',
+                    attr: _attr,
+                }
+                return _node
+            }
+            if (_type === 'image') {
+                let _attr = objectSomeAttr(attrs, ['width', 'height', 'x', 'y'])
+
+                // fillAndStroke(attrs, _attr)
+                
+                setStroke(attrs, _attr)
+
+                if (attrs.radius) {
+                    _attr.rx = attrs.radius
+                    _attr.ry = attrs.radius
+                }
+
+                createImage(node, _attr, defs)
+                // defs.push(ret.json)
+                // _attr.fill = `url(#pattern0)`
+
+                handleShadow(attrs, _attr, node)
+                handleOpacity(attrs, _attr)
+                setStroke(attrs, _attr)
+
                 let _node: any = {
                     type: 'rect',
                     attr: _attr,
@@ -556,6 +587,44 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
             return result
         }
     })
+
+    function createImage(node, _attr, defs) {
+        const patternId = `pattern${uid(8)}`
+
+        const imgId = `image${uid(8)}`
+
+        defs.push({
+            type: 'pattern',
+            attr: {
+                id: patternId,
+                patternContentUnits: "objectBoundingBox",
+                width: "1",
+                height: "1",
+            },
+            children: [
+                {
+                    type: 'use',
+                    attr: {
+                        href: `#${imgId}`,
+                        transform: "scale(0.005)",
+                    },
+                }
+            ]
+        })
+
+        defs.push({
+            type: 'image',
+            attr: {
+                id: imgId,
+                width: node.originWidth,
+                height: node.originWidth,
+                // width: 200,
+                // height: 200,
+                href: node.href,
+            }
+        })
+        _attr.fill = `url(#${patternId})`
+    }
 
     function createLinearGradient(fill) {
         const { direction, colors = [] } = fill
