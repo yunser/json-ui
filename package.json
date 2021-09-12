@@ -19,7 +19,11 @@
     "color": "^4.0.1",
     "htmlparser2": "^7.1.1",
     "moment": "^2.29.1",
+    "parse-svg-path": "^0.1.2",
     "pdfmake": "^0.2.2",
+    "serialize-svg-path": "^0.1.0",
+    "svg-path-bounding-box": "^1.0.4",
+    "translate-svg-path": "^0.0.1",
     "uid": "^2.0.0",
     "xml": "^1.0.1"
   },

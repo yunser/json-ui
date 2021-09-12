@@ -4,11 +4,36 @@ import { uid, uiUtil } from './helper'
 // import * as fs from 'fs'
 import * as Color from 'color'
 
+const caster = require('svg-path-bounding-box')
+var parse = require('parse-svg-path')
+var translate = require('translate-svg-path')
+var serialize = require('serialize-svg-path')
+
+// const bbbox = caster(
+//     'M300,200 h-150 a150,150 0 1,0 150,-150 z'
+// )
+//     // .toString()
+
+// console.log('bbbox', bbbox)
+
 // console.log('a', a)
 
 const NodeType = {
     Root: 'root',
     // if (node.type == 'root') {
+}
+
+const StdUiNodeType = {
+    Root: 'root',
+    Rect: 'rect',
+    Text: 'text',
+    Image: 'image',
+    Circle: 'circle',
+    Ellipse: 'ellipse',
+    Polygon: 'polygon',
+    Polyline: 'polyline',
+    Line: 'line',
+    Path: 'path',
 }
 
 
@@ -36,6 +61,8 @@ export interface StdUiRoot {
     height?: number
     cx?: number
     cy?: number
+    rx?: number
+    ry?: number
     radius?: number
     x1?: number
     y1?: number
@@ -43,96 +70,100 @@ export interface StdUiRoot {
     y2?: number
     color?: string | null
     text?: string
+    href?: string
     _children?: StdUiRoot[]
     border?: any // TODO
+    fill?: any // TODO
+    points?: any // TODO
+    d?: any // TODO
     textSize?: number 
 }
 
-const uiObj: StdUiRoot = {
-    "_type": "root",
-    "width": 1000,
-    "height": 1000,
-    "_children": [
-        {
-            "_type": "rect",
-            "x": 0,
-            "y": 0,
-            "width": 100,
-            "height": 100,
-            "color": "#f00",
-            radius: 8,
-        },
-        {
-            "_type": "rect",
-            "x": 100,
-            "y": 100,
-            "width": 100,
-            "height": 100,
-            "color": "#09c"
-        },
-        {
-            "_type": "circle",
-            "cx": 150,
-            "cy": 50,
-            // "width": 100,
-            // "height": 100,
-            radius: 50,
-            "color": "#f00"
-        },
-        {
-            "_type": "rect",
-            "x": 200,
-            "y": 0,
-            "width": 100,
-            "height": 100,
-            // "color": "#09c",
-            // "stroke": "#09c",
-            "border": {
-                color: "#09c",
-                width: 10,
-            }
-        },
-        {
-            "_type": "text",
-            "x": 200,
-            "y": 0,
-            // "width": 100,
-            // "height": 100,
-            // "color": "#f00",
-            // radius: 8,
-            text: '你好',
-            textSize: 100,
-        },
-        {
-            "_type": "circle",
-            "cx": 350,
-            "cy": 50,
-            // "width": 100,
-            // "height": 100,
-            radius: 50,
-            "border": {
-                color: "#09c",
-                width: 1,
-            }
-            // "color": "#f00"
-        },
-        {
-            "_type": "line",
-            "x1": 0,
-            "y1": 100,
-            x2: 100,
-            y2: 200,
-            "border": {
-                color: "#f00",
-                width: 1,
-            }
-            // "width": 100,
-            // "height": 100,
-            // "color": "#f00",
-            // radius: 8,
-        },
-    ]
-}
+// const uiObj: StdUiRoot = {
+//     "_type": "root",
+//     "width": 1000,
+//     "height": 1000,
+//     "_children": [
+//         {
+//             "_type": "rect",
+//             "x": 0,
+//             "y": 0,
+//             "width": 100,
+//             "height": 100,
+//             "color": "#f00",
+//             radius: 8,
+//         },
+//         {
+//             "_type": "rect",
+//             "x": 100,
+//             "y": 100,
+//             "width": 100,
+//             "height": 100,
+//             "color": "#09c"
+//         },
+//         {
+//             "_type": "circle",
+//             "cx": 150,
+//             "cy": 50,
+//             // "width": 100,
+//             // "height": 100,
+//             radius: 50,
+//             "color": "#f00"
+//         },
+//         {
+//             "_type": "rect",
+//             "x": 200,
+//             "y": 0,
+//             "width": 100,
+//             "height": 100,
+//             // "color": "#09c",
+//             // "stroke": "#09c",
+//             "border": {
+//                 color: "#09c",
+//                 width: 10,
+//             }
+//         },
+//         {
+//             "_type": "text",
+//             "x": 200,
+//             "y": 0,
+//             // "width": 100,
+//             // "height": 100,
+//             "color": "#f00",
+//             // radius: 8,
+//             text: '你好',
+//             textSize: 100,
+//         },
+//         {
+//             "_type": "circle",
+//             "cx": 350,
+//             "cy": 50,
+//             // "width": 100,
+//             // "height": 100,
+//             radius: 50,
+//             "border": {
+//                 color: "#09c",
+//                 width: 1,
+//             }
+//             // "color": "#f00"
+//         },
+//         {
+//             "_type": "line",
+//             "x1": 0,
+//             "y1": 100,
+//             x2: 100,
+//             y2: 200,
+//             "border": {
+//                 color: "#f00",
+//                 width: 1,
+//             }
+//             // "width": 100,
+//             // "height": 100,
+//             // "color": "#f00",
+//             // radius: 8,
+//         },
+//     ]
+// }
 
 function convertUiObj2XmlObject(obj: StdUiRoot): XmlObject {
     let out = uiUtil.treeMap(obj, {
@@ -175,6 +206,480 @@ function convertUiObj2XmlObject(obj: StdUiRoot): XmlObject {
 
 export function _if(condition: boolean, obj: object) {
     return condition ? [obj] : []
+}
+
+function convertUiObj2HtmlObject(rootObj: StdUiRoot): XmlObject {
+
+    function calcPolygon(node) {
+        function min(arr) {
+            let min = arr[0]
+            for (let num of arr) {
+                if (num < min) {
+                    min = num
+                }
+            }
+            return min
+        }
+        function max(arr) {
+            let max = arr[0]
+            for (let num of arr) {
+                if (num > max) {
+                    max = num
+                }
+            }
+            return max
+        }
+        let xList = node.points.map(item => item.x)
+        let yList = node.points.map(item => item.y)
+        let left = min(xList)
+        let right = max(xList)
+        let top = min(yList)
+        let bottom = max(yList)
+        // console.log('left', left, right, top, bottom)
+        // for (let pt of node.points) {
+        //     if (pt.x < left) {
+
+        //     }
+        // }
+        const height = bottom - top
+        const width = right - left
+        return {
+            left,
+            right,
+            top,
+            bottom,
+            height,
+            width,
+        }
+    }
+
+    function calcLine(node) {
+        let x = Math.min(node.x1, node.x2)
+        let y = Math.min(node.y1, node.y2)
+        let width = Math.abs(node.x1 - node.x2)
+        let height = Math.abs(node.y1 - node.y2)
+        return {
+            x,
+            y,
+            width,
+            height,
+        }
+    }
+
+    function getTranslatePoints(points, translate) {
+        return points.map(item => {
+            return {
+                x: item.x + translate.x,
+                y: item.y + translate.y,
+            }
+        })
+    }
+
+    function commonStyle(node) {
+        let ret: any = {}
+        // TODO 0
+        if (node.opacity) {
+            ret.opacity = node.opacity
+        }
+        if (node.shadow) {
+            const shadow = node.shadow
+            const color = Color(shadow.color || '#000')
+            const rgb = color.object()
+            const rgba = `rgba(${rgb.r * 255}, ${rgb.g * 255}, ${rgb.b * 255}, ${shadow.alpha || 1})`
+            ret['box-shadow'] = `${shadow.x || 0}px ${shadow.y || 0}px ${shadow.blur || 0}px ${shadow.spread || 0}px ${rgba}`
+        }
+        // shadow: {
+        //     x: 5,
+        //         y: 5,
+        //             blur: 10,
+        //                 alpha: 0.2,
+        //             },
+        return ret
+    }
+
+    function borderStyle(node) {
+        let ret: any = {}
+        if (node.border) {
+            ret.border = `${node.border.width || 1}px solid ${node.border.color || '#000'}`
+        }
+        return ret
+    }
+
+    function fillStyle(node) {
+        let ret: any = {}
+        // if (node.border) {
+        //     ret.border = `${node.border.width || 1}px solid ${node.border.color || '#000'}`
+        // }
+        if (node.fill) {
+            if (node.fill.type == 'linearGradient') {
+                ret['background-image'] = `linear-gradient(to ${node.fill.direction}, ${node.fill.colors[0]}, ${node.fill.colors[1]})`
+            }
+            // direction: 'bottom',
+            // colors: ['#09c', '#c90'],
+        }
+        // fill: {
+        //     type: '',
+        //     },
+        else if (node.color != null) {
+            ret['background-color'] = node.color || '#fff'
+        }
+        return ret
+    }
+
+
+    function getHtmlStyle(attrs) {
+        let _arr: string[] = []
+        for (let key in attrs) {
+            _arr.push(`${key}: ${attrs[key]}`)
+        }
+        return _arr.join('; ')
+    }
+
+    return {
+        type: 'html',
+        children: [
+            {
+                type: 'head',
+                children: [
+                    {
+                        type: 'style',
+                        _data: `* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #fff;
+        }
+`
+                    }
+                ]
+            },
+            {
+                type: 'body',
+                children: [
+                    uiUtil.treeMap(rootObj, {
+                        childrenKey: '_children',
+                        nodeHandler(node: StdUiRoot): XmlObject {
+                            // if (node._type == StdUiNodeType.Rect) {
+                            //     return {}
+                            // }
+                            if (node._type === StdUiNodeType.Root) {
+                                return {
+                                    type: 'div',
+                                    attr: {
+                                        class: 'std-ui-root',
+                                        style: getHtmlStyle({
+                                            width: node.width,
+                                            height: node.height,
+                                            // border: '1px solid #999',
+                                            'background-color': node.color || '#fff'
+                                        })
+                                    },
+                                }
+                            }
+                            if (node._type == StdUiNodeType.Rect) {
+                                // let _attr = objectSomeAttr(attrs, ['width', 'height', 'x', 'y'])
+
+                                let _node: XmlObject = {
+                                    type: 'div',
+                                    attr: {
+                                        style: getHtmlStyle({
+                                            ...commonStyle(node),
+                                            position: 'absolute',
+                                            left: node.x || 0,
+                                            top: node.y || 0,
+                                            width: node.width,
+                                            height: node.height,
+                                            ...borderStyle(node),
+                                            ...fillStyle(node),
+                                        })
+                                    },
+                                }
+                                return _node
+                            }
+                            if (node._type == StdUiNodeType.Circle) {
+                                // let _attr = objectSomeAttr(attrs, ['width', 'height', 'x', 'y'])
+
+                                let style: any = {
+                                    ...commonStyle(node),
+                                    position: 'absolute',
+                                    left: ((node.cx || 0) - (node.radius || 0)) || 0,
+                                    top: ((node.cy || 0) - (node.radius || 0)) || 0,
+                                    width: (node.radius || 0) * 2,
+                                    height: (node.radius || 0) * 2,
+                                    ...borderStyle(node),
+                                    ...fillStyle(node),
+                                    'border-radius': `${(node.radius || 0)}px`,
+                                }
+                                let _node: XmlObject = {
+                                    type: 'div',
+                                    attr: {
+                                        style: getHtmlStyle(style)
+                                    },
+                                    // _data: '元',
+                                }
+                                return _node
+                            }
+                            if (node._type == StdUiNodeType.Ellipse) {
+                                // let _attr = objectSomeAttr(attrs, ['width', 'height', 'x', 'y'])
+                                let rx = node.rx || 0
+                                let ry = node.ry || 0
+                                let style: any = {
+                                    ...commonStyle(node),
+                                    position: 'absolute',
+                                    left: ((node.cx || 0) - (node.rx || 0)) || 0,
+                                    top: ((node.cy || 0) - (node.ry || 0)) || 0,
+                                    width: (node.rx || 0) * 2,
+                                    height: (node.ry || 0) * 2,
+                                    ...borderStyle(node),
+                                    ...fillStyle(node),
+                                    'border-radius': `${rx}px ${rx}px ${rx}px ${rx}px/${ry}px ${ry}px ${ry}px ${ry}px`,
+                                }
+                                let _node: XmlObject = {
+                                    type: 'div',
+                                    attr: {
+                                        style: getHtmlStyle(style)
+                                    },
+                                    // _data: '元',
+                                }
+                                return _node
+                            }
+
+                            if (node._type == StdUiNodeType.Polygon) {
+                                // let _attr = objectSomeAttr(attrs, ['width', 'height', 'x', 'y'])
+
+                                const { left, top, width, height } = calcPolygon(node)
+
+                                let _node: XmlObject = {
+                                    type: 'div',
+                                    attr: {
+                                        class: 'polygon',
+                                        style: getHtmlStyle({
+                                            ...commonStyle(node),
+                                            position: 'absolute',
+                                            left: left,
+                                            top: top,
+                                            width: width,
+                                            height: height,
+                                        })
+                                    },
+                                    _data: uiUtil.xmlObj2Xml(convertUiObj2SvgObject({
+                                        _type: 'svg',
+                                        width: 100,
+                                        height: 100,
+                                        color: null,
+                                        _children: [
+                                            {
+                                                ...node,
+                                                points: getTranslatePoints(node.points, {
+                                                    x: 0 - left,
+                                                    y: 0 - top,
+                                                }),
+                                            }
+                                        ],
+                                    })),
+                                }
+                                return _node
+                            }
+                            if (node._type == StdUiNodeType.Polyline) {
+                                // let _attr = objectSomeAttr(attrs, ['width', 'height', 'x', 'y'])
+
+                                const { left, top, width, height } = calcPolygon(node)
+
+                                let _node: XmlObject = {
+                                    type: 'div',
+                                    attr: {
+                                        class: 'polygon',
+                                        style: getHtmlStyle({
+                                            ...commonStyle(node),
+                                            position: 'absolute',
+                                            left: left,
+                                            top: top,
+                                            width: width,
+                                            height: height,
+                                        })
+                                    },
+                                    _data: uiUtil.xmlObj2Xml(convertUiObj2SvgObject({
+                                        _type: 'svg',
+                                        width: 100,
+                                        height: 100,
+                                        color: null,
+                                        _children: [
+                                            {
+                                                ...node,
+                                                points: getTranslatePoints(node.points, {
+                                                    x: 0 - left,
+                                                    y: 0 - top,
+                                                }),
+                                            }
+                                        ],
+                                    })),
+                                }
+                                return _node
+                            }
+                            if (node._type == StdUiNodeType.Line) {
+                                // let _attr = objectSomeAttr(attrs, ['width', 'height', 'x', 'y'])
+
+                                const { x, y, width, height } = calcLine(node)
+
+                                let _node: XmlObject = {
+                                    type: 'div',
+                                    attr: {
+                                        class: 'line',
+                                        style: getHtmlStyle({
+                                            ...commonStyle(node),
+                                            position: 'absolute',
+                                            left: x,
+                                            top: y,
+                                            width: width,
+                                            height: height,
+                                        })
+                                    },
+                                    _data: uiUtil.xmlObj2Xml(convertUiObj2SvgObject({
+                                        _type: 'svg',
+                                        width: 100,
+                                        height: 100,
+                                        color: null,
+                                        _children: [
+                                            {
+                                                ...node,
+                                                x1: (node.x1 || 0) - x,
+                                                y1: (node.y1 || 0) - y,
+                                                x2: (node.x2 || 0) - x,
+                                                y2: (node.y2 || 0) - y,
+                                            }
+                                        ],
+                                    })),
+                                }
+                                return _node
+                            }
+                            if (node._type == StdUiNodeType.Path) {
+                                // let _attr = objectSomeAttr(attrs, ['width', 'height', 'x', 'y'])
+
+                                // const { x, y, width, height } = calcLine(node)
+
+                                const bbbox = caster(node.d)
+                                    // .toString()
+
+                                console.log('bbbox', bbbox)
+
+                                const newD = serialize(translate(parse(node.d), 0 - bbbox.x1, 0 - bbbox.y1))
+                                console.log('newD', newD)
+
+                                let _node: XmlObject = {
+                                    type: 'div',
+                                    attr: {
+                                        class: 'path',
+                                        style: getHtmlStyle({
+                                            ...commonStyle(node),
+                                            position: 'absolute',
+                                            left: bbbox.x1,
+                                            top: bbbox.y1,
+                                            width: bbbox.width,
+                                            height: bbbox.height,
+                                        })
+                                    },
+                                    _data: uiUtil.xmlObj2Xml(convertUiObj2SvgObject({
+                                        _type: 'svg',
+                                        width: bbbox.width,
+                                        height: bbbox.height,
+                                        color: null,
+                                        _children: [
+                                            {
+                                                ...node,
+                                                d: newD,
+                                                // x1: (node.x1 || 0) - x,
+                                                // y1: (node.y1 || 0) - y,
+                                                // x2: (node.x2 || 0) - x,
+                                                // y2: (node.y2 || 0) - y,
+                                            }
+                                        ],
+                                    })),
+                                }
+                                return _node
+                            }
+
+                            if (node._type == StdUiNodeType.Image) {
+                                // let _attr = objectSomeAttr(attrs, ['width', 'height', 'x', 'y'])
+
+                                let _node: XmlObject = {
+                                    type: 'img',
+                                    attr: {
+                                        src: node.href,
+                                        style: getHtmlStyle({
+                                            ...commonStyle(node),
+                                            position: 'absolute',
+                                            left: node.x || 0,
+                                            top: node.y || 0,
+                                            width: node.width,
+                                            height: node.height,
+                                            ...borderStyle(node),
+                                            'background-color': node.color || '#fff',
+                                        })
+                                    },
+                                }
+                                return _node
+                            }
+                            if (node._type == StdUiNodeType.Text) {
+                                // let _attr = objectSomeAttr(attrs, ['width', 'height', 'x', 'y'])
+
+                                let style: any = {
+                                    ...commonStyle(node),
+                                    position: 'absolute',
+                                    left: node.x || 0,
+                                    top: node.y || 0,
+                                    // width: node.width,
+                                    // height: node.height,
+                                    // border: '1px solid #999',
+                                    // 'color': node.color || '#000',
+                                    'color': node.color || '#000',
+                                    'font-size': `${node.textSize || 14}px`,
+                                    'line-height': 1,
+                                }
+                                if (node.fill) {
+                                    let reverseDirection = {
+                                        top: 'bottom',
+                                        bottom: 'top',
+                                        left: 'right',
+                                        right: 'left',
+                                    }
+                                    if (node.fill.type == 'linearGradient') {
+                                        style['background-image'] = `-webkit-linear-gradient(${reverseDirection[node.fill.direction]}, ${node.fill.colors[0]}, ${node.fill.colors[1]})`
+                                        style['-webkit-background-clip'] = 'text'
+                                        style['-webkit-text-fill-color'] = 'transparent'
+                                        // style['background-image'] = `linear-gradient(to ${node.fill.direction}, ${node.fill.colors[0]}, ${node.fill.colors[1]})`
+                                    }
+                                    // direction: 'bottom',
+                                    // colors: ['#09c', '#c90'],
+                                }
+                                if (node.border) {
+                                    let stroke = `${node.border.width || 1}px ${node.border.color || '#000'}`
+                                    style['text-stroke'] = stroke
+                                    style['-webkit-text-stroke'] = stroke
+                                }
+
+                                let _node: XmlObject = {
+                                    type: 'div',
+                                    attr: {
+                                        style: getHtmlStyle(style),
+                                    },
+                                    _data: node.text
+                                }
+                                return _node
+                            }
+
+                            return {
+                                type: 'div',
+                                // _data: 
+                                // attr: _attr,
+                            }
+                        }
+                    })
+                ]
+            },
+        ]
+    }
 }
 
 function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
@@ -709,7 +1214,7 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 y: 0,
                 width: rootObj.width,
                 height: rootObj.height,
-                fill: rootObj.color || '#fff'
+                fill: rootObj.color == null ? 'none' : (rootObj.color || '#fff'),
             },
         },
         {
@@ -1184,6 +1689,10 @@ export class StdUI {
             }
         }
         return JSON.stringify(obj, null, 4)
+    }
+
+    toHtml(): string {
+        return uiUtil.xmlObj2Xml(convertUiObj2HtmlObject(this.root))
     }
 }
 

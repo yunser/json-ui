@@ -73,7 +73,7 @@ const _svgObj: XmlObject = {
 
 
 
-console.log('svgObj', _svgObj)
+// console.log('svgObj', _svgObj)
 
 // const svgContent = 
 // console.log('xml', svgContent)

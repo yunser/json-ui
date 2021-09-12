@@ -6,6 +6,7 @@ const root = {
     "width": 500,
     "height": 400,
     "color": "#E6E6FB",
+    // "color": null,
     "_children": [
         {
             "_type": "rect",
@@ -55,8 +56,8 @@ const root = {
             "y": 0,
             "text": "你好",
             "textSize": 100,
-            // color: '#f00',
-            "color": null,
+            color: '#f00',
+            // "color": null,
             border: {
                 color: '#526BFF',
                 width: 4,
@@ -227,6 +228,7 @@ let stdUi = new StdUI({
 // console.log('svg', svg)
 
 fs.writeFileSync('out/ui.svg', stdUi.toSvg(), 'utf8')
+fs.writeFileSync('out/ui.html', stdUi.toHtml(), 'utf8')
 // fs.writeFileSync('out/ui.pos', stdUi.toProcessOn(), 'utf8')
 
 // for sketch project

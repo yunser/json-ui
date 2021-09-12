@@ -292,7 +292,7 @@ Std Graph 用于统一流程图规范。和 Std UI 不同的是，Std Graph 并�
 ## 开发测试
 
 ```
-ts-node test3.ts
+ts-node test.ts
 ```
 
 
