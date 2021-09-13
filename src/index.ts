@@ -932,6 +932,13 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 // refer https://www.zhihu.com/question/58620241
                 _attr['alignment-baseline'] = 'hanging'
                 // Attribute("alignment-baseline", "hanging");
+                if (attrs.centerd) {
+                    _attr['text-anchor'] = 'middle' // 水平方向居中
+                    _attr['alignment-baseline'] = undefined
+                    _attr['dominant-baseline'] = 'middle'
+                    // : ; 
+                    // : middle; //垂直居中
+                }
                 let _node: any = {
                     type: 'text',
                     attr: _attr,

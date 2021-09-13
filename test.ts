@@ -1,5 +1,5 @@
-// import { StdUI } from './src/index'
-const { StdUI } = require('./dist')
+import { StdUI } from './src/index'
+// const { StdUI } = require('./dist')
 
 import * as fs from 'fs'
 
@@ -214,6 +214,26 @@ const root = {
             //     color: '#526BFF',
             //     width: 4,
             // }
+            // fill: {
+            //     type: 'linearGradient',
+            //     direction: 'bottom',
+            //     colors: ['#09c', '#c90'],
+            // },
+        },
+        {
+            "_type": "text",
+            "x": 400,
+            "y": 300,
+            "text": "centerd",
+            "textSize": 20,
+            color: '#f00',
+            centerd: true,
+            
+            // "color": null,
+            // border: {
+            //     color: '#526BFF',
+            //     width: 4,
+            // },
             // fill: {
             //     type: 'linearGradient',
             //     direction: 'bottom',
