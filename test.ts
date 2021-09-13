@@ -228,6 +228,7 @@ const root = {
             "textSize": 20,
             color: '#f00',
             centerd: true,
+            backgroundColor: '#09c',
             
             // "color": null,
             // border: {
@@ -254,4 +255,4 @@ fs.writeFileSync('out/ui.html', stdUi.toHtml(), 'utf8')
 // fs.writeFileSync('out/ui.pos', stdUi.toProcessOn(), 'utf8')
 
 // for sketch project
-fs.writeFileSync('/Users/yunser/app/sketch-test/root.json5', JSON.stringify(root, null, 4), 'utf8')
+// fs.writeFileSync('/Users/yunser/app/sketch-test/root.json5', JSON.stringify(root, null, 4), 'utf8')

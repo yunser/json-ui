@@ -777,6 +777,35 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
         
     ]
 
+    function createTextBg(backgroundColor) {
+        const id = uid(16)
+        defs.push({
+            type: 'filter',
+            attr: {
+                id,
+                x: 0,
+                y: 0,
+                width: 1,
+                height: 1,
+            },
+            children: [
+                {
+                    type: 'feFlood',
+                    attr: {
+                        'flood-color': backgroundColor,
+                    },
+                },
+                {
+                    type: 'feComposite',
+                    attr: {
+                        in: 'SourceGraphic',
+                    },
+                },
+            ],
+        })
+        return id
+    }
+
     function setStroke(attrs, _attr) {
 
         if (attrs.border) {
@@ -938,6 +967,10 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                     _attr['dominant-baseline'] = 'middle'
                     // : ; 
                     // : middle; //垂直居中
+                }
+                if (attrs.backgroundColor) {
+                    const id = createTextBg(attrs.backgroundColor)
+                    _attr.filter = `url(#${id})`
                 }
                 let _node: any = {
                     type: 'text',
