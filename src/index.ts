@@ -562,10 +562,10 @@ function convertUiObj2HtmlObject(rootObj: StdUiRoot): XmlObject {
                                 const bbbox = caster(node.d)
                                     // .toString()
 
-                                console.log('bbbox', bbbox)
+                                // console.log('bbbox', bbbox)
 
                                 const newD = serialize(translate(parse(node.d), 0 - bbbox.x1, 0 - bbbox.y1))
-                                console.log('newD', newD)
+                                // console.log('newD', newD)
 
                                 let _node: XmlObject = {
                                     type: 'div',

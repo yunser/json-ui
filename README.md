@@ -44,29 +44,41 @@ Std UI 是一套用 JSON 描述 UI 的解决方案。设计这套解决方案的
 
 ## 使用
 
-转成 SVG 代码。
+安装
+
+```shell
+npm i @yunser/ui-std
+```
+
+Std JSON 转成 SVG 代码。
 
 ```js
-import { StdUI } from '@yunser/ui-std/dist/svg'
+const { StdUI } = require('@yunser/ui-std')
 
-console.log(StdUI.toSvg({
-    root: {
-        "_type": "root",
-        "width": 300,
-        "height": 300,
-        "color": "#fff",
-        "_children": [
-            {
-                "_type": "rect",
-                "x": 100,
-                "y": 100,
-                "width": 100,
-                "height": 100,
-                "color": "#f00"
-            }
-        ]
-    }
-}))
+const json = {
+    "_type": "root",
+    "width": 300,
+    "height": 300,
+    "color": "#fff",
+    "_children": [
+        {
+            "_type": "rect",
+            "x": 100,
+            "y": 100,
+            "width": 100,
+            "height": 100,
+            "color": "#f00"
+        }
+    ]
+}
+
+const stdUi = new StdUI({
+    root: json,
+})
+
+console.log(stdUi.toSvg())
+console.log(stdUi.toHtml())
+
 ```
 
 
@@ -260,32 +272,6 @@ let doc = new Doc({
 
 fs.writeFileSync('out/doc.md', doc.toMarkdown(), 'utf8')
 
-```
-
-## Std Graph（Standard）
-
-Std Graph 用于统一流程图规范。和 Std UI 不同的是，Std Graph 并不追求全平台的 UI 一致性，更关注的是功能的一致性。
-
-构建 JSON 如下：
-
-```json
-{
-    "_type": "graph",
-    "version": "0.0.1",
-    "width": 400,
-    "height": 400,
-    "_children": [
-        {
-            "_type": "rect",
-            "x": 100,
-            "y": 100,
-            "width": 100,
-            "height": 100,
-            "color": "#f00",
-            "_text": "开始"
-        }
-    ]
-}
 ```
 
 

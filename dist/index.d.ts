@@ -6,6 +6,8 @@ export interface StdUiRoot {
     height?: number;
     cx?: number;
     cy?: number;
+    rx?: number;
+    ry?: number;
     radius?: number;
     x1?: number;
     y1?: number;
@@ -13,10 +15,15 @@ export interface StdUiRoot {
     y2?: number;
     color?: string | null;
     text?: string;
+    href?: string;
     _children?: StdUiRoot[];
     border?: any;
+    fill?: any;
+    points?: any;
+    d?: any;
     textSize?: number;
 }
+export declare function _if(condition: boolean, obj: object): object[];
 interface StdUiDoc {
     root: StdUiRoot;
 }
@@ -25,5 +32,6 @@ export declare class StdUI {
     constructor(doc: StdUiDoc);
     toSvg(): string;
     toProcessOn(): string;
+    toHtml(): string;
 }
 export {};

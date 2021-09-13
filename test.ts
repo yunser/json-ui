@@ -1,4 +1,6 @@
-import { StdUI } from './src/index'
+// import { StdUI } from './src/index'
+const { StdUI } = require('./dist')
+
 import * as fs from 'fs'
 
 const root = {

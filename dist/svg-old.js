@@ -65,7 +65,7 @@ const _svgObj = {
         // <circle cx="150" cy="50" r="50" stroke="none" stroke-width="2" fill="#f00" /
     ]
 };
-console.log('svgObj', _svgObj);
+// console.log('svgObj', _svgObj)
 // const svgContent = 
 // console.log('xml', svgContent)
 fs.writeFileSync('out.svg', uiUtil.svgObj2Xml(_svgObj), 'utf8');

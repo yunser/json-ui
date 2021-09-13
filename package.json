@@ -1,6 +1,6 @@
 {
   "name": "@yunser/ui-std",
-  "version": "0.0.13-alpha",
+  "version": "0.0.14",
   "private": false,
   "description": "UI standard specification.",
   "main": "dist/index.js",

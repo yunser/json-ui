@@ -117,7 +117,7 @@ function textLoop(indent, num) {
 }
 // TODO 注意属性的各种类型 undefined null
 function xmlObj2Xml(svgObj, options = {}) {
-    console.log('svgObj', JSON.stringify(svgObj, null, 4));
+    // console.log('svgObj', JSON.stringify(svgObj, null, 4))
     const { indent = '    ', closeTags = [] } = options;
     function dealList(children, level) {
         let content = '';
