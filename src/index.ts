@@ -899,7 +899,7 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 let _attr: any = {}
                 
                 if (BORDER_INSIDE) {
-                    const borderWidth = attrs.border?.width || 1
+                    const borderWidth = attrs.border?.width || 0
                     _attr.x = attrs.x + borderWidth / 2
                     _attr.y = attrs.y + borderWidth / 2
                     _attr.width = attrs.width - borderWidth
@@ -938,7 +938,7 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 let _attr: any = {}
 
                 if (BORDER_INSIDE) {
-                    const borderWidth = attrs.border?.width || 1
+                    const borderWidth = attrs.border?.width || 0
                     _attr.x = attrs.x + borderWidth / 2
                     _attr.y = attrs.y + borderWidth / 2
                     _attr.width = attrs.width - borderWidth
@@ -994,7 +994,7 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 }
 
                 if (BORDER_INSIDE) {
-                    const borderWidth = attrs.border?.width || 1
+                    const borderWidth = attrs.border?.width || 0
                     _attr.r = attrs.radius - borderWidth / 2
                 } else {
                     _attr.r = attrs.radius

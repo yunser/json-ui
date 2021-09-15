@@ -286,3 +286,10 @@ ts-node test.ts
 
 * [ui-web](https://github.com/yunser/ui-web)
 * [figma-json](https://github.com/yunser/figma-json)
+
+
+## 存在的问题
+
+* 导出 HTML 时边框遮挡问题。
+* 导出 HTML 不支持 `text.backgroundColor` 和 `text.centerd`。
+* 导出的 HTML 和 SVG 暂时无法保障像素级别一致。
