@@ -9,6 +9,8 @@ var parse = require('parse-svg-path')
 var translate = require('translate-svg-path')
 var serialize = require('serialize-svg-path')
 
+const BORDER_INSIDE = true
+
 // const bbbox = caster(
 //     'M300,200 h-150 a150,150 0 1,0 150,-150 z'
 // )
@@ -884,7 +886,22 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 }
             }
             if (_type === 'rect') {
-                let _attr = objectSomeAttr(attrs, ['width', 'height', 'x', 'y'])
+                let _attr: any = {}
+                
+                if (BORDER_INSIDE) {
+                    const borderWidth = attrs.border?.width || 1
+                    _attr.x = attrs.x + borderWidth / 2
+                    _attr.y = attrs.y + borderWidth / 2
+                    _attr.width = attrs.width - borderWidth
+                    _attr.height = attrs.height - borderWidth
+                }
+                else {
+                    _attr.x = attrs.x
+                    _attr.y = attrs.y
+                    _attr.width = attrs.width
+                    _attr.height = attrs.height
+                }
+                // let _attr = objectSomeAttr(attrs, ['width', 'height', 'x', 'y'])
 
                 fillAndStroke(attrs, _attr)
                 
@@ -895,6 +912,11 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
 
                 handleShadow(attrs, _attr, node)
                 handleOpacity(attrs, _attr)
+
+                if (attrs.borderRadius) {
+                    _attr.rx = attrs.borderRadius
+                    _attr.ry = attrs.borderRadius
+                }
                 
                 let _node: any = {
                     type: 'rect',
@@ -903,7 +925,21 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 return _node
             }
             if (_type === 'image') {
-                let _attr = objectSomeAttr(attrs, ['width', 'height', 'x', 'y'])
+                let _attr: any = {}
+
+                if (BORDER_INSIDE) {
+                    const borderWidth = attrs.border?.width || 1
+                    _attr.x = attrs.x + borderWidth / 2
+                    _attr.y = attrs.y + borderWidth / 2
+                    _attr.width = attrs.width - borderWidth
+                    _attr.height = attrs.height - borderWidth
+                }
+                else {
+                    _attr.x = attrs.x
+                    _attr.y = attrs.y
+                    _attr.width = attrs.width
+                    _attr.height = attrs.height
+                }
 
                 // fillAndStroke(attrs, _attr)
                 
@@ -922,6 +958,11 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 handleOpacity(attrs, _attr)
                 setStroke(attrs, _attr)
 
+                if (attrs.borderRadius) {
+                    _attr.rx = attrs.borderRadius
+                    _attr.ry = attrs.borderRadius
+                }
+
                 let _node: any = {
                     type: 'rect',
                     attr: _attr,
@@ -929,6 +970,8 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 return _node
             }
             if (_type === 'circle') {
+                // let _attr: any = {}
+
                 let _attr = objectSomeAttr(attrs, ['cx', 'cy'])
 
                 fillAndStroke(attrs, _attr)
@@ -936,7 +979,14 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 handleShadow(attrs, _attr, node)
                 handleOpacity(attrs, _attr)
 
-                if (attrs.radius) {
+                if (!attrs.radius) {
+                    throw new Error('circle need radius attr')
+                }
+
+                if (BORDER_INSIDE) {
+                    const borderWidth = attrs.border?.width || 1
+                    _attr.r = attrs.radius - borderWidth / 2
+                } else {
                     _attr.r = attrs.radius
                 }
                 let _node: any = {
