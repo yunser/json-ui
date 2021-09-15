@@ -307,6 +307,14 @@ function convertUiObj2HtmlObject(rootObj: StdUiRoot): XmlObject {
         return ret
     }
 
+    function borderRadius(node) {
+        let ret: any = {}
+        if (node.borderRadius) {
+            ret['border-radius'] = `${node.borderRadius || 0}px`
+        }
+        return ret
+    }
+
     function fillStyle(node) {
         let ret: any = {}
         // if (node.border) {
@@ -394,6 +402,7 @@ function convertUiObj2HtmlObject(rootObj: StdUiRoot): XmlObject {
                                             width: node.width,
                                             height: node.height,
                                             ...borderStyle(node),
+                                            ...borderRadius(node),
                                             ...fillStyle(node),
                                         })
                                     },
@@ -617,6 +626,7 @@ function convertUiObj2HtmlObject(rootObj: StdUiRoot): XmlObject {
                                             width: node.width,
                                             height: node.height,
                                             ...borderStyle(node),
+                                            ...borderRadius(node),
                                             'background-color': node.color || '#fff',
                                         })
                                     },
