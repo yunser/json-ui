@@ -9,6 +9,7 @@ const caster = require('svg-path-bounding-box');
 var parse = require('parse-svg-path');
 var translate = require('translate-svg-path');
 var serialize = require('serialize-svg-path');
+const BORDER_INSIDE = true;
 // const bbbox = caster(
 //     'M300,200 h-150 a150,150 0 1,0 150,-150 z'
 // )
@@ -258,6 +259,13 @@ function convertUiObj2HtmlObject(rootObj) {
         }
         return ret;
     }
+    function borderRadius(node) {
+        let ret = {};
+        if (node.borderRadius) {
+            ret['border-radius'] = `${node.borderRadius || 0}px`;
+        }
+        return ret;
+    }
     function fillStyle(node) {
         let ret = {};
         // if (node.border) {
@@ -333,7 +341,7 @@ function convertUiObj2HtmlObject(rootObj) {
                                 let _node = {
                                     type: 'div',
                                     attr: {
-                                        style: getHtmlStyle(Object.assign(Object.assign(Object.assign(Object.assign({}, commonStyle(node)), { position: 'absolute', left: node.x || 0, top: node.y || 0, width: node.width, height: node.height }), borderStyle(node)), fillStyle(node)))
+                                        style: getHtmlStyle(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, commonStyle(node)), { position: 'absolute', left: node.x || 0, top: node.y || 0, width: node.width, height: node.height }), borderStyle(node)), borderRadius(node)), fillStyle(node)))
                                     },
                                 };
                                 return _node;
@@ -465,7 +473,7 @@ function convertUiObj2HtmlObject(rootObj) {
                                     type: 'img',
                                     attr: {
                                         src: node.href,
-                                        style: getHtmlStyle(Object.assign(Object.assign(Object.assign(Object.assign({}, commonStyle(node)), { position: 'absolute', left: node.x || 0, top: node.y || 0, width: node.width, height: node.height }), borderStyle(node)), { 'background-color': node.color || '#fff' }))
+                                        style: getHtmlStyle(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, commonStyle(node)), { position: 'absolute', left: node.x || 0, top: node.y || 0, width: node.width, height: node.height }), borderStyle(node)), borderRadius(node)), { 'background-color': node.color || '#fff' }))
                                     },
                                 };
                                 return _node;
@@ -520,7 +528,7 @@ function convertUiObj2HtmlObject(rootObj) {
         ]
     };
 }
-function convertUiObj2SvgObject(rootObj) {
+function convertUiObj2SvgObject(rootObj, toSvgOpts) {
     function createShadow(shadow, node) {
         const id = (0, helper_1.uid)(8);
         const color = Color(shadow.color || '#000');
@@ -672,6 +680,7 @@ function convertUiObj2SvgObject(rootObj) {
     let out = helper_1.uiUtil.treeMap(rootObj, {
         childrenKey: '_children',
         nodeHandler(node) {
+            var _a, _b, _c;
             // let type
             let attrs = {};
             for (let key in node) {
@@ -707,7 +716,21 @@ function convertUiObj2SvgObject(rootObj) {
                 };
             }
             if (_type === 'rect') {
-                let _attr = objectSomeAttr(attrs, ['width', 'height', 'x', 'y']);
+                let _attr = {};
+                if (BORDER_INSIDE) {
+                    const borderWidth = ((_a = attrs.border) === null || _a === void 0 ? void 0 : _a.width) || 0;
+                    _attr.x = attrs.x + borderWidth / 2;
+                    _attr.y = attrs.y + borderWidth / 2;
+                    _attr.width = attrs.width - borderWidth;
+                    _attr.height = attrs.height - borderWidth;
+                }
+                else {
+                    _attr.x = attrs.x;
+                    _attr.y = attrs.y;
+                    _attr.width = attrs.width;
+                    _attr.height = attrs.height;
+                }
+                // let _attr = objectSomeAttr(attrs, ['width', 'height', 'x', 'y'])
                 fillAndStroke(attrs, _attr);
                 if (attrs.radius) {
                     _attr.rx = attrs.radius;
@@ -715,6 +738,10 @@ function convertUiObj2SvgObject(rootObj) {
                 }
                 handleShadow(attrs, _attr, node);
                 handleOpacity(attrs, _attr);
+                if (attrs.borderRadius) {
+                    _attr.rx = attrs.borderRadius;
+                    _attr.ry = attrs.borderRadius;
+                }
                 let _node = {
                     type: 'rect',
                     attr: _attr,
@@ -722,31 +749,68 @@ function convertUiObj2SvgObject(rootObj) {
                 return _node;
             }
             if (_type === 'image') {
-                let _attr = objectSomeAttr(attrs, ['width', 'height', 'x', 'y']);
+                let _attr = {};
+                if (BORDER_INSIDE) {
+                    const borderWidth = ((_b = attrs.border) === null || _b === void 0 ? void 0 : _b.width) || 0;
+                    _attr.x = attrs.x + borderWidth / 2;
+                    _attr.y = attrs.y + borderWidth / 2;
+                    _attr.width = attrs.width - borderWidth;
+                    _attr.height = attrs.height - borderWidth;
+                }
+                else {
+                    _attr.x = attrs.x;
+                    _attr.y = attrs.y;
+                    _attr.width = attrs.width;
+                    _attr.height = attrs.height;
+                }
                 // fillAndStroke(attrs, _attr)
                 setStroke(attrs, _attr);
                 if (attrs.radius) {
                     _attr.rx = attrs.radius;
                     _attr.ry = attrs.radius;
                 }
-                createImage(node, _attr, defs);
+                if (!(toSvgOpts === null || toSvgOpts === void 0 ? void 0 : toSvgOpts.forceImage)) {
+                    createImage(node, _attr, defs);
+                }
                 // defs.push(ret.json)
                 // _attr.fill = `url(#pattern0)`
                 handleShadow(attrs, _attr, node);
                 handleOpacity(attrs, _attr);
                 setStroke(attrs, _attr);
-                let _node = {
-                    type: 'rect',
-                    attr: _attr,
-                };
-                return _node;
+                if (attrs.borderRadius) {
+                    _attr.rx = attrs.borderRadius;
+                    _attr.ry = attrs.borderRadius;
+                }
+                if (toSvgOpts === null || toSvgOpts === void 0 ? void 0 : toSvgOpts.forceImage) {
+                    _attr.href = attrs.href;
+                    let _node = {
+                        type: 'image',
+                        attr: _attr,
+                    };
+                    return _node;
+                }
+                else {
+                    let _node = {
+                        type: 'rect',
+                        attr: _attr,
+                    };
+                    return _node;
+                }
             }
             if (_type === 'circle') {
+                // let _attr: any = {}
                 let _attr = objectSomeAttr(attrs, ['cx', 'cy']);
                 fillAndStroke(attrs, _attr);
                 handleShadow(attrs, _attr, node);
                 handleOpacity(attrs, _attr);
-                if (attrs.radius) {
+                if (!attrs.radius) {
+                    throw new Error('circle need radius attr');
+                }
+                if (BORDER_INSIDE) {
+                    const borderWidth = ((_c = attrs.border) === null || _c === void 0 ? void 0 : _c.width) || 0;
+                    _attr.r = attrs.radius - borderWidth / 2;
+                }
+                else {
                     _attr.r = attrs.radius;
                 }
                 let _node = {
@@ -759,7 +823,10 @@ function convertUiObj2SvgObject(rootObj) {
                 let _attr = objectSomeAttr(attrs, ['x', 'y']);
                 let style = '';
                 if (attrs.textSize) {
-                    style += `font-size: ${attrs.textSize}px`;
+                    style += `font-size: ${attrs.textSize}px;`;
+                }
+                if (attrs.fontFamily) {
+                    style += `font-family: ${attrs.fontFamily};`;
                 }
                 fillAndStroke(attrs, _attr);
                 handleShadow(attrs, _attr, node);
@@ -1050,10 +1117,10 @@ class StdUI {
     constructor(doc) {
         this.root = doc.root;
     }
-    toSvg() {
+    toSvg(toSvgOpts) {
         // console.log('svgObj', JSON.stringify(convertUiObj2SvgObject(uiObj), null, 4))
         // fs.writeFileSync('out.svg', , 'utf8')
-        return helper_1.uiUtil.xmlObj2Xml(convertUiObj2SvgObject(this.root));
+        return helper_1.uiUtil.xmlObj2Xml(convertUiObj2SvgObject(this.root, toSvgOpts));
     }
     toProcessOn() {
         function createNode(node, otherAttr) {

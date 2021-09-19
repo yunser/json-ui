@@ -293,3 +293,20 @@ ts-node test.ts
 * 导出 HTML 时边框遮挡问题。
 * 导出 HTML 不支持 `text.backgroundColor` 和 `text.centerd`。
 * 导出的 HTML 和 SVG 暂时无法保障像素级别一致。
+
+
+## TODO
+
+* 导出 eps（10%）
+    * 支持椭圆
+    * 支持文字
+    * 支持图片
+    * 支持路径
+    * 支持渐变
+    * 支持阴影
+    * 支持透明度
+
+
+## 参考
+
+* https://www.mathworks.com/discovery/affine-transformation.html

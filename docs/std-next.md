@@ -17,3 +17,5 @@ rect
 
 image
 * borderRadius
+
+使用的单位是 px。

@@ -694,7 +694,7 @@ function convertUiObj2HtmlObject(rootObj: StdUiRoot): XmlObject {
     }
 }
 
-function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
+function convertUiObj2SvgObject(rootObj: StdUiRoot, toSvgOpts?: ToSvgOpts): XmlObject {
 
     function createShadow(shadow, node) {
         const id = uid(8)
@@ -960,7 +960,10 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                     _attr.ry = attrs.radius
                 }
 
-                createImage(node, _attr, defs)
+                if (!toSvgOpts?.forceImage) {
+                    createImage(node, _attr, defs)
+                }
+
                 // defs.push(ret.json)
                 // _attr.fill = `url(#pattern0)`
 
@@ -973,11 +976,21 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                     _attr.ry = attrs.borderRadius
                 }
 
-                let _node: any = {
-                    type: 'rect',
-                    attr: _attr,
+                if (toSvgOpts?.forceImage) {
+                    _attr.href = attrs.href
+                    let _node: any = {
+                        type: 'image',
+                        
+                        attr: _attr,
+                    }
+                    return _node
+                } else {
+                    let _node: any = {
+                        type: 'rect',
+                        attr: _attr,
+                    }
+                    return _node
                 }
-                return _node
             }
             if (_type === 'circle') {
                 // let _attr: any = {}
@@ -1009,7 +1022,10 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot): XmlObject {
                 let _attr = objectSomeAttr(attrs, ['x', 'y'])
                 let style = ''
                 if (attrs.textSize) {
-                    style += `font-size: ${attrs.textSize}px`
+                    style += `font-size: ${attrs.textSize}px;`
+                }
+                if (attrs.fontFamily) {
+                    style += `font-family: ${attrs.fontFamily};`
                 }
 
                 fillAndStroke(attrs, _attr)
@@ -1344,6 +1360,10 @@ interface StdUiDoc {
     root: StdUiRoot
 }
 
+interface ToSvgOpts {
+    forceImage?: boolean
+}
+
 export class StdUI {
 
     root: StdUiRoot
@@ -1352,11 +1372,11 @@ export class StdUI {
         this.root = doc.root
     }
 
-    toSvg(): string {
+    toSvg(toSvgOpts?: ToSvgOpts): string {
         // console.log('svgObj', JSON.stringify(convertUiObj2SvgObject(uiObj), null, 4))
     
         // fs.writeFileSync('out.svg', , 'utf8')
-        return uiUtil.xmlObj2Xml(convertUiObj2SvgObject(this.root))
+        return uiUtil.xmlObj2Xml(convertUiObj2SvgObject(this.root, toSvgOpts))
     }
 
     toProcessOn() {

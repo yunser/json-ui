@@ -27,10 +27,13 @@ export declare function _if(condition: boolean, obj: object): object[];
 interface StdUiDoc {
     root: StdUiRoot;
 }
+interface ToSvgOpts {
+    forceImage?: boolean;
+}
 export declare class StdUI {
     root: StdUiRoot;
     constructor(doc: StdUiDoc);
-    toSvg(): string;
+    toSvg(toSvgOpts?: ToSvgOpts): string;
     toProcessOn(): string;
     toHtml(): string;
 }
