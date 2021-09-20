@@ -297,6 +297,7 @@ ts-node test.ts
 
 ## TODO
 
+* 阴影颜色支持 rgb。
 * 导出 eps（10%）
     * 支持椭圆
     * 支持文字

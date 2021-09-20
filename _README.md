@@ -67,3 +67,5 @@ new StdCanvas(canvas, {
     }
 })
 ```
+
+线性渐变 - 从上到下

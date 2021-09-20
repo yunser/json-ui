@@ -5,6 +5,9 @@ exports.StdUI = exports._if = void 0;
 const helper_1 = require("./helper");
 // import * as fs from 'fs'
 const Color = require("color");
+const angleToCoordinates = require("css-gradient-angle-to-svg-gradient-coordinates");
+// const angleToCoordinates = require('css-gradient-angle-to-svg-gradient-coordinates')
+console.log('angleToCoordinates', angleToCoordinates);
 const caster = require('svg-path-bounding-box');
 var parse = require('parse-svg-path');
 var translate = require('translate-svg-path');
@@ -272,8 +275,14 @@ function convertUiObj2HtmlObject(rootObj) {
         //     ret.border = `${node.border.width || 1}px solid ${node.border.color || '#000'}`
         // }
         if (node.fill) {
+            const gradient = node.fill;
             if (node.fill.type == 'linearGradient') {
-                ret['background-image'] = `linear-gradient(to ${node.fill.direction}, ${node.fill.colors[0]}, ${node.fill.colors[1]})`;
+                if (gradient.stops) {
+                    ret['background-image'] = `linear-gradient(to ${gradient.direction}deg, ${gradient.stops.map(stop => `${stop.color}`).join(', ')})`;
+                }
+                else {
+                    ret['background-image'] = `linear-gradient(to ${node.fill.direction}, ${node.fill.colors[0]}, ${node.fill.colors[1]})`;
+                }
             }
             // direction: 'bottom',
             // colors: ['#09c', '#c90'],
@@ -1028,7 +1037,7 @@ function convertUiObj2SvgObject(rootObj, toSvgOpts) {
         _attr.fill = `url(#${patternId})`;
     }
     function createLinearGradient(fill) {
-        const { direction, colors = [] } = fill;
+        const { direction, colors = [], stops = [] } = fill;
         // colors: ['#09c', '#c90'],
         const [color1, color2] = colors;
         const id = (0, helper_1.uid)(8);
@@ -1058,31 +1067,61 @@ function convertUiObj2SvgObject(rootObj, toSvgOpts) {
                 y2: "100%",
             },
         };
-        let dradientAttr = dradientAttrs[direction];
+        let dradientAttr;
+        if (typeof direction == 'string') {
+            dradientAttr = dradientAttrs[direction];
+        }
+        else {
+            const coordinates = angleToCoordinates(direction);
+            dradientAttr = {
+                x1: (coordinates.x1 * 100) + '%',
+                y1: (coordinates.y1 * 100) + '%',
+                x2: (coordinates.x2 * 100) + '%',
+                y2: (coordinates.y2 * 100) + '%',
+            };
+            // console.log('coordinates', coordinates)
+            // throw new Error('asd')
+        }
         // if (direction == 'right') {
         //     dradientAttr = 
         // }
+        let children;
+        if (stops.length > 0) {
+            children = stops.map(stop => {
+                return {
+                    type: 'stop',
+                    attr: {
+                        offset: (stop.position * 100) + '%',
+                        style: `stop-color:${stop.color};stop-opacity:1`,
+                    },
+                };
+            });
+            // ret['background-image'] = `linear-gradient(to ${gradient.direction}deg, ${gradient.stops.map(stop => `${stop.color}`).join(', ')})`
+        }
+        else {
+            children = [
+                {
+                    type: 'stop',
+                    attr: {
+                        offset: "0%",
+                        style: `stop-color:${color1};stop-opacity:1`,
+                    },
+                },
+                {
+                    type: 'stop',
+                    attr: {
+                        offset: "100%",
+                        style: `stop-color:${color2};stop-opacity:1`,
+                    },
+                },
+            ];
+        }
         return {
             id,
             json: {
                 type: 'linearGradient',
                 attr: Object.assign({ id }, dradientAttr),
-                children: [
-                    {
-                        type: 'stop',
-                        attr: {
-                            offset: "0%",
-                            style: `stop-color:${color1};stop-opacity:1`,
-                        },
-                    },
-                    {
-                        type: 'stop',
-                        attr: {
-                            offset: "100%",
-                            style: `stop-color:${color2};stop-opacity:1`,
-                        },
-                    },
-                ],
+                children,
             }
         };
     }

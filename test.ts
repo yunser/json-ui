@@ -204,8 +204,25 @@ const root = {
             // }
             fill: {
                 type: 'linearGradient',
-                direction: 'bottom',
-                colors: ['#09c', '#c90'],
+                direction: 45,
+                stops: [
+                    {
+                        color: '#f00',
+                        position: 0,
+                    },
+                    {
+                        color: '#09c',
+                        position: 0.75,
+                    },
+                    {
+                        color: '#000',
+                        position: 1,
+                    },
+                ],
+                // old
+                // type: 'linearGradient',
+                // direction: 'bottom',
+                // colors: ['#09c', '#c90'],
             },
             borderRadius: 16,
         },
