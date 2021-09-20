@@ -6,7 +6,7 @@ import * as Color from 'color'
 import * as angleToCoordinates from 'css-gradient-angle-to-svg-gradient-coordinates'
 // const angleToCoordinates = require('css-gradient-angle-to-svg-gradient-coordinates')
 
-console.log('angleToCoordinates', angleToCoordinates)
+// console.log('angleToCoordinates', angleToCoordinates)
 
 const caster = require('svg-path-bounding-box')
 var parse = require('parse-svg-path')
@@ -947,7 +947,7 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot, toSvgOpts?: ToSvgOpts): XmlO
             if (_type === 'image') {
                 let _attr: any = {}
 
-                if (BORDER_INSIDE) {
+                if (BORDER_INSIDE && !toSvgOpts?.forceImage) {
                     const borderWidth = attrs.border?.width || 0
                     _attr.x = attrs.x + borderWidth / 2
                     _attr.y = attrs.y + borderWidth / 2
@@ -1160,7 +1160,23 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot, toSvgOpts?: ToSvgOpts): XmlO
                 return node
             }
             if (_type === 'ellipse') {
-                let _attr = objectSomeAttr(attrs, ['cx', 'cy', 'rx', 'ry'])
+                let _attr: any = {}
+                _attr.cx = attrs.cx
+                _attr.cy = attrs.cy
+                if (BORDER_INSIDE) {
+                    const borderWidth = attrs.border?.width || 0
+                    _attr.rx = attrs.rx - borderWidth / 2
+                    _attr.ry = attrs.ry - borderWidth / 2
+
+                    // _attr.x = attrs.x + borderWidth / 2
+                    // _attr.y = attrs.y + borderWidth / 2
+                    // _attr.width = attrs.width - borderWidth
+                    // _attr.height = attrs.height - borderWidth
+                }
+                else {
+                    _attr.rx = attrs.rx
+                    _attr.ry = attrs.ry
+                }
 
                 fillAndStroke(attrs, _attr)
                 handleShadow(attrs, _attr, node)
@@ -1366,6 +1382,7 @@ function convertUiObj2SvgObject(rootObj: StdUiRoot, toSvgOpts?: ToSvgOpts): XmlO
             },
             children: defs,
         },
+        // 背景在前面
         {
             type: 'rect',
             attr: {

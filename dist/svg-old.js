@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require('fs');
-const htmlparser = require("htmlparser2");
 const uiUtil = require('./util');
 const { svgObj2xml } = require('./util');
 const jsonContent = fs.readFileSync('ui.json', 'utf8');

@@ -5,8 +5,8 @@ import * as fs from 'fs'
 
 const root = {
     "_type": "root",
-    "width": 500,
-    "height": 400,
+    "width": 800,
+    "height": 800,
     "color": "#E6E6FB",
     // "color": null,
     "_children": [
@@ -136,14 +136,14 @@ const root = {
             _children: [
                 {
                     "_type": "ellipse",
-                    cx: 50,
-                    cy: 250,
-                    rx: 50,
-                    ry: 25,
+                    cx: 500,
+                    cy: 50,
+                    rx: 100,
+                    ry: 50,
                     color: '#E56D6D',
                     border: {
                         color: '#526BFF',
-                        width: 4,
+                        width: 16,
                     },
                     fill: {
                         type: 'linearGradient',
@@ -284,7 +284,7 @@ let stdUi = new StdUI({
 // console.log('svg', svg)
 
 fs.writeFileSync('out/ui.svg', stdUi.toSvg({
-    // forceImage: true,
+    forceImage: true,
 }), 'utf8')
 fs.writeFileSync('out/ui.html', stdUi.toHtml(), 'utf8')
 // fs.writeFileSync('out/ui.pos', stdUi.toProcessOn(), 'utf8')

@@ -6,7 +6,8 @@ exports.XmlText2XmlObj = void 0;
 const htmlparser = require("htmlparser2");
 // const { treeMap, treeFilter } = require('./util')
 // const xmlContent = fs.readFileSync('ui.xml', 'utf8')
-const uiUtil = require('../util');
+// const uiUtil = require('../util')
+const helper_1 = require("../helper");
 // import { add } from './core'
 // const htmlString = `<svg xmlns="http://www.w3.org/2000/svg" 
 // version="1.1" width="400" height="200" style="background-color: #09c">
@@ -17,7 +18,7 @@ const uiUtil = require('../util');
 // </svg>`
 function XmlText2XmlObj(xmlText) {
     let elements = htmlparser.parseDocument(xmlText);
-    let out = uiUtil.treeMap(elements, {
+    let out = helper_1.uiUtil.treeMap(elements, {
         nodeHandler(node) {
             let type;
             let attrs = {};
@@ -37,12 +38,14 @@ function XmlText2XmlObj(xmlText) {
                     }
                 }
                 type = 'other:' + node.type;
+                console.log('nodenode', node);
+                attrs._dataText = node.data;
             }
             let result = Object.assign({ _type: type }, attrs);
             return result;
         }
     });
-    out = uiUtil.treeFilter(out.children[0], {
+    out = helper_1.uiUtil.treeFilter(out.children[0], {
         nodeHandler: item => item
     });
     return out;

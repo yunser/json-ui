@@ -7,7 +7,9 @@ import * as htmlparser from 'htmlparser2'
 // const { treeMap, treeFilter } = require('./util')
 
 // const xmlContent = fs.readFileSync('ui.xml', 'utf8')
-const uiUtil = require('../util')
+// const uiUtil = require('../util')
+import { uid, uiUtil } from '../helper'
+
 // import { add } from './core'
 // const htmlString = `<svg xmlns="http://www.w3.org/2000/svg" 
 // version="1.1" width="400" height="200" style="background-color: #09c">
@@ -19,12 +21,15 @@ const uiUtil = require('../util')
 
 
 export function XmlText2XmlObj(xmlText: string): XmlObject {
-    let elements = htmlparser.parseDocument(xmlText)
+    let elements = htmlparser.parseDocument(xmlText.replace(/^\s+/, ''), {
+        lowerCaseTags: false,
+        lowerCaseAttributeNames: false,
+    })
     
     let out = uiUtil.treeMap(elements, {
         nodeHandler(node) {
             let type
-            let attrs = {}
+            let attrs: any = {}
             if (node.type == 'root') {
                 type = 'root'
             } else if (node.type == 'tag') {
@@ -39,6 +44,8 @@ export function XmlText2XmlObj(xmlText: string): XmlObject {
                     }
                 } 
                 type = 'other:' + node.type
+                console.log('nodenode', node)
+                attrs._dataText = node.data
             }
             let result = {
                 _type: type,

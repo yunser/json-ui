@@ -1,5 +1,4 @@
 const fs = require('fs')
-const htmlparser = require("htmlparser2")
 const uiUtil = require('./util')
 const { svgObj2xml } = require('./util')
 

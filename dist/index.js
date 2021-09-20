@@ -7,7 +7,7 @@ const helper_1 = require("./helper");
 const Color = require("color");
 const angleToCoordinates = require("css-gradient-angle-to-svg-gradient-coordinates");
 // const angleToCoordinates = require('css-gradient-angle-to-svg-gradient-coordinates')
-console.log('angleToCoordinates', angleToCoordinates);
+// console.log('angleToCoordinates', angleToCoordinates)
 const caster = require('svg-path-bounding-box');
 var parse = require('parse-svg-path');
 var translate = require('translate-svg-path');
@@ -689,7 +689,7 @@ function convertUiObj2SvgObject(rootObj, toSvgOpts) {
     let out = helper_1.uiUtil.treeMap(rootObj, {
         childrenKey: '_children',
         nodeHandler(node) {
-            var _a, _b, _c;
+            var _a, _b, _c, _d;
             // let type
             let attrs = {};
             for (let key in node) {
@@ -759,7 +759,7 @@ function convertUiObj2SvgObject(rootObj, toSvgOpts) {
             }
             if (_type === 'image') {
                 let _attr = {};
-                if (BORDER_INSIDE) {
+                if (BORDER_INSIDE && !(toSvgOpts === null || toSvgOpts === void 0 ? void 0 : toSvgOpts.forceImage)) {
                     const borderWidth = ((_b = attrs.border) === null || _b === void 0 ? void 0 : _b.width) || 0;
                     _attr.x = attrs.x + borderWidth / 2;
                     _attr.y = attrs.y + borderWidth / 2;
@@ -950,7 +950,22 @@ function convertUiObj2SvgObject(rootObj, toSvgOpts) {
                 return node;
             }
             if (_type === 'ellipse') {
-                let _attr = objectSomeAttr(attrs, ['cx', 'cy', 'rx', 'ry']);
+                let _attr = {};
+                _attr.cx = attrs.cx;
+                _attr.cy = attrs.cy;
+                if (BORDER_INSIDE) {
+                    const borderWidth = ((_d = attrs.border) === null || _d === void 0 ? void 0 : _d.width) || 0;
+                    _attr.rx = attrs.rx - borderWidth / 2;
+                    _attr.ry = attrs.ry - borderWidth / 2;
+                    // _attr.x = attrs.x + borderWidth / 2
+                    // _attr.y = attrs.y + borderWidth / 2
+                    // _attr.width = attrs.width - borderWidth
+                    // _attr.height = attrs.height - borderWidth
+                }
+                else {
+                    _attr.rx = attrs.rx;
+                    _attr.ry = attrs.ry;
+                }
                 fillAndStroke(attrs, _attr);
                 handleShadow(attrs, _attr, node);
                 handleOpacity(attrs, _attr);
@@ -1132,6 +1147,7 @@ function convertUiObj2SvgObject(rootObj, toSvgOpts) {
             attr: {},
             children: defs,
         },
+        // 背景在前面
         {
             type: 'rect',
             attr: {
